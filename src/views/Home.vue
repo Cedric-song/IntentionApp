@@ -24,7 +24,7 @@
         </div>
         <span>录取概率测试</span>
       </van-col>
-      <van-col span="8" class="service">
+      <van-col span="8" class="service" @touchstart.native="$router.push({name: 'Apply'})">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
             <use xlink:href="#icon-tianbao"></use>
@@ -49,7 +49,7 @@
         </div>
         <span>专家解读</span>
       </van-col>
-      <van-col span="8" class="service">
+      <van-col span="8" class="service" @touchstart.native="$router.push({name: 'Qrcode'})">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
             <use xlink:href="#icon-zixun"></use>
@@ -60,9 +60,23 @@
 
     </van-row>
 
+    <van-tabbar v-model="active">
+      <van-tabbar-item icon="shop" :to="{name: 'Home'}">首页</van-tabbar-item>
+      <van-tabbar-item icon="chat" :to="{name: 'Mine'}">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      active: 0
+    }
+  }
+}
+</script>
 
 
 <style lang="scss" scoped>

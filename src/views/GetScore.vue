@@ -1,6 +1,6 @@
 <template>
   <div class="score">
-    <div class="title">成绩查询</div>
+    <van-nav-bar title="成绩查询" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
 
     <van-row gutter="20" style="margin-top: 20px;" v-if="showScore">
       <van-col span="24">
@@ -47,11 +47,6 @@ export default {
 <style lang="scss" scoped>
 .score {
   height: 100vh;
-  .title {
-    font-size: 30px;
-    width: 100%;
-    text-align: center;
-  }
   .btn {
     margin-top: 20px;
   }
