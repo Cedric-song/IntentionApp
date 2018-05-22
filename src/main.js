@@ -16,6 +16,8 @@ Vue.prototype.$types = types
 
 import './components/RegisterComponents'
 
+console.log(123)
+
 Vue.config.productionTip = false
 Vue.use(Vant);
 
