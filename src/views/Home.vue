@@ -8,7 +8,7 @@
       </van-col>
     </van-row>
     <van-row gutter="20" style="padding: 10px 0;">
-      <van-col span="8" class="service" @touchstart.native="$router.push({name: 'Score'})">
+      <van-col span="8" class="service" @click.native="$router.push({name: 'Score'})">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
             <use xlink:href="#icon-chengji"></use>
@@ -16,7 +16,7 @@
         </div>
         <span>成绩查询</span>
       </van-col>
-      <van-col span="8" class="service" @touchstart.native="$router.push({name: 'Test'})">
+      <van-col span="8" class="service" @click.native="$router.push({name: 'Test'})">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
             <use xlink:href="#icon-ceshi"></use>
@@ -24,7 +24,7 @@
         </div>
         <span>录取概率测试</span>
       </van-col>
-      <van-col span="8" class="service" @touchstart.native="$router.push({name: 'Apply'})">
+      <van-col span="8" class="service" @click.native="$router.push({name: 'Apply'})">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
             <use xlink:href="#icon-tianbao"></use>
@@ -49,7 +49,7 @@
         </div>
         <span>专家解读</span>
       </van-col>
-      <van-col span="8" class="service" @touchstart.native="$router.push({name: 'Qrcode'})">
+      <van-col span="8" class="service" @click.native="$router.push({name: 'Qrcode'})">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
             <use xlink:href="#icon-zixun"></use>

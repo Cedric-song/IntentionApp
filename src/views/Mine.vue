@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar title="我的" left-text="" right-text="" />
-    <van-row :gutter="20" style="padding-top: 20px;">
+    <van-row :gutter="20">
       <van-col :span="24">
         <van-cell-group>
           <van-cell title="用户认证" icon="" is-link :to="{name: 'Verify'}" />
