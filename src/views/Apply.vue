@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar title="智能填报" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
-    <van-row gutter="20" style="margin-top: 20px;">
+    <van-row gutter="20">
       <van-col span="24">
         <van-cell-group>
           <van-field v-model="form.score" placeholder="" label="分数" maxlength="3" />

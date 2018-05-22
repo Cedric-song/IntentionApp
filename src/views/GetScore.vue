@@ -2,7 +2,7 @@
   <div class="score">
     <van-nav-bar title="成绩查询" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
 
-    <van-row gutter="20" style="margin-top: 20px;" v-if="showScore">
+    <van-row gutter="20" v-if="showScore">
       <van-col span="24">
         <van-cell-group>
           <van-field v-model="form.id" placeholder="" label="准考证号" />

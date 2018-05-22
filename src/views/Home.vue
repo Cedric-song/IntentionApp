@@ -1,12 +1,8 @@
 <template>
   <div class="Home">
     <img class="home-bg" src="@/assets/imgs/home.jpeg" alt="">
-    <van-row gutter="20">
-      <van-col span="24" class="subtitle">
-        <i class="icon"></i>
-        <span>高考服务</span>
-      </van-col>
-    </van-row>
+
+    <wap-subtitle subtitle="高考服务"></wap-subtitle>
     <van-row gutter="20" style="padding: 10px 0;">
       <van-col span="8" class="service" @click.native="$router.push({name: 'Score'})">
         <div class="img">
@@ -34,12 +30,8 @@
       </van-col>
     </van-row>
 
-    <van-row gutter="20" style="padding: 20px 0;">
-      <van-col span="24" class="subtitle">
-        <i class="icon"></i>
-        <span>其他服务</span>
-      </van-col>
-    </van-row>
+    <wap-subtitle subtitle="其他服务"></wap-subtitle>
+
     <van-row gutter="20" style="padding: 10px 0;">
       <van-col span="8" class="service">
         <div class="img">
@@ -83,22 +75,6 @@ export default {
 .home-bg {
   width: 100%;
   margin-bottom: 20px;
-}
-
-.subtitle {
-  height: 20px;
-  line-height: 20px;
-
-  span {
-    vertical-align: top;
-  }
-  .icon {
-    font-style: normal;
-    display: inline-block;
-    width: 4px;
-    height: 20px;
-    background: greenyellow;
-  }
 }
 
 .service {

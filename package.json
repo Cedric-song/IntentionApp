@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^4.1.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
+    "v-charts": "^1.16.13",
     "vant": "^1.1.4",
     "vue": "^2.5.2",
+    "vue-echarts": "^3.0.7",
     "vue-i18n": "^7.6.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

@@ -3,7 +3,7 @@ import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 
 // Require in a base component context
-const requireComponent = require.context(`@/components/`, false, /Sg-[\w-]+\.vue$/)
+const requireComponent = require.context(`@/components/`, false, /Wap-[\w-]+\.vue$/)
 requireComponent.keys().forEach(fileName => {
   // Get component config
   const componentConfig = requireComponent(fileName)
