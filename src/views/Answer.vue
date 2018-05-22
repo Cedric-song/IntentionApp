@@ -16,8 +16,8 @@
       <van-col span="24" class="info-item">官网：
         <span class="item-blue">http://www.tju.edu.cn/</span>
       </van-col>
-
     </van-row>
+
     <wap-subtitle subtitle="历年招生人数及录取位次图" style="margin-top: 20px;"></wap-subtitle>
 
     <wap-subtitle subtitle="历年录取线差图" style="margin-top: 20px;"></wap-subtitle>

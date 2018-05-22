@@ -9,7 +9,11 @@ import Verify from '@/views/Verify'
 import Answer from '@/views/Answer'
 import Qrcode from '@/views/Qrcode'
 import Apply from '@/views/Apply'
-import Report from '@/views/Report'
+import Report from '@/views/Report/Index'
+import ReportItem from '@/views/Report/Item'
+import OpenAccount from '@/views/OpenAccount/Index'
+import PickAccount from '@/views/OpenAccount/Pick'
+import PayAccount from '@/views/OpenAccount/Pay'
 
 Vue.use(Router)
 
@@ -65,6 +69,26 @@ export default new Router({
       path: '/report',
       name: 'Report',
       component: Report
+    },
+    {
+      path: '/report/:id',
+      name: 'ReportItem',
+      component: ReportItem
+    },
+    {
+      path: '/open-account',
+      name: 'OpenAccount',
+      component: OpenAccount
+    },
+    {
+      path: '/open-account/pick',
+      name: 'PickAccount',
+      component: PickAccount
+    },
+    {
+      path: '/open-account/pay',
+      name: 'PayAccount',
+      component: PayAccount
     }
   ]
 })

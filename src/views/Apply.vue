@@ -16,13 +16,7 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="年份" />
-        </van-cell-group>
-      </van-col>
-
-      <van-col span="24">
-        <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="省份" />
+          <van-field v-model="form.name" placeholder="" label="生源所在地" />
         </van-cell-group>
       </van-col>
 
@@ -44,7 +38,7 @@
       </van-col>
 
       <van-col span="24">
-        <van-button type="primary" bottom-action class="btn" @click="$router.push({name: 'Report'})">确定</van-button>
+        <van-button type="primary" bottom-action class="btn" @click="handleConfirm">确定</van-button>
       </van-col>
     </van-row>
   </div>
@@ -55,17 +49,26 @@
 export default {
   data() {
     return {
-      form: {},
-      showSms: false
+      form: {}
     }
   },
   methods: {
-    handleSmsClick() {
-      this.showSms = true
+    handleConfirm() {
+      this.$dialog
+        .confirm({
+          title: '确认使用智能填报',
+          message: '每次测试将消耗一点积分'
+        })
+        .then(() => {
+          this.$router.push({ name: 'Report' })
+        })
+        .catch(() => {
+          this.$toast.fail('取消测试')
+        })
     }
   },
   created() {
-    document.title = '非注册用户录取概率测试'
+    // document.title = '非注册用户录取概率测试'
   }
 }
 </script>

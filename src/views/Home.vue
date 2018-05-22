@@ -1,55 +1,33 @@
 <template>
   <div class="Home">
-    <img class="home-bg" src="@/assets/imgs/home.jpeg" alt="">
+    <van-swipe :autoplay="3000" class="home-bg">
+      <van-swipe-item v-for="(image, index) in images" :key="index">
+        <img v-lazy="image" />
+      </van-swipe-item>
+    </van-swipe>
 
     <wap-subtitle subtitle="高考服务"></wap-subtitle>
     <van-row gutter="20" style="padding: 10px 0;">
-      <van-col span="8" class="service" @click.native="$router.push({name: 'Score'})">
+      <van-col span="8" class="service" @click.native="$router.push({name: item.to})" v-for="item in service" :key="item.name">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
-            <use xlink:href="#icon-chengji"></use>
+            <use :xlink:href="item.icon"></use>
           </svg>
         </div>
-        <span>成绩查询</span>
-      </van-col>
-      <van-col span="8" class="service" @click.native="$router.push({name: 'Test'})">
-        <div class="img">
-          <svg class="icon-font" aria-hidden="true">
-            <use xlink:href="#icon-ceshi"></use>
-          </svg>
-        </div>
-        <span>录取概率测试</span>
-      </van-col>
-      <van-col span="8" class="service" @click.native="$router.push({name: 'Apply'})">
-        <div class="img">
-          <svg class="icon-font" aria-hidden="true">
-            <use xlink:href="#icon-tianbao"></use>
-          </svg>
-        </div>
-        <span>智能填报</span>
+        <span>{{item.name}}</span>
       </van-col>
     </van-row>
 
     <wap-subtitle subtitle="其他服务"></wap-subtitle>
-
     <van-row gutter="20" style="padding: 10px 0;">
-      <van-col span="8" class="service">
+      <van-col span="8" class="service" @click.native="$router.push({name: item.to})" v-for="item in otherService" :key="item.name">
         <div class="img">
           <svg class="icon-font" aria-hidden="true">
-            <use xlink:href="#icon-zhuanjia"></use>
+            <use :xlink:href="item.icon"></use>
           </svg>
         </div>
-        <span>专家解读</span>
+        <span>{{item.name}}</span>
       </van-col>
-      <van-col span="8" class="service" @click.native="$router.push({name: 'Qrcode'})">
-        <div class="img">
-          <svg class="icon-font" aria-hidden="true">
-            <use xlink:href="#icon-zixun"></use>
-          </svg>
-        </div>
-        <span>咨询热线</span>
-      </van-col>
-
     </van-row>
 
     <van-tabbar v-model="active">
@@ -61,10 +39,46 @@
 </template>
 
 <script>
+import img from '@/assets/imgs/home.jpeg'
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      images: [img, img],
+      service: [
+        {
+          name: '开卡激活',
+          icon: '#icon-tianbao',
+          to: 'OpenAccount'
+        },
+        {
+          name: '成绩查询',
+          icon: '#icon-chengji',
+          to: 'Score'
+        },
+        {
+          name: '录取概率测试',
+          icon: '#icon-ceshi',
+          to: 'Test'
+        },
+        {
+          name: '智能填报',
+          icon: '#icon-tianbao',
+          to: 'Apply'
+        }
+      ],
+      otherService: [
+        {
+          name: '专家解读',
+          icon: '#icon-zhuanjia',
+          to: 'Qrcode'
+        },
+        {
+          name: '咨询热线',
+          icon: '#icon-zixun',
+          to: 'Qrcode'
+        }
+      ]
     }
   }
 }
@@ -75,6 +89,10 @@ export default {
 .home-bg {
   width: 100%;
   margin-bottom: 20px;
+  height: 200px;
+  img {
+    width: 100%;
+  }
 }
 
 .service {

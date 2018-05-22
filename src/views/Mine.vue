@@ -12,6 +12,16 @@
           <van-cell title="购买记录" icon="" is-link :to="{name: 'History'}" />
         </van-cell-group>
       </van-col>
+      <van-col :span="24">
+        <van-cell-group>
+          <van-cell title="历史查询记录" icon="" is-link :to="{name: 'History'}" />
+        </van-cell-group>
+      </van-col>
+      <van-col :span="24">
+        <van-cell-group>
+          <van-cell title="智能填报记录" icon="" is-link :to="{name: 'History'}" />
+        </van-cell-group>
+      </van-col>
     </van-row>
     <van-tabbar v-model="active">
       <van-tabbar-item icon="shop" :to="{name: 'Home'}">首页</van-tabbar-item>

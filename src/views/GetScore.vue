@@ -20,10 +20,44 @@
 
     </van-row>
 
-    <van-row gutter="20" style="margin-top: 20px;" v-else>
+    <van-row gutter="20" v-else>
+
       <van-col span="24">
-        恭喜您，您的成绩是650分。
+        <van-cell-group>
+          <van-field v-model="form.id" placeholder="" label="准考证号" />
+        </van-cell-group>
       </van-col>
+
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="form.name" placeholder="" label="姓名" />
+        </van-cell-group>
+      </van-col>
+
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="score[0]" placeholder="" label="总分" />
+        </van-cell-group>
+      </van-col>
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="score[1]" placeholder="" label="语文" />
+        </van-cell-group>
+      </van-col>
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="score[2]" placeholder="" label="数学" />
+        </van-cell-group>
+      </van-col>
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="score[3]" placeholder="" label="综合" />
+        </van-cell-group>
+      </van-col>
+      <van-col span="24">
+        <van-button type="primary" bottom-action class="btn" @click="$router.push({name: 'Home'})">关闭</van-button>
+      </van-col>
+
     </van-row>
 
   </div>
@@ -35,7 +69,8 @@ export default {
   data() {
     return {
       showScore: true,
-      form: {}
+      form: {},
+      score: [650, 150, 150, 150, 200]
     }
   },
   created() {
