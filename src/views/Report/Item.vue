@@ -19,7 +19,10 @@
     <wap-subtitle subtitle="查看历年各专业录取分数表" style="margin-top: 20px;"></wap-subtitle>
     <van-row :gutter="20">
       <van-col :span="24">
-
+        <el-table :data="tableData" border size="mini" class="table">
+          <el-table-column prop="year" label="" width="50" fixed></el-table-column>
+          <el-table-column :prop="item.prop" :label="item.name" width="100" v-for="item in headers" :key="item.prop"></el-table-column>
+        </el-table>
       </van-col>
     </van-row>
     <wap-subtitle subtitle="查看历年招生人数折线及录取位次图" style="margin-top: 20px;"></wap-subtitle>
@@ -34,9 +37,42 @@
 export default {
   data() {
     return {
-      form: {}
+      form: {},
+      headers: [
+        { name: '专业1', prop: 'score1' },
+        { name: '专业2', prop: 'score2' },
+        { name: '专业3', prop: 'score3' },
+        { name: '专业4', prop: 'score4' }
+      ],
+      tableData: [
+        {
+          year: '2015',
+          score1: '550',
+          score2: '550',
+          score3: '550'
+        },
+        {
+          year: '2016',
+          score1: '550',
+          score2: '550',
+          score3: '550'
+        },
+        {
+          year: '2017',
+          score1: '550',
+          score2: '550',
+          score3: '550'
+        }
+      ]
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.table {
+  margin: 20px 0;
+}
+</style>
+
 

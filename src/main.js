@@ -7,6 +7,9 @@ import store from './store'
 import Vant from 'vant';
 import 'vant/lib/vant-css/index.css';
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 import {
   Lazyload
 } from 'vant';
@@ -30,8 +33,11 @@ Vue.prototype.$types = types
 import './components/RegisterComponents'
 
 Vue.config.productionTip = false
+
 Vue.use(Vant);
-Vue.use(VCharts)
+Vue.use(VCharts);
+Vue.use(ElementUI);
+
 
 /* eslint-disable no-new */
 new Vue({

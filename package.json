@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "echarts": "^4.1.0",
+    "element-ui": "^2.3.9",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "v-charts": "^1.16.13",
