@@ -6,23 +6,40 @@
 module.exports = {
   created: function() {
     this.chartData = {
-      columns: ['日期', '人数', '线差', '考生分数'],
+      columns: ['year', 'people', 'position', 'userPosition'],
       rows: [
-        { 日期: '2015', 人数: 5, 线差: 70, 考生分数: '' },
-        { 日期: '2016', 人数: 4, 线差: 71, 考生分数: '' },
-        { 日期: '2017', 人数: 5, 线差: 91, 考生分数: '' },
-        { 日期: '2018', 人数: 4, 线差: 80, 考生分数: 105 }
+        { year: '2015', people: 5, position: 70, userPosition: '' },
+        { year: '2016', people: 4, position: 71, userPosition: '' },
+        { year: '2017', people: 5, position: 91, userPosition: '' },
+        { year: '2018', people: 4, position: 80, userPosition: 105 }
       ]
     }
+
+    let maxArray = []
+    const array = [
+      { year: '2015', people: 5, position: 70, userPosition: '' },
+      { year: '2016', people: 4, position: 71, userPosition: '' },
+      { year: '2017', people: 5, position: 91, userPosition: '' },
+      { year: '2018', people: 4, position: 80, userPosition: 105 }
+    ]
+    array.forEach(item => {
+      maxArray.push(Number(item.people))
+    })
+
     this.chartSettings = {
-      axisSite: { right: ['人数'] },
-      yAxisName: ['线差（分）', '招生人数'],
-      metrics: ['人数', '线差', '考生分数'],
-      showLine: ['线差', '考生分数'],
+      axisSite: { right: ['people'] },
+      yAxisName: ['位次', '招生人数'],
+      metrics: ['people', 'position', 'userPosition'],
+      showLine: ['position', 'userPosition'],
       label: {
         normal: { show: true, position: 'top' }
       },
-      max: [0, 20]
+      max: [0, 20],
+      legendName: {
+        people: '招生人数',
+        position: '位次',
+        userPosition: '考生位次'
+      }
     }
   }
 }

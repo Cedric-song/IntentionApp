@@ -7,8 +7,8 @@
     <van-row :gutter="20" class="info">
       <van-col span="24" class="info-item">意向院校名称（代码）： 天津大学（00101）</van-col>
       <van-col span="24" class="info-item">录取概率： 87%</van-col>
-      <van-col span="24" class="info-item item-red">学校热度：
-        <van-rate class="rate" v-model="form.rating" :size="13" :count="5" disabled-color="#2ba" disabled/></van-col>
+      <van-col span="24" class="info-item item-red">学校热度：此前一共有3001位考生查询过次学校</van-col>
+      <!-- <van-rate class="rate" v-model="form.rating" :size="13" :count="5" disabled-color="#2ba" disabled/></van-col> -->
       <van-col span="24" class="info-item">院校级别： 985 + 211</van-col>
       <van-col span="24" class="info-item">所在省市： 天津</van-col>
       <van-col span="24" class="info-item">招办电话： 022-88886888</van-col>
@@ -19,13 +19,16 @@
     </van-row>
 
     <wap-subtitle subtitle="历年招生人数及录取位次图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-history class="chart-position"></wap-history>
 
     <wap-subtitle subtitle="历年录取线差图" style="margin-top: 20px;"></wap-subtitle>
-    <wap-history class="chart-item"></wap-history>
+    <wap-chart-underscore class="chart-position" :year="new Date().getFullYear() - 3 "></wap-chart-underscore>
+
     <wap-subtitle subtitle="各专业录取对比图" style="margin-top: 20px;"></wap-subtitle>
-    <wap-course class="chart-item"></wap-course>
-    <wap-course class="chart-item" year="2016"></wap-course>
-    <wap-course class="chart-item" year="2017"></wap-course>
+    <wap-chart-course-percent class="chart-position"></wap-chart-course-percent>
+    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 3 "></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 2 "></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 1"></wap-chart-course-score>
   </div>
 </template>
 
@@ -66,5 +69,9 @@ export default {
 
 .chart-item {
   margin-top: 20px;
+}
+
+.chart-position {
+  bottom: -20px;
 }
 </style>

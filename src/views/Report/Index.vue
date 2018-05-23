@@ -2,17 +2,17 @@
   <div class="answer">
     <van-nav-bar title="志愿宝智能报告书" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
 
-    <wap-subtitle subtitle="冲" style="margin: 20px 0 0 0;"></wap-subtitle>
+    <wap-subtitle subtitle="冲击学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
       <van-cell v-for="item in list" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{name:'ReportItem',params: {id: item.id}}" />
     </van-list>
 
-    <wap-subtitle subtitle="稳" style="margin: 20px 0 0 0;"></wap-subtitle>
+    <wap-subtitle subtitle="稳妥学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
       <van-cell v-for="item in list1" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{name:'ReportItem',params: {id: item.id}}" />
     </van-list>
 
-    <wap-subtitle subtitle="保" style="margin: 20px 0 0 0;"></wap-subtitle>
+    <wap-subtitle subtitle="保底学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
       <van-cell v-for="item in list2" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{name:'ReportItem',params: {id: item.id}}" />
     </van-list>

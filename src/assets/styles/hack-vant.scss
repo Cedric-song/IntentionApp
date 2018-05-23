@@ -1,7 +1,14 @@
 .van-button--bottom-action.van-button--primary {
-  background-color: aquamarine;
+  background-color: #1cd4ae;
 }
 
 .van-button--disabled {
   background-color: #eee !important;
+}
+
+.van-tabbar-item--active,
+.van-nav-bar__text,
+.van-nav-bar .van-icon,
+.van-nav-bar__title {
+  color: #1cd4ae;
 }

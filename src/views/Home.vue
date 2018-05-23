@@ -6,6 +6,14 @@
       </van-swipe-item>
     </van-swipe>
 
+    <van-row>
+      <van-col :span="24">
+        <van-search placeholder="请输入学校名称或专业名称" v-model="search" class="search" show-action>
+          <div slot="action" @click="onSearch" class="search-btn">搜索</div>
+        </van-search>
+      </van-col>
+    </van-row>
+
     <wap-subtitle subtitle="高考服务"></wap-subtitle>
     <van-row gutter="20" style="padding: 10px 0;">
       <van-col span="8" class="service" @click.native="$router.push({name: item.to})" v-for="item in service" :key="item.name">
@@ -44,11 +52,12 @@ export default {
   data() {
     return {
       active: 0,
+      search: '',
       images: [img, img],
       service: [
         {
           name: '开卡激活',
-          icon: '#icon-tianbao',
+          icon: '#icon-account',
           to: 'OpenAccount'
         },
         {
@@ -80,6 +89,11 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    onSearch() {
+      console.log(123)
+    }
   }
 }
 </script>
@@ -102,7 +116,7 @@ export default {
   .img {
     position: relative;
     bottom: -5px;
-    color: green;
+    color: #1cd4ae;
   }
 
   span {
@@ -116,5 +130,18 @@ export default {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+
+.search {
+  background: #fff !important;
+  border: 1px solid #1cd4ae;
+  margin-bottom: 20px;
+}
+
+.search-btn {
+  padding: 0 10px;
+  margin-right: 10px;
+  border: 1px solid #1cd4ae;
+  color: #1cd4ae;
 }
 </style>

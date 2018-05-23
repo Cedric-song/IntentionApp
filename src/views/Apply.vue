@@ -1,7 +1,15 @@
 <template>
-  <div>
+  <div class="apply">
     <van-nav-bar title="智能填报" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
     <van-row gutter="20">
+      <van-col span="24">
+        <van-cell-group>
+          <van-radio-group v-model="form.category" class="radio">
+            <van-radio name="1" style="padding:0 10px;">文科</van-radio>
+            <van-radio name="2" style="padding:0 10px;">理科</van-radio>
+          </van-radio-group>
+        </van-cell-group>
+      </van-col>
       <van-col span="24">
         <van-cell-group>
           <van-field v-model="form.score" placeholder="" label="分数" maxlength="3" />
@@ -10,13 +18,7 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="文理" />
-        </van-cell-group>
-      </van-col>
-
-      <van-col span="24">
-        <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="生源所在地" />
+          <van-field v-model="form.name" placeholder="" label="生源所在地" disabled @click="handleLocalClick" />
         </van-cell-group>
       </van-col>
 
@@ -53,6 +55,7 @@ export default {
     }
   },
   methods: {
+    handleLocalClick() {},
     handleConfirm() {
       this.$dialog
         .confirm({
@@ -74,10 +77,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.test {
+.apply {
   height: 100vh;
   .btn {
     margin-top: 20px;
   }
+}
+
+.radio {
+  display: flex;
+  padding: 10px;
+  text-align: center;
+  justify-content: space-evenly;
 }
 </style>

@@ -14,6 +14,9 @@ Vue.use(Lazyload, {
   preload: '100%'
 });
 
+import _ from 'lodash'
+
+Vue.prototype.$_ = _
 
 import VCharts from 'v-charts'
 
