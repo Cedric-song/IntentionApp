@@ -26,8 +26,11 @@
       </van-col>
     </van-row>
     <wap-subtitle subtitle="查看历年招生人数折线及录取位次图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-history class="chart-position"></wap-history>
+
     <wap-subtitle subtitle="查看录取线差图" style="margin-top: 20px;"></wap-subtitle>
-    <wap-subtitle subtitle="查看历年录取人数折线图（分一、二、三、征集志愿）" style="margin-top: 20px;"></wap-subtitle>
+    <wap-subtitle subtitle="查看历年录取人数折线图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-chart-line></wap-chart-line>
     <wap-subtitle subtitle="专业录取对比图" style="margin-top: 20px;"></wap-subtitle>
 
   </div>

@@ -2,11 +2,11 @@
   <div>
     <van-nav-bar title="我的" left-text="" right-text="" />
     <van-row :gutter="20">
-      <van-col :span="24">
+      <!-- <van-col :span="24">
         <van-cell-group>
           <van-cell title="用户认证" icon="" is-link :to="{name: 'Verify'}" />
         </van-cell-group>
-      </van-col>
+      </van-col> -->
       <van-col :span="24">
         <van-cell-group>
           <van-cell title="购买记录" icon="" is-link :to="{name: 'History'}" />
@@ -14,12 +14,12 @@
       </van-col>
       <van-col :span="24">
         <van-cell-group>
-          <van-cell title="历史查询记录" icon="" is-link :to="{name: 'History'}" />
+          <van-cell title="历史查询记录" icon="" is-link />
         </van-cell-group>
       </van-col>
       <van-col :span="24">
         <van-cell-group>
-          <van-cell title="智能填报记录" icon="" is-link :to="{name: 'History'}" />
+          <van-cell title="智能填报记录" icon="" is-link />
         </van-cell-group>
       </van-col>
     </van-row>
