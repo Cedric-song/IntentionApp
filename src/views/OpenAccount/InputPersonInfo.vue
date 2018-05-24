@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="填写入网信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="$router.push({name: 'PayAccount'})" />
+    <van-nav-bar title="填写邮寄信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="$router.push({name: 'PayAccount'})" />
 
     <van-row>
       <van-col span="24">
