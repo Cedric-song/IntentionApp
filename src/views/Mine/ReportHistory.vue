@@ -4,7 +4,7 @@
     <van-row :gutter="20" style="margin-top:20px;">
       <van-col :span="24">
         <van-list :finished="finished" @load="onLoad">
-          <van-cell v-for="item in list" :key="item.time" :title="item.time + ''" :value="'¥ ' +item.cost" />
+          <van-cell v-for="item in list" :key="item.time" :title="item.time + ''" :value="item.cost" />
         </van-list>
       </van-col>
     </van-row>
