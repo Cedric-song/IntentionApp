@@ -4,7 +4,7 @@
     <van-row :gutter="20" style="margin-top:20px;">
       <van-col :span="24">
         <van-list :finished="finished" @load="onLoad">
-          <van-cell v-for="item in list" :key="item.time" :title="item.time + ''" :value="'¥ ' +item.cost" />
+          <van-cell v-for="item in list" :key="item.time" :title="item.time + ''" :value="item.name" />
         </van-list>
       </van-col>
     </van-row>
@@ -18,11 +18,11 @@ export default {
       list: [
         {
           time: '2018-06-06 20:00:00',
-          cost: '200'
+          name: '300'
         },
         {
           time: '2018-06-06 19:00:00',
-          cost: '100'
+          name: '300'
         }
       ],
       loading: false,

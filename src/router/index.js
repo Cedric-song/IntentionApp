@@ -3,8 +3,10 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Score from '@/views/GetScore'
 import Test from '@/views/Test'
-import Mine from '@/views/Mine'
-import ReportHistory from '@/views/History'
+import Mine from '@/views/Mine/Mine'
+import BillHistory from '@/views/Mine/BillHistory'
+import ReportHistory from '@/views/Mine/ReportHistory'
+import TestHistory from '@/views/Mine/TestHistory'
 import Verify from '@/views/Verify'
 import Answer from '@/views/Answer'
 import Qrcode from '@/views/Qrcode'
@@ -51,8 +53,18 @@ const router = new Router({
       component: Mine
     },
     {
-      path: '/history',
+      path: '/mine/bill-history',
       name: 'History',
+      component: BillHistory
+    },
+    {
+      path: '/mine/test-history',
+      name: 'TestHistory',
+      component: TestHistory
+    },
+    {
+      path: '/mine/report-history',
+      name: 'ReportHistory',
       component: ReportHistory
     },
     {

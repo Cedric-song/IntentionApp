@@ -15,12 +15,12 @@
       </van-col>
       <van-col :span="24">
         <van-cell-group>
-          <van-cell title="历史查询记录" icon="" is-link />
+          <van-cell title="测试查询记录" icon="" is-link :to="{name: 'TestHistory'}" />
         </van-cell-group>
       </van-col>
       <van-col :span="24">
         <van-cell-group>
-          <van-cell title="智能填报记录" icon="" is-link />
+          <van-cell title="智能填报记录" icon="" is-link :to="{name: 'ReportHistory'}" />
         </van-cell-group>
       </van-col>
       <van-col :span="24">
