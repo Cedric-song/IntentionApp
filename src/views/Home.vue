@@ -86,7 +86,7 @@ export default {
         {
           name: '激活',
           icon: '#icon-active',
-          to: 'OpenAccount'
+          to: 'ActiveCard'
         },
 
         {
