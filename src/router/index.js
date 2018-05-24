@@ -4,7 +4,7 @@ import Home from '@/views/Home'
 import Score from '@/views/GetScore'
 import Test from '@/views/Test'
 import Mine from '@/views/Mine'
-import History from '@/views/History'
+import ReportHistory from '@/views/History'
 import Verify from '@/views/Verify'
 import Answer from '@/views/Answer'
 import Qrcode from '@/views/Qrcode'
@@ -12,8 +12,11 @@ import Apply from '@/views/Apply'
 import Report from '@/views/Report/Index'
 import ReportItem from '@/views/Report/Item'
 import OpenAccount from '@/views/OpenAccount/Index'
-import PickAccount from '@/views/OpenAccount/Pick'
+import InputInfo from '@/views/OpenAccount/InputInfo'
+import InputPersonInfo from '@/views/OpenAccount/InputPersonInfo'
 import PayAccount from '@/views/OpenAccount/Pay'
+import PaySuccess from '@/views/OpenAccount/Success'
+import ActiveCard from '@/views/OpenAccount/Active'
 import UniversityList from '@/views/University/List'
 import UniversityItem from '@/views/University/Item'
 import MajorList from '@/views/Major/List'
@@ -48,7 +51,7 @@ const router = new Router({
     {
       path: '/history',
       name: 'History',
-      component: History
+      component: ReportHistory
     },
     {
       path: '/verify',
@@ -86,14 +89,29 @@ const router = new Router({
       component: OpenAccount
     },
     {
-      path: '/open-account/pick',
-      name: 'PickAccount',
-      component: PickAccount
+      path: '/open-account/input-info',
+      name: 'InputInfo',
+      component: InputInfo
+    },
+    {
+      path: '/open-account/input-person-info',
+      name: 'InputPersonInfo',
+      component: InputPersonInfo
     },
     {
       path: '/open-account/pay',
       name: 'PayAccount',
       component: PayAccount
+    },
+    {
+      path: '/open-account/success',
+      name: 'PaySuccess',
+      component: PaySuccess
+    },
+    {
+      path: '/open-account/active',
+      name: 'ActiveCard',
+      component: ActiveCard
     },
     {
       path: '/university',
