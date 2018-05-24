@@ -104,7 +104,7 @@ export default {
         {
           name: '专家解读',
           icon: '#icon-zhuanjia',
-          to: 'Qrcode'
+          to: 'Expert'
         },
         {
           name: '咨询热线',

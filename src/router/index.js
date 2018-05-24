@@ -8,12 +8,14 @@ import ReportHistory from '@/views/History'
 import Verify from '@/views/Verify'
 import Answer from '@/views/Answer'
 import Qrcode from '@/views/Qrcode'
+import Expert from '@/views/Expert'
 import Apply from '@/views/Apply'
 import Report from '@/views/Report/Index'
 import ReportItem from '@/views/Report/Item'
 import OpenAccount from '@/views/OpenAccount/Index'
 import InputInfo from '@/views/OpenAccount/InputInfo'
 import InputPersonInfo from '@/views/OpenAccount/InputPersonInfo'
+import CompletePersonInfo from '@/views/OpenAccount/CompletePersonInfo'
 import PayAccount from '@/views/OpenAccount/Pay'
 import PaySuccess from '@/views/OpenAccount/Success'
 import ActiveCard from '@/views/OpenAccount/Active'
@@ -69,6 +71,11 @@ const router = new Router({
       component: Qrcode
     },
     {
+      path: '/expert',
+      name: 'Expert',
+      component: Expert
+    },
+    {
       path: '/apply',
       name: 'Apply',
       component: Apply
@@ -112,6 +119,11 @@ const router = new Router({
       path: '/open-account/active',
       name: 'ActiveCard',
       component: ActiveCard
+    },
+    {
+      path: '/open-account/upload',
+      name: 'CompletePersonInfo',
+      component: CompletePersonInfo
     },
     {
       path: '/university',

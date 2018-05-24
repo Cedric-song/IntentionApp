@@ -7,6 +7,7 @@
           <van-cell title="用户认证" icon="" is-link :to="{name: 'Verify'}" />
         </van-cell-group>
       </van-col> -->
+      <!-- CompletePersonInfo -->
       <van-col :span="24">
         <van-cell-group>
           <van-cell title="购买记录" icon="" is-link :to="{name: 'History'}" />
@@ -20,6 +21,11 @@
       <van-col :span="24">
         <van-cell-group>
           <van-cell title="智能填报记录" icon="" is-link />
+        </van-cell-group>
+      </van-col>
+      <van-col :span="24">
+        <van-cell-group>
+          <van-cell title="身份证照片上传" icon="" is-link :to="{name: 'CompletePersonInfo'}" />
         </van-cell-group>
       </van-col>
     </van-row>

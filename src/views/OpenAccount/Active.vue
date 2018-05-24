@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="激活" left-text="后退" right-text="完成" left-arrow @click-left="$router.back()" @click-right="$router.push({name: 'Home'})" />
+    <van-nav-bar title="激活" left-text="后退" left-arrow @click-left="$router.back()" />
 
     <van-row>
       <van-col span="24">

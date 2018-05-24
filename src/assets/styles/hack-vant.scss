@@ -12,3 +12,12 @@
 .van-nav-bar__title {
   color: #1cd4ae;
 }
+
+.upload-info .van-uploader {
+  color: #333;
+  font-size: 14px;
+  line-height: 1;
+  padding: 10px 15px;
+  border-top: 1px solid #e5e5e5;
+  width: calc(100% - 30px);
+}
