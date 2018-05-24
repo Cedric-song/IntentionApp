@@ -114,11 +114,7 @@ export default {
       ]
     }
   },
-  methods: {
-    onSearch() {
-      console.log(123)
-    }
-  }
+  methods: {}
 }
 </script>
 

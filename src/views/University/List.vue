@@ -55,7 +55,10 @@ export default {
   },
 
   methods: {
-    onLoad() {}
+    onLoad() {},
+    onSearch() {
+      console.log(123)
+    }
   }
 }
 </script>
