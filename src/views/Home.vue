@@ -6,14 +6,6 @@
       </van-swipe-item>
     </van-swipe>
 
-    <van-row>
-      <van-col :span="24">
-        <van-search placeholder="请输入学校名称或专业名称" v-model="search" class="search" show-action>
-          <div slot="action" @click="onSearch" class="search-btn">搜索</div>
-        </van-search>
-      </van-col>
-    </van-row>
-
     <wap-subtitle subtitle="高考服务"></wap-subtitle>
     <van-row gutter="20" style="padding: 10px 0;">
       <van-col span="8" class="service" @click.native="$router.push({name: item.to})" v-for="item in service" :key="item.name">
@@ -37,6 +29,22 @@
         <span>{{item.name}}</span>
       </van-col>
     </van-row>
+    <van-row gutter="20" style="padding: 10px 0;" class="tips">
+      <van-col span="24">
+        温馨提示：
+      </van-col>
+      <van-col span="24">
+        1.本系统不含
+        <span class="spec-tips">体育类、艺术类院校分数。</span>
+        因此体育类、艺术类考生无法使用本系统
+      </van-col>
+      <van-col span="24">
+        2.本系统目前只向吉林省考生开放
+      </van-col>
+      <van-col span="24">
+        3.由于高考填报志愿是一个动态变化的过程，本系统查询历年录取数据及预测数据仅作为填报志愿参考
+      </van-col>
+    </van-row>
 
     <van-tabbar v-model="active">
       <van-tabbar-item icon="shop" :to="{name: 'Home'}">首页</van-tabbar-item>
@@ -56,9 +64,14 @@ export default {
       images: [img, img],
       service: [
         {
-          name: '开卡激活',
-          icon: '#icon-account',
-          to: 'OpenAccount'
+          name: '院校查询',
+          icon: '#icon-university',
+          to: 'UniversityList'
+        },
+        {
+          name: '专业查询',
+          icon: '#icon-major',
+          to: 'MajorList'
         },
         {
           name: '成绩查询',
@@ -66,8 +79,19 @@ export default {
           to: 'Score'
         },
         {
+          name: '开卡',
+          icon: '#icon-account',
+          to: 'OpenAccount'
+        },
+        {
+          name: '激活',
+          icon: '#icon-active',
+          to: 'OpenAccount'
+        },
+
+        {
           name: '录取概率测试',
-          icon: '#icon-ceshi',
+          icon: '#icon-ceshi1',
           to: 'Test'
         },
         {
@@ -132,16 +156,11 @@ export default {
   overflow: hidden;
 }
 
-.search {
-  background: #fff !important;
-  border: 1px solid #1cd4ae;
-  margin-bottom: 20px;
-}
-
-.search-btn {
-  padding: 0 10px;
-  margin-right: 10px;
-  border: 1px solid #1cd4ae;
-  color: #1cd4ae;
+.tips {
+  font-size: 10px;
+  padding-bottom: 40px !important;
+  .spec-tips {
+    color: #ffcc66;
+  }
 }
 </style>

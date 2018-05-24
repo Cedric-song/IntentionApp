@@ -14,10 +14,15 @@ import ReportItem from '@/views/Report/Item'
 import OpenAccount from '@/views/OpenAccount/Index'
 import PickAccount from '@/views/OpenAccount/Pick'
 import PayAccount from '@/views/OpenAccount/Pay'
+import UniversityList from '@/views/University/List'
+import UniversityItem from '@/views/University/Item'
+import MajorList from '@/views/Major/List'
+import MajorItem from '@/views/Major/Item'
+
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
 
     {
@@ -89,6 +94,34 @@ export default new Router({
       path: '/open-account/pay',
       name: 'PayAccount',
       component: PayAccount
+    },
+    {
+      path: '/university',
+      name: 'UniversityList',
+      component: UniversityList
+    },
+    {
+      path: '/university/:id',
+      name: 'UniversityItem',
+      component: UniversityItem
+    },
+    {
+      path: '/major',
+      name: 'MajorList',
+      component: MajorList
+    },
+    {
+      path: '/major/:id',
+      name: 'MajorItem',
+      component: MajorItem
     }
+
   ]
 })
+
+
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0);
+})
+
+export default router

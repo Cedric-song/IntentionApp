@@ -6,9 +6,15 @@
 
     <van-row :gutter="20" class="info">
       <van-col span="24" class="info-item">意向院校名称（代码）： 天津大学（00101）</van-col>
+      <van-col span="24" class="info-item">考生姓名： 李斯</van-col>
+      <van-col span="24" class="info-item">考生考号：100001</van-col>
+      <van-col span="24" class="info-item">考生分数： 590</van-col>
       <van-col span="24" class="info-item">录取概率： 87%</van-col>
-      <van-col span="24" class="info-item item-red">学校热度：此前一共有3001位考生查询过次学校</van-col>
-      <!-- <van-rate class="rate" v-model="form.rating" :size="13" :count="5" disabled-color="#2ba" disabled/></van-col> -->
+      <van-col span="24" class="info-item">学校热度：
+        <span class="item-red">22</span> /
+        <span class="item-blue">20902</span>
+      </van-col>
+      <van-col span="24" class="info-item item-tip">热度说明：热度指标由红色和蓝色两个数字构成，红色数字表示您在所有测试过该所大学的考生中的分数排名，数字越小代表名次越靠前，蓝色数字代表截止到现在一共有多少名考生测试过该所大学的录取概率，数字越大代表该校的关注考生越多、热度越高。</van-col>
       <van-col span="24" class="info-item">院校级别： 985 + 211</van-col>
       <van-col span="24" class="info-item">所在省市： 天津</van-col>
       <van-col span="24" class="info-item">招办电话： 022-88886888</van-col>
@@ -29,6 +35,11 @@
     <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 3 "></wap-chart-course-score>
     <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 2 "></wap-chart-course-score>
     <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 1"></wap-chart-course-score>
+
+    <van-row :gutter="20">
+      <van-col span="24" class="tip-red">免责声明：由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。
+      </van-col>
+    </van-row>
   </div>
 </template>
 
@@ -52,12 +63,17 @@ export default {
   padding-top: 10px;
   .info-item {
     padding-top: 5px;
-    &.item-red {
+    .item-red {
       color: red;
     }
 
     .item-blue {
       color: blue;
+    }
+
+    &.item-tip {
+      color: #9e9e9e;
+      font-size: 9px;
     }
   }
 
@@ -73,5 +89,10 @@ export default {
 
 .chart-position {
   bottom: -20px;
+}
+
+.tip-red {
+  color: red;
+  font-size: 10px;
 }
 </style>

@@ -7,7 +7,7 @@
 
 <style lang="postcss" scoped>
 #app {
-  padding: 20px;
+  padding: 0;
 }
 </style>
 
