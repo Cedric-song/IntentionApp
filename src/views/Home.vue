@@ -55,13 +55,15 @@
 </template>
 
 <script>
-import img from '@/assets/imgs/home.jpeg'
+import Home1 from '@/assets/imgs/home1.png'
+import Home2 from '@/assets/imgs/home2.png'
+
 export default {
   data() {
     return {
       active: 0,
       search: '',
-      images: [img, img],
+      images: [Home1, Home2],
       service: [
         {
           name: '院校查询',
@@ -125,7 +127,7 @@ export default {
   margin-bottom: 20px;
   height: 200px;
   img {
-    width: 100%;
+    height: 200px;
   }
 }
 
