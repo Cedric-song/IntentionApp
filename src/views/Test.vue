@@ -12,9 +12,9 @@
         </div>
       </van-col>
 
-      <van-col span="24">
+      <!-- <van-col span="24">
         <img class="home-bg" src="@/assets/imgs/home.jpeg" alt="" @click="handleImgClick">
-      </van-col>
+      </van-col> -->
       <van-col span="24">
         <van-cell-group>
           <van-radio-group v-model="form.category" class="radio">

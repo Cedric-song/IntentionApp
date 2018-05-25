@@ -6,33 +6,53 @@
 module.exports = {
   created: function() {
     this.chartData = {
-      columns: ['日期', '一志愿', '二志愿', '三志愿', '征集志愿'],
+      columns: ['year', 'one', 'two', 'three', 'four', 'position'],
       rows: [
         {
-          日期: '2015',
-          一志愿: 1523,
-          二志愿: 500,
-          三志愿: 200,
-          征集志愿: 100
+          year: '2015',
+          one: 1523,
+          two: 500,
+          three: 200,
+          four: 100,
+          position: 1001
         },
         {
-          日期: '2016',
-          一志愿: 1723,
-          二志愿: 523,
-          三志愿: 345,
-          征集志愿: 100
+          year: '2016',
+          one: 1723,
+          two: 523,
+          three: 345,
+          four: 100,
+          position: 901
         },
         {
-          日期: '2017',
-          一志愿: 1823,
-          二志愿: 423,
-          三志愿: 210,
-          征集志愿: 100
+          year: '2017',
+          one: 1823,
+          two: 423,
+          three: 210,
+          four: 100,
+          position: 950
+        },
+
+        {
+          year: '2018',
+          one: '',
+          two: '',
+          three: '',
+          four: '',
+          position: 700
         }
       ]
     }
     this.chartSettings = {
-      yAxisName: ['录取人数']
+      metrics: ['one', 'two', 'three', 'four', 'position'],
+      yAxisName: ['录取人数', '位次'],
+      legendName: {
+        one: `一志愿`,
+        two: `二志愿`,
+        three: `三志愿`,
+        four: `征集志愿`,
+        position: '位次'
+      }
     }
   }
 }

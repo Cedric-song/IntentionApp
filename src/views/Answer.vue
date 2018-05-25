@@ -24,13 +24,31 @@
       </van-col>
     </van-row>
 
-    <wap-subtitle subtitle="历年招生人数及录取位次图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-subtitle subtitle="历年招生人数（柱状）及录取位次（折线）图" style="margin-top: 20px;"></wap-subtitle>
+    <van-row>
+      <van-col span="24" class="chart-tips">
+        该图中的立柱为每年的招生人数，可以分析招生趋势，如果在我省的招生人数增加意味着此专业逐步变热，但是并非录取概率加大，因为受到填报人数的影响，反之亦然。 录取位次折线表示该校最低录取分数线对应的考生排位的变化，通过折线图可以判断考入该校的难易程度，如果对应的排位越来越低，说明学校越来越难考取，反之亦然。
+      </van-col>
+    </van-row>
     <wap-history class="chart-position"></wap-history>
 
-    <wap-subtitle subtitle="历年录取线差图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-subtitle subtitle="历年录取线差图（柱状对比图）" style="margin-top: 20px;"></wap-subtitle>
+    <van-row>
+      <van-col span="24" class="chart-tips">
+        该图中前三年的立柱为当年的最低录取分数线与省控线的差值，最后的立柱为今年考生的分数与省控线的差值，如果前三年的差值越大，说明学校越不容易考取，反之亦然；如果今年的差值越大，说明考生考取的可能性越大，反之亦然。通过对比今年差值与往年差值的大小，可以分析考生考入该校的可能性。
+      </van-col>
+    </van-row>
     <wap-chart-underscore class="chart-position" :year="new Date().getFullYear() - 3 "></wap-chart-underscore>
 
-    <wap-subtitle subtitle="各专业录取对比图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-subtitle subtitle="该校各专业录取对比图" style="margin-top: 20px;"></wap-subtitle>
+    <van-row>
+      <van-col span="24" class="chart-tips">
+        一张十个专业的概率图：该图中的横柱从上到下依次表示被该校的十个专业录取的概率大小
+      </van-col>
+      <van-col span="24" class="chart-tips">
+        三张十个专业的线差图： 该图表示2015年上述十个专业录取的线差对比，线差越大的表示这个专业越不容易考取，反之亦然。 该图表示2016年上述十个专业录取的线差对比，线差越大的表示这个专业越不容易考取，反之亦然。 该图表示2017年上述十个专业录取的线差对比，线差越大的表示这个专业越不容易考取，反之亦然。
+      </van-col>
+    </van-row>
     <wap-chart-course-percent class="chart-position"></wap-chart-course-percent>
     <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 3 "></wap-chart-course-score>
     <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 2 "></wap-chart-course-score>
@@ -94,5 +112,11 @@ export default {
 .tip-red {
   color: red;
   font-size: 10px;
+}
+
+.chart-tips {
+  color: red;
+  font-size: 12px;
+  padding: 10px 5px;
 }
 </style>
