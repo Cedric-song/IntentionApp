@@ -62,7 +62,6 @@ export default {
   data() {
     return {
       active: 0,
-      search: '',
       images: [Home1, Home2],
       service: [
         {
@@ -93,7 +92,7 @@ export default {
 
         {
           name: '录取概率测试',
-          icon: '#icon-ceshi1',
+          icon: '#icon-ceshi',
           to: 'Test'
         },
         {
@@ -142,8 +141,9 @@ export default {
   }
 
   span {
-    font-size: 14px;
+    font-size: 12px;
     padding-top: 10px;
+    color: #4a4a4a;
   }
 }
 .icon-font {

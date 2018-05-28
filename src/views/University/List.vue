@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       tags: ['danger'],
+      search: '',
       list: [
         {
           id: '1',

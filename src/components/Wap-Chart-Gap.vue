@@ -1,5 +1,5 @@
 <template>
-  <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram>
+  <ve-histogram :data="chartData" :settings="chartSettings" :grid="grid"></ve-histogram>
 </template>
 
 <script>
@@ -31,6 +31,12 @@ export default {
         }
       }
     }
+    this.grid = [
+      {
+        top: '50px',
+        right: '30px'
+      }
+    ]
   }
 }
 </script>

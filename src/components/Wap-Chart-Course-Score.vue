@@ -1,5 +1,5 @@
 <template>
-  <ve-bar :data="chartData" :settings="chartSettings" :extend="chartExtend" height="400px"></ve-bar>
+  <ve-bar :data="chartData" :settings="chartSettings" :extend="chartExtend" height="400px" :grid="grid"></ve-bar>
 </template>
 
 <script>
@@ -75,6 +75,13 @@ module.exports = {
         return items
       }
     }
+
+    this.grid = [
+      {
+        top: '50px',
+        right: '30px'
+      }
+    ]
   }
 }
 </script>

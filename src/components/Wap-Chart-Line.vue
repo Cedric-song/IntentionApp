@@ -1,36 +1,39 @@
 <template>
-  <ve-line :data="chartData" :settings="chartSettings"></ve-line>
+  <ve-line :data="chartData" :settings="chartSettings" :mark-point="markPoint" :grid="grid"></ve-line>
 </template>
 
 <script>
 module.exports = {
   created: function() {
     this.chartData = {
-      columns: ['year', 'one', 'two', 'three', 'four', 'position'],
+      columns: ['year', 'one', 'two', 'three', 'four', 'five', 'position'],
       rows: [
         {
           year: '2015',
-          one: 1523,
-          two: 500,
-          three: 200,
-          four: 100,
-          position: 1001
+          one: 70,
+          two: 30,
+          three: 20,
+          four: 85,
+          five: 5,
+          position: 11001
         },
         {
           year: '2016',
-          one: 1723,
-          two: 523,
-          three: 345,
-          four: 100,
-          position: 901
+          one: 72,
+          two: 34,
+          three: 25,
+          four: 80,
+          five: 3,
+          position: 11901
         },
         {
           year: '2017',
-          one: 1823,
-          two: 423,
-          three: 210,
-          four: 100,
-          position: 950
+          one: 82,
+          two: 43,
+          three: 20,
+          four: 90,
+          five: 4,
+          position: 11950
         },
 
         {
@@ -39,21 +42,61 @@ module.exports = {
           two: '',
           three: '',
           four: '',
-          position: 700
+          five: '',
+          position: 11700
         }
       ]
     }
-    this.chartSettings = {
-      metrics: ['one', 'two', 'three', 'four', 'position'],
-      yAxisName: ['录取人数', '位次'],
-      legendName: {
-        one: `一志愿`,
-        two: `二志愿`,
-        three: `三志愿`,
-        four: `征集志愿`,
-        position: '位次'
+    var condition = 2
+    if (condition === 1) {
+      this.chartSettings = {
+        metrics: ['one', 'two', 'three', 'five', 'position'],
+        yAxisName: ['人数', '位次'],
+        yAxisType: ['', 'KMB'],
+        axisSite: { right: ['position'] },
+        legendName: {
+          one: `一志愿`,
+          two: `二志愿`,
+          three: `三志愿`,
+          five: `征集志愿`,
+          position: '位次'
+        }
       }
+
+      this.grid = [
+        {
+          top: '100px',
+          right: '30px'
+        }
+      ]
+    } else {
+      this.chartSettings = {
+        metrics: ['four', 'five', 'position'],
+        yAxisName: ['人数', '位次'],
+        yAxisType: ['', 'KMB'],
+        axisSite: { right: ['position'] },
+        legendName: {
+          four: `平行志愿`,
+          five: `征集志愿`,
+          position: '位次'
+        }
+      }
+
+      this.grid = [
+        {
+          top: '50px',
+          right: '30px'
+        }
+      ]
     }
+
+    this.markPoint = {}
+    this.grid = [
+      {
+        top: '100px',
+        right: '30px'
+      }
+    ]
   }
 }
 </script>
