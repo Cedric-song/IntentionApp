@@ -4,18 +4,20 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import Vant from 'vant';
-import 'vant/lib/vant-css/index.css';
+import axios from './api'
 
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import Vant from 'vant'
+import 'vant/lib/vant-css/index.css'
+
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 import {
   Lazyload
-} from 'vant';
+} from 'vant'
 Vue.use(Lazyload, {
   preload: '100%'
-});
+})
 
 import _ from 'lodash'
 
@@ -34,14 +36,14 @@ import './components/RegisterComponents'
 
 Vue.config.productionTip = false
 
-Vue.use(Vant);
-Vue.use(VCharts);
-Vue.use(ElementUI);
-
+Vue.use(Vant)
+Vue.use(VCharts)
+Vue.use(ElementUI)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  axios,
   router,
   store,
   components: {

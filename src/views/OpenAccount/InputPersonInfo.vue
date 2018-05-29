@@ -29,22 +29,23 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="地区" />
+          <van-field v-model="form.cityText" placeholder="" label="地区" @click="showCityPicker = true" />
+          <van-picker show-toolbar title="选择城市" :columns="columns" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="详细地址" />
+          <van-field v-model="form.detail" placeholder="" label="详细地址" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="邮政编码" />
+          <van-field v-model="form.postal" placeholder="" label="邮政编码" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="手机号码" />
+          <van-field v-model="form.number" placeholder="" label="手机号码" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -54,7 +55,7 @@
       </van-col>
       <van-col span="24">
         <van-cell-group style="position:relative;">
-          <van-radio-group v-model="form.category" class="radio">
+          <van-radio-group v-model="form.shipSet" class="radio">
             <van-cell>套餐选择
               <van-radio name="1">只工作日送货（双休日、假期不送货）</van-radio>
               <van-radio name="2">只双休日、假期送货（工作日不送货）</van-radio>
@@ -75,7 +76,62 @@ export default {
   data() {
     return {
       step: 1,
-      form: {}
+      form: {},
+      columns: [
+        {
+          id: '220100',
+          text: '长春市'
+        },
+        {
+          id: '220200',
+          text: '吉林市'
+        },
+        {
+          id: '220300',
+          text: '四平市'
+        },
+        {
+          id: '220400',
+          text: '辽源市'
+        },
+        {
+          id: '220500',
+          text: '通化市'
+        },
+        {
+          id: '220600',
+          text: '白山市'
+        },
+        {
+          id: '220700',
+          text: '松原市'
+        },
+        {
+          id: '220800',
+          text: '白城市'
+        }
+      ],
+      showCityPicker: false
+    }
+  },
+  methods: {
+    onConfirm(value, index) {
+      this.form.cityId = value.id
+      this.form.cityText = value.text
+      this.showCityPicker = false
+    },
+    onCancel() {
+      this.showCityPicker = false
+    },
+    handlePost() {
+      const params = this.form
+      this.$api.SaveShipInfo(params).then(res => {
+        if (res.data.code === 200) {
+          this.$router.push({ name: 'PayAccount' })
+        } else {
+          this.$toast.fail(res.data.msg)
+        }
+      })
     }
   }
 }

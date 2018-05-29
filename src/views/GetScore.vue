@@ -15,7 +15,7 @@
         </van-cell-group>
       </van-col>
       <van-col span="24">
-        <van-button type="primary" bottom-action class="btn" @click="showScore = false">确定</van-button>
+        <van-button type="primary" bottom-action class="btn" @click="GetScore">确定</van-button>
       </van-col>
 
     </van-row>
@@ -24,34 +24,34 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.id" placeholder="" label="准考证号" />
+          <van-field v-model="score.id" placeholder="" label="准考证号" />
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="姓名" />
+          <van-field v-model="score.name" placeholder="" label="姓名" />
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="score[0]" placeholder="" label="总分" />
+          <van-field v-model="score.total" placeholder="" label="总分" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="score[1]" placeholder="" label="语文" />
+          <van-field v-model="score.chinese" placeholder="" label="语文" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="score[2]" placeholder="" label="数学" />
+          <van-field v-model="score.math" placeholder="" label="数学" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="score[3]" placeholder="" label="综合" />
+          <van-field v-model="score.mixed" placeholder="" label="综合" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -70,12 +70,27 @@ export default {
     return {
       showScore: true,
       form: {},
-      score: [650, 150, 150, 150, 200]
+      score: {}
     }
   },
-  created() {
-    document.title = '成绩查询'
-  }
+  methods: {
+    GetScore() {
+      const params = {
+        name: this.form.name,
+        id: this.form.id
+      }
+
+      this.$api.GetScore(params).then(res => {
+        if (res.data.code === 200) {
+          this.showScore = true
+          this.score = res.data.data
+        } else {
+          Toast.fail(`${res.data.msg}`)
+        }
+      })
+    }
+  },
+  created() {}
 }
 </script>
 

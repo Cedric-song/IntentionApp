@@ -20,7 +20,6 @@
           </div>
           <span class="info">{{item.info}}</span>
         </template>
-
       </van-cell>
     </van-list>
   </div>
@@ -55,10 +54,21 @@ export default {
     }
   },
 
+  created() {
+    this.getList()
+  },
+
   methods: {
     onLoad() {},
     onSearch() {
       console.log(123)
+    },
+    getList() {
+      this.$api['GetUniversityList'].then(res => {
+        if (res.data.code === 200) {
+          this.list = res.data.data.list
+        }
+      })
     }
   }
 }

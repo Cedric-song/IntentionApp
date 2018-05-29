@@ -135,10 +135,28 @@ export default {
     handleClickFirstCell(item) {
       this.secondData = item.children
       this.firstAcitve = item.id
+    },
+    FetchData() {
+      this.$api.GetMajorList(res => {
+        if (res.data.code === 200) {
+          this.firstData = res.data.data.list
+          this.secondData = this.firstData[0].children
+          this.firstAcitve = this.firstData[0].id
+        } else {
+          this.$dialog
+            .alert({
+              message: '获取数据失败，点击确定请稍后再试。'
+            })
+            .then(() => {
+              this.FetchData()
+            })
+        }
+      })
     }
   },
   created() {
     this.firstAcitve = this.firstData[0].id
+    this.FetchData()
   }
 }
 </script>

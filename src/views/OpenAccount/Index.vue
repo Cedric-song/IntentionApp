@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="开卡" left-text="返回" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="$router.push({name: 'InputInfo'})" />
+    <van-nav-bar title="开卡" left-text="返回" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="handlePost" />
     <van-row gutter="20">
 
       <van-col span="24" class="ad">
@@ -21,7 +21,7 @@
       <van-col span="24">
         <van-cell-group style="position:relative;">
           <van-field value="" label="套餐选择" disabled />
-          <van-radio-group v-model="form.category" class="radio">
+          <van-radio-group v-model="form.set" class="radio">
             <van-radio name="1" style="padding:0 10px;">49元</van-radio>
             <van-radio name="2" style="padding:0 10px;">69元</van-radio>
           </van-radio-group>
@@ -31,30 +31,26 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="选择号码" />
+          <van-field v-model="form.numberId" placeholder="" label="选择号码" />
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="城市" />
+          <van-field v-model="form.cityText" placeholder="" label="城市" @click="showCityPicker = true" />
+          <van-picker show-toolbar title="选择城市" :columns="columns" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
         </van-cell-group>
       </van-col>
 
       <van-checkbox-group v-model="result" :max="1">
         <van-row :gutter="20">
           <van-col :span="12" v-for="(item) in list" :key="item" class="phonenumber">
-            <van-checkbox :name="item">
-              {{ item }}
+            <van-checkbox :name="item.id">
+              {{ item.number }}
             </van-checkbox>
           </van-col>
-
         </van-row>
       </van-checkbox-group>
-
-      <!-- <van-col span="24">
-        <van-button type="primary" bottom-action class="btn" @click="$router.push({name: 'InputInfo'})">下一步</van-button>
-      </van-col> -->
     </van-row>
   </div>
 </template>
@@ -65,20 +61,88 @@ export default {
   data() {
     return {
       form: {},
-      list: [
-        '182-1120-1090',
-        '182-1120-1091',
-        '182-1120-1092',
-        '182-1120-1093',
-        '182-1120-1094',
-        '182-1120-1095',
-        '182-1120-1096',
-        '182-1120-1097',
-        '182-1120-1098',
-        '182-1120-1099'
+      list: [],
+      result: [],
+      columns: [
+        {
+          id: '220100',
+          text: '长春市'
+        },
+        {
+          id: '220200',
+          text: '吉林市'
+        },
+        {
+          id: '220300',
+          text: '四平市'
+        },
+        {
+          id: '220400',
+          text: '辽源市'
+        },
+        {
+          id: '220500',
+          text: '通化市'
+        },
+        {
+          id: '220600',
+          text: '白山市'
+        },
+        {
+          id: '220700',
+          text: '松原市'
+        },
+        {
+          id: '220800',
+          text: '白城市'
+        }
       ],
-      result: []
+      showCityPicker: false
     }
+  },
+  methods: {
+    onConfirm(value, index) {
+      this.form.cityId = value.id
+      this.form.cityText = value.text
+      this.showCityPicker = false
+    },
+    onCancel() {
+      this.showCityPicker = false
+    },
+    FetchData() {
+      this.$api.GetPhoneNumber().then(res => {
+        if (res.data.code === 200) {
+          this.list = res.data.data.list
+        } else {
+          this.$dialog
+            .alert({
+              message: '获取数据失败，点击确定请稍后再试。'
+            })
+            .then(() => {
+              this.FetchData()
+            })
+        }
+      })
+    },
+    handlePost() {
+      const params = {
+        province: '吉林',
+        set: this.form.set,
+        numberId: this.result[0],
+        cityId: this.form.cityId
+      }
+      const vm = this
+      this.$api.SaveBaseInfo(params).then(res => {
+        if (res.data.code === 200) {
+          vm.$router.push({ name: 'InputInfo' })
+        } else {
+          this.$toast.fail(res.data.msg)
+        }
+      })
+    }
+  },
+  created() {
+    // this.FetchData()
   }
 }
 </script>

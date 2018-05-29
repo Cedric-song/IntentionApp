@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="填写入网信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="$router.push({name: 'InputPersonInfo'})" />
+    <van-nav-bar title="填写入网信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="handlePost" />
 
     <van-row>
       <van-col span="24">
@@ -24,7 +24,7 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="身份证" />
+          <van-field v-model="form.id" placeholder="" label="身份证" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -57,7 +57,16 @@ export default {
     }
   },
   methods: {
-    onRead() {}
+    onRead() {},
+    handlePost() {
+      this.$api.SaveEnterInfo(params).then(res => {
+        if (res.data.code === 200) {
+          this.$router.push({ name: 'InputPersonInfo' })
+        } else {
+          this.$toast.fail(res.data.msg)
+        }
+      })
+    }
   }
 }
 </script>
