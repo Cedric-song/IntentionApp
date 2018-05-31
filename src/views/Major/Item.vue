@@ -33,19 +33,27 @@ export default {
   },
   methods: {
     FetchData() {
-      this.$api.GetMajorItem({ id: this.$route.params.id }).then(res => {
-        if (res.data.code == 200) {
-          this.item = res.data.data
-        } else {
-          this.$dialog
-            .alert({
-              message: '获取数据失败，点击确定请稍后再试。'
-            })
-            .then(() => {
-              this.FetchData()
-            })
-        }
-      })
+      this.$store.commit(this.$types.ShowLoading, true)
+      this.$api
+        .GetMajorItem({ id: this.$route.params.id })
+        .then(res => {
+          if (res.data.code == 200) {
+            this.item = res.data.data
+          } else {
+            this.$dialog
+              .alert({
+                message: '获取数据失败，点击确定请稍后再试。'
+              })
+              .then(() => {
+                this.FetchData()
+              })
+          }
+          this.$store.commit(this.$types.ShowLoading, false)
+        })
+        .catch(err => {
+          console.log(JSON.stringify(err))
+          this.$store.commit(this.$types.ShowLoading, false)
+        })
     }
   },
   created() {

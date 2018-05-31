@@ -15,4 +15,8 @@ body {
   overflow-y: scroll;
 }
 
+.loading-pop.van-popup {
+  background: transparent;
+}
+
 @import 'hack-vant.scss';

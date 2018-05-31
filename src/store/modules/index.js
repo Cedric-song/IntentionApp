@@ -1,8 +1,12 @@
 // import camelCase from 'lodash/camelCase'
 // const requireModule = require.context('.', false, /\.js$/)
 import filter from './filter'
+import loading from './loading'
+import major from './major'
 const modules = {
-  filter
+  filter,
+  loading,
+  major
 }
 
 // requireModule.keys().forEach(fileName => {

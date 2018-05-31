@@ -28,11 +28,12 @@ import VCharts from 'v-charts'
 
 import '@/assets/font/iconfont.js'
 import '@/assets/styles/main.scss'
+
 import moment from 'moment'
 Vue.prototype.$moment = moment
 
 if (process.env.NODE_ENV === 'production') {
-  console.log(`Package time: ${moment(Number(PACKAGE_TIME)).format('L')}`)
+  console.log(`Package time: ${moment(Number(PACKAGE_TIME)).format('LLL')}`)
 }
 
 import * as types from '@/store/types'

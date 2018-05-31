@@ -1,7 +1,6 @@
 <template>
   <div class="score">
-    <van-nav-bar title="成绩查询" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
-
+    <van-nav-bar title="成绩查询" left-text="返回" right-text="" left-arrow @click-left="handleClickLeft" />
     <van-row gutter="20" v-if="showScore">
       <van-col span="24">
         <van-cell-group>
@@ -15,7 +14,7 @@
         </van-cell-group>
       </van-col>
       <van-col span="24">
-        <van-button type="primary" bottom-action class="btn" @click="GetScore">确定</van-button>
+        <van-button type="primary" bottom-action class="btn" @click="GetScore" :disabled="disabled">确定</van-button>
       </van-col>
 
     </van-row>
@@ -69,11 +68,28 @@ export default {
   data() {
     return {
       showScore: true,
-      form: {},
+      form: {
+        id: '',
+        name: ''
+      },
+      loading: false,
+      disabled: true,
       score: {}
     }
   },
   methods: {
+    handleClickLeft() {
+      if (this.showScore) {
+        this.$router.back()
+        return
+      }
+
+      this.form = {
+        id: '',
+        name: ''
+      }
+      this.showScore = true
+    },
     GetScore() {
       const vm = this
       const params = {
@@ -81,23 +97,47 @@ export default {
         id: this.form.id
       }
 
-      this.$api.GetScore(params).then(res => {
-        if (res.data.code == 200) {
-          vm.showScore = false
-          vm.score = res.data.data
-        } else {
-          vm.$toast.fail(`${res.data.msg}`)
-        }
-      })
+      this.$store.commit(this.$types.ShowLoading, true)
+
+      this.$api
+        .GetScore(params)
+        .then(res => {
+          if (res.data.code == 200) {
+            vm.showScore = false
+            vm.score = res.data.data
+          } else {
+            vm.$toast.fail(`${res.data.msg}`)
+          }
+          this.$store.commit(this.$types.ShowLoading, false)
+        })
+        .catch(err => {
+          console.log(JSON.stringify(err))
+          this.$store.commit(this.$types.ShowLoading, false)
+        })
     }
   },
+
+  watch: {
+    form: {
+      deep: true,
+      handler(val, oldVal) {
+        if (val.id !== '' && val.name !== '') {
+          this.disabled = false
+        } else {
+          this.disabled = true
+        }
+      },
+      immediate: true
+    }
+  },
+
   created() {}
 }
 </script>
 
 <style lang="scss" scoped>
 .score {
-  height: 100vh;
+  // height: 100vh;
   .btn {
     margin-top: 20px;
   }

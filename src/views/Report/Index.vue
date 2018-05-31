@@ -52,11 +52,9 @@
 
 
 <script>
-import bgImg from '@/assets/imgs/report-bg.jpg'
 export default {
   data() {
     return {
-      bgImg: bgImg,
       overlay: true,
       list: [
         {
@@ -122,7 +120,7 @@ export default {
     .img {
       width: 100%;
       height: 220px;
-      background-image: url(../../assets/imgs/report-bg.jpg);
+      background-image: url(/static/imgs/report-bg.jpg);
       background-repeat: no-repeat;
       border-radius: 10px 10px 0 0;
     }

@@ -16,7 +16,6 @@
               </van-cell-group>
             </div>
           </van-collapse-item>
-
         </van-collapse>
       </van-col>
     </van-row>
@@ -24,112 +23,114 @@
 </template>
 
 <script>
+const secondData = [
+  {
+    name: '计算机系',
+    id: '1000',
+    children: [
+      {
+        name: '计算机科学与技术',
+        id: '1001'
+      },
+      {
+        name: '计算机应用',
+        id: '1002'
+      }
+    ]
+  },
+  {
+    name: '信息工程系',
+    id: '1010',
+    children: [
+      {
+        name: '信息工程',
+        id: '1011'
+      },
+      {
+        name: '信息技术',
+        id: '1012'
+      }
+    ]
+  }
+]
+
+const firstData = [
+  {
+    id: '10',
+    name: '计算机',
+    children: [
+      {
+        name: '计算机系',
+        id: '1000',
+        children: [
+          {
+            name: '计算机科学与技术',
+            id: '1001'
+          },
+          {
+            name: '计算机应用',
+            id: '1002'
+          }
+        ]
+      },
+      {
+        name: '信息工程系',
+        id: '1010',
+        children: [
+          {
+            name: '信息工程',
+            id: '1011'
+          },
+          {
+            name: '信息技术',
+            id: '1012'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: '20',
+    name: '法律',
+    children: [
+      {
+        name: '法律系',
+        id: '2000',
+        children: [
+          {
+            name: '法律法规',
+            id: '2001'
+          },
+          {
+            name: '法律合规',
+            id: '2002'
+          }
+        ]
+      },
+      {
+        name: '制度系',
+        id: '2010',
+        children: [
+          {
+            name: '制度关系',
+            id: '2011'
+          },
+          {
+            name: '制度方式',
+            id: '2012'
+          }
+        ]
+      }
+    ]
+  }
+]
 export default {
   data() {
     return {
       secondActive: '',
       firstAcitve: '',
-      firstData: [
-        {
-          id: '10',
-          name: '计算机',
-          children: [
-            {
-              name: '计算机系',
-              id: '1000',
-              children: [
-                {
-                  name: '计算机科学与技术',
-                  id: '1001'
-                },
-                {
-                  name: '计算机应用',
-                  id: '1002'
-                }
-              ]
-            },
-            {
-              name: '信息工程系',
-              id: '1010',
-              children: [
-                {
-                  name: '信息工程',
-                  id: '1011'
-                },
-                {
-                  name: '信息技术',
-                  id: '1012'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: '20',
-          name: '法律',
-          children: [
-            {
-              name: '法律系',
-              id: '2000',
-              children: [
-                {
-                  name: '法律法规',
-                  id: '2001'
-                },
-                {
-                  name: '法律合规',
-                  id: '2002'
-                }
-              ]
-            },
-            {
-              name: '制度系',
-              id: '2010',
-              children: [
-                {
-                  name: '制度关系',
-                  id: '2011'
-                },
-                {
-                  name: '制度方式',
-                  id: '2012'
-                }
-              ]
-            }
-          ]
-        }
-      ],
-
-      secondData: [
-        {
-          name: '计算机系',
-          id: '1000',
-          children: [
-            {
-              name: '计算机科学与技术',
-              id: '1001'
-            },
-            {
-              name: '计算机应用',
-              id: '1002'
-            }
-          ]
-        },
-        {
-          name: '信息工程系',
-          id: '1010',
-          children: [
-            {
-              name: '信息工程',
-              id: '1011'
-            },
-            {
-              name: '信息技术',
-              id: '1012'
-            }
-          ]
-        }
-      ]
+      firstData: [],
+      secondData: []
     }
   },
   methods: {
@@ -138,25 +139,43 @@ export default {
       this.firstAcitve = item.id
     },
     FetchData() {
-      this.$api.GetMajorList().then(res => {
-        if (res.data.code == 200) {
-          this.firstData = res.data.data
-          this.secondData = this.firstData[0].children
-          this.firstAcitve = this.firstData[0].id
-        } else {
-          this.$dialog
-            .alert({
-              message: '获取数据失败，点击确定请稍后再试。'
-            })
-            .then(() => {
-              this.FetchData()
-            })
-        }
-      })
+      const vm = this
+      this.$store.commit(this.$types.ShowLoading, true)
+
+      this.$api
+        .GetMajorList()
+        .then(res => {
+          if (res.data.code == 200) {
+            this.$store.commit(this.$types.GetMajorList, res.data.data)
+            vm.initMajorList(res.data.data)
+          } else {
+            this.$dialog
+              .alert({
+                message: '获取数据失败，点击确定请稍后再试。'
+              })
+              .then(() => {
+                this.FetchData()
+              })
+          }
+          this.$store.commit(this.$types.ShowLoading, false)
+        })
+        .catch(err => {
+          console.log(JSON.stringify(err))
+          this.$store.commit(this.$types.ShowLoading, false)
+        })
+    },
+    initMajorList(list) {
+      this.firstData = list
+      this.secondData = this.firstData[0].children
+      this.firstAcitve = this.firstData[0].id
     }
   },
   created() {
-    // this.FetchData()
+    if (this.$store.state.major.MajorList.length !== 0) {
+      this.initMajorList(this.$store.state.major.MajorList)
+    } else {
+      this.FetchData()
+    }
   }
 }
 </script>

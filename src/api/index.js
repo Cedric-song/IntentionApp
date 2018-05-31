@@ -6,10 +6,6 @@ axios.defaults.timeout = 30000
 
 Vue.use(VueAxios, axios)
 
-// getMajor
-// getMajorById
-// getScore
-// getNumbers
 export default {
   GetUniversityList(params) {
     return Vue.axios.get('/v1/getUniversity', {
