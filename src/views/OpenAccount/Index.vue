@@ -111,7 +111,7 @@ export default {
     },
     FetchData() {
       this.$api.GetPhoneNumber().then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           this.list = res.data.data.list
         } else {
           this.$dialog
@@ -133,7 +133,7 @@ export default {
       }
       const vm = this
       this.$api.SaveBaseInfo(params).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           vm.$router.push({ name: 'InputInfo' })
         } else {
           this.$toast.fail(res.data.msg)

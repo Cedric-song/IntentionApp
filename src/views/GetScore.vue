@@ -30,7 +30,7 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="score.name" placeholder="" label="姓名" />
+          <van-field v-model="form.name" placeholder="" label="姓名" />
         </van-cell-group>
       </van-col>
 
@@ -75,17 +75,18 @@ export default {
   },
   methods: {
     GetScore() {
+      const vm = this
       const params = {
         name: this.form.name,
         id: this.form.id
       }
 
       this.$api.GetScore(params).then(res => {
-        if (res.data.code === 200) {
-          this.showScore = true
-          this.score = res.data.data
+        if (res.data.code == 200) {
+          vm.showScore = false
+          vm.score = res.data.data
         } else {
-          Toast.fail(`${res.data.msg}`)
+          vm.$toast.fail(`${res.data.msg}`)
         }
       })
     }

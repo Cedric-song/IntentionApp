@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar :title="$route.query.name" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
-    <img :src="item.src" alt="" style="width: 100%;">
+    <img :src="item.img" alt="" style="width: 100%;">
     <wap-subtitle subtitle="专业介绍" class="pd"></wap-subtitle>
     <van-row>
       <van-col span="24" class="cnts">
@@ -34,7 +34,7 @@ export default {
   methods: {
     FetchData() {
       this.$api.GetMajorItem({ id: this.$route.params.id }).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           this.item = res.data.data
         } else {
           this.$dialog
@@ -47,6 +47,9 @@ export default {
         }
       })
     }
+  },
+  created() {
+    this.FetchData()
   }
 }
 </script>

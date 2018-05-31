@@ -60,7 +60,7 @@ export default {
     onRead() {},
     handlePost() {
       this.$api.SaveEnterInfo(params).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           this.$router.push({ name: 'InputPersonInfo' })
         } else {
           this.$toast.fail(res.data.msg)

@@ -99,6 +99,7 @@ export default {
           ]
         }
       ],
+
       secondData: [
         {
           name: '计算机系',
@@ -137,9 +138,9 @@ export default {
       this.firstAcitve = item.id
     },
     FetchData() {
-      this.$api.GetMajorList(res => {
-        if (res.data.code === 200) {
-          this.firstData = res.data.data.list
+      this.$api.GetMajorList().then(res => {
+        if (res.data.code == 200) {
+          this.firstData = res.data.data
           this.secondData = this.firstData[0].children
           this.firstAcitve = this.firstData[0].id
         } else {
@@ -155,8 +156,7 @@ export default {
     }
   },
   created() {
-    this.firstAcitve = this.firstData[0].id
-    this.FetchData()
+    // this.FetchData()
   }
 }
 </script>

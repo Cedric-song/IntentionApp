@@ -21,6 +21,7 @@ Vue.use(Lazyload, {
 
 import _ from 'lodash'
 
+Vue.prototype.$api = axios
 Vue.prototype.$_ = _
 
 import VCharts from 'v-charts'

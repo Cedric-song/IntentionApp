@@ -65,7 +65,7 @@ export default {
     },
     getList() {
       this.$api['GetUniversityList'].then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           this.list = res.data.data.list
         }
       })

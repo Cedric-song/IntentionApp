@@ -126,7 +126,7 @@ export default {
     handlePost() {
       const params = this.form
       this.$api.SaveShipInfo(params).then(res => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           this.$router.push({ name: 'PayAccount' })
         } else {
           this.$toast.fail(res.data.msg)
