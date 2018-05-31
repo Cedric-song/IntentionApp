@@ -33,26 +33,27 @@ export default {
   },
   methods: {
     FetchData() {
-      this.$store.commit(this.$types.ShowLoading, true)
-      this.$api
-        .GetMajorItem({ id: this.$route.params.id })
+      const vm = this
+      vm.$store.commit(vm.$types.ShowLoading, true)
+      vm.$api
+        .GetMajorItem({ id: vm.$route.params.id })
         .then(res => {
           if (res.data.code == 200) {
-            this.item = res.data.data
+            vm.item = res.data.data
           } else {
-            this.$dialog
+            vm.$dialog
               .alert({
                 message: '获取数据失败，点击确定请稍后再试。'
               })
               .then(() => {
-                this.FetchData()
+                vm.FetchData()
               })
           }
-          this.$store.commit(this.$types.ShowLoading, false)
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
         .catch(err => {
-          console.log(JSON.stringify(err))
-          this.$store.commit(this.$types.ShowLoading, false)
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
     }
   },

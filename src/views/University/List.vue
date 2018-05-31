@@ -60,9 +60,7 @@ export default {
 
   methods: {
     onLoad() {},
-    onSearch() {
-      console.log(123)
-    },
+    onSearch() {},
     getList() {
       this.$api.GetUniversityList().then(res => {
         if (res.data.code == 200) {

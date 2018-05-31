@@ -140,28 +140,27 @@ export default {
     },
     FetchData() {
       const vm = this
-      this.$store.commit(this.$types.ShowLoading, true)
-
-      this.$api
+      vm.$store.commit(vm.$types.ShowLoading, true)
+      vm.$api
         .GetMajorList()
         .then(res => {
           if (res.data.code == 200) {
-            this.$store.commit(this.$types.GetMajorList, res.data.data)
+            vm.$store.commit(vm.$types.GetMajorList, res.data.data)
             vm.initMajorList(res.data.data)
           } else {
-            this.$dialog
+            vm.$dialog
               .alert({
                 message: '获取数据失败，点击确定请稍后再试。'
               })
               .then(() => {
-                this.FetchData()
+                vm.FetchData()
               })
           }
-          this.$store.commit(this.$types.ShowLoading, false)
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
         .catch(err => {
-          console.log(JSON.stringify(err))
-          this.$store.commit(this.$types.ShowLoading, false)
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
     },
     initMajorList(list) {

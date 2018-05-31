@@ -93,13 +93,13 @@ export default {
     GetScore() {
       const vm = this
       const params = {
-        name: this.form.name,
-        id: this.form.id
+        name: vm.form.name,
+        id: vm.form.id
       }
 
-      this.$store.commit(this.$types.ShowLoading, true)
+      vm.$store.commit(vm.$types.ShowLoading, true)
 
-      this.$api
+      vm.$api
         .GetScore(params)
         .then(res => {
           if (res.data.code == 200) {
@@ -108,11 +108,11 @@ export default {
           } else {
             vm.$toast.fail(`${res.data.msg}`)
           }
-          this.$store.commit(this.$types.ShowLoading, false)
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
         .catch(err => {
-          console.log(JSON.stringify(err))
-          this.$store.commit(this.$types.ShowLoading, false)
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
     }
   },
