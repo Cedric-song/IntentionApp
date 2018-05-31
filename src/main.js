@@ -30,6 +30,11 @@ import '@/assets/font/iconfont.js'
 import '@/assets/styles/main.scss'
 import moment from 'moment'
 Vue.prototype.$moment = moment
+
+if (process.env.NODE_ENV === 'production') {
+  console.log(`Package time: ${moment(Number(PACKAGE_TIME)).format('L')}`)
+}
+
 import * as types from '@/store/types'
 Vue.prototype.$types = types
 
