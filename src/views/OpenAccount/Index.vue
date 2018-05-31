@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="开卡" left-text="返回" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="handlePost" />
+    <van-nav-bar title="开卡" left-text="返回首页" right-text="下一步" left-arrow @click-left="$router.push({name: 'Home'})" @click-right="handlePost" />
     <van-row gutter="20">
 
       <van-col span="24" class="ad">
@@ -142,7 +142,7 @@ export default {
     }
   },
   created() {
-    // this.FetchData()
+    this.FetchData()
   }
 }
 </script>

@@ -1,5 +1,36 @@
 <template>
   <div class="answer">
+    <van-popup v-model="overlay" :close-on-click-overlay="false" class="lay-base">
+      <div class="lay-cnt">
+        <div class="img"></div>
+        <div class="cnt">你共有
+          <span class="fs20">{{ list.length + list1.length + list2.length }}</span> 所大学</div>
+        <div class="cnt-2 fs20">可以填报</div>
+        <div class="lay-box-hold">
+          <div class="lay-box lay-box1">
+            <div class="lay-box-top">冲一冲</div>
+            <div class="lay-box-btm">
+              <span class="fs20">{{list.length}}</span> 所</div>
+          </div>
+
+          <div class="lay-box lay-box2">
+            <div class="lay-box-top">守一守</div>
+            <div class="lay-box-btm">
+              <span class="fs20">{{list1.length}}</span>所</div>
+          </div>
+
+          <div class="lay-box lay-box3">
+            <div class="lay-box-top">保一保</div>
+            <div class="lay-box-btm">
+              <span class="fs20">{{list2.length}}</span>所</div>
+          </div>
+        </div>
+        <div class="lay-btn">
+          <van-button type="danger" @click="$router.push({name: 'OpenAccount'})">免费开卡查看结果</van-button>
+        </div>
+      </div>
+
+    </van-popup>
     <van-nav-bar title="志愿宝智能报告书" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
 
     <wap-subtitle subtitle="冲击学校" style="margin: 20px 0 0 0;"></wap-subtitle>
@@ -21,9 +52,12 @@
 
 
 <script>
+import bgImg from '@/assets/imgs/report-bg.jpg'
 export default {
   data() {
     return {
+      bgImg: bgImg,
+      overlay: true,
       list: [
         {
           name: '北京大学',
@@ -71,3 +105,110 @@ export default {
   methods: {}
 }
 </script>
+
+
+<style lang="scss" >
+.lay-base {
+  width: 80%;
+  border-radius: 10px;
+  .lay-cnt {
+    background: #fff;
+    color: #fff;
+    height: 300px;
+    width: 100%;
+    border-radius: 10px;
+
+    position: relative;
+    .img {
+      width: 100%;
+      height: 220px;
+      background-image: url(../../assets/imgs/report-bg.jpg);
+      background-repeat: no-repeat;
+      border-radius: 10px 10px 0 0;
+    }
+    .cnt {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .cnt-2 {
+      position: absolute;
+      top: 60px;
+      left: 20px;
+    }
+    .fs20 {
+      font-size: 20px;
+    }
+
+    .lay-box-hold {
+      position: absolute;
+      top: 120px;
+      left: 20px;
+      width: 86%;
+      display: flex;
+      justify-content: space-between;
+
+      .lay-box {
+        width: 60px;
+        text-align: center;
+        border-radius: 10px;
+        .lay-box-top {
+          color: #fff;
+          height: 30px;
+          line-height: 30px;
+          width: 100%;
+        }
+        .lay-box-btm {
+          height: 30px;
+          line-height: 30px;
+          background: #fff;
+          color: #9e9e9e;
+        }
+      }
+
+      .lay-box1 {
+        .lay-box-top {
+          background-color: #ff0033;
+        }
+
+        .lay-box-btm {
+          span {
+            color: #ff0033;
+          }
+        }
+      }
+
+      .lay-box2 {
+        .lay-box-top {
+          background-color: #ff9933;
+        }
+
+        .lay-box-btm {
+          span {
+            color: #ff9933;
+          }
+        }
+      }
+
+      .lay-box3 {
+        .lay-box-top {
+          background-color: #33cc66;
+        }
+
+        .lay-box-btm {
+          span {
+            color: #33cc66;
+          }
+        }
+      }
+    }
+
+    .lay-btn {
+      text-align: center;
+      height: 80px;
+      line-height: 80px;
+    }
+  }
+}
+</style>
