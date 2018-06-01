@@ -34,5 +34,8 @@ export default {
   },
   SaveShipInfo(params) {
     return Vue.axios.post('/v1/shipInfo', params)
+  },
+  activeCard(params) {
+    return Vue.axios.post('/v1/active', params)
   }
 }

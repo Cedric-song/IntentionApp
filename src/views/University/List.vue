@@ -113,6 +113,12 @@ export default {
     .info {
       color: #9e9e9e;
       font-size: 11px;
+      width: 300px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      -webkit-user-select: none;
     }
   }
 }

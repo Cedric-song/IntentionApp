@@ -5,23 +5,23 @@
     <van-row>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="机主姓名" />
+          <van-field v-model="form.name" placeholder="" label="机主姓名" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="身份证" />
+          <van-field v-model="form.id" placeholder="" label="身份证" required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="※手机号码" />
+          <van-field v-model="form.phoneNo" placeholder="" label="※手机号码" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="快递单号" />
+          <van-field v-model="form.shipNo" placeholder="" label="快递单号" />
         </van-cell-group>
       </van-col>
 
@@ -35,7 +35,7 @@
         温馨提示：激活过程中如有问题请咨询10000号。
       </van-col>
       <van-col span="24" style="margin-top:20px;">
-        <van-button type="primary" bottom-action class="btn" @click="handleSubmit">提交</van-button>
+        <van-button type="primary" bottom-action class="btn" @click="handleSubmit" :disabled="btnDisabled">提交</van-button>
       </van-col>
     </van-row>
   </div>
@@ -46,19 +46,56 @@
 export default {
   data() {
     return {
-      form: {}
+      form: {
+        id: '',
+        name: '',
+        phoneNo: '',
+        shipNo: ''
+      },
+      btnDisabled: true
+    }
+  },
+  watch: {
+    form: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val.id === '' || val.name === '' || val.phoneNo === '') {
+          this.btnDisabled = true
+        } else {
+          this.btnDisabled = false
+        }
+      }
     }
   },
   methods: {
     handleSubmit() {
-      // 您已成功开通志愿宝服务，现在您可以使用概率测试xx次，智能填报xx次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！
-      this.$dialog
-        .alert({
-          message:
-            '您已成功提交激活信息，我们将在xx个工作日内为您完成激活，感谢您的选择和信任！'
+      const vm = this
+      vm.$api
+        .activeCard(this.form)
+        .then(res => {
+          if (res.data.code == '200') {
+            vm.$dialog
+              .alert({
+                message:
+                  '您已成功提交激活信息，我们将在xx个工作日内为您完成激活，感谢您的选择和信任！'
+              })
+              .then(() => {
+                vm.$router.push({ name: 'Home' })
+              })
+          } else {
+            vm.$dialog
+              .alert({
+                message:
+                  '您已成功开通志愿宝服务，现在您可以使用概率测试xx次，智能填报xx次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！'
+              })
+              .then(() => {
+                vm.$router.push({ name: 'Home' })
+              })
+          }
         })
-        .then(() => {
-          this.$router.push({ name: 'Home' })
+        .catch(err => {
+          vm.$toast.fail(JSON.stringify(err))
         })
     }
   }
