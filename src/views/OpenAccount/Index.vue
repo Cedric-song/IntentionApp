@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="开卡" left-text="返回首页" right-text="下一步" left-arrow @click-left="$router.push({name: 'Home'})" @click-right="handlePost" />
+    <van-nav-bar title="开卡" left-text="首页" right-text="下一步" left-arrow @click-left="$router.push({name: 'Home'})" @click-right="handlePost" />
     <van-row gutter="20">
 
       <van-col span="24" class="ad">
@@ -37,7 +37,7 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.cityText" placeholder="" label="城市" @click="showCityPicker = true" />
+          <van-cell title="城市" :value="form.cityText" @click="showCityPicker = true" class="sg-form" />
           <van-picker show-toolbar title="选择城市" :columns="columns" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
         </van-cell-group>
       </van-col>
@@ -114,13 +114,7 @@ export default {
         if (res.data.code == 200) {
           this.list = res.data.data.list
         } else {
-          this.$dialog
-            .alert({
-              message: '获取数据失败，点击确定请稍后再试。'
-            })
-            .then(() => {
-              // this.FetchData()
-            })
+          this.$toast.fail(`获取电话号码列表失败，请稍后刷新再试。`)
         }
       })
     },

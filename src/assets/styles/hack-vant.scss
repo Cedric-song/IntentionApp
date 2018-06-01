@@ -21,3 +21,12 @@
   border-top: 1px solid #e5e5e5;
   width: calc(100% - 30px);
 }
+
+.sg-form {
+  .van-cell__value {
+    text-align: left;
+  }
+  .van-cell__title {
+    max-width: 90px;
+  }
+}
