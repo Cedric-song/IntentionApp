@@ -13,7 +13,7 @@
 <style lang="scss" scoped>
 .tips {
   font-size: 18px;
-  color: #ffcc66;
+  color: #cc0000;
   line-height: 40px;
 }
 </style>

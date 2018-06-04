@@ -16,7 +16,7 @@ export default {
     return Vue.axios.get('/v1/getMajor', {})
   },
   GetMajorItem(params) {
-    return Vue.axios.get('/v1/getMajorById', {
+    return Vue.axios.get('/v1/getMajorByCode', {
       params: params
     })
   },

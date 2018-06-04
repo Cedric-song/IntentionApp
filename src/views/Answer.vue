@@ -82,7 +82,7 @@ export default {
   .info-item {
     padding-top: 5px;
     .item-red {
-      color: red;
+      color: #cc0000;
     }
 
     .item-blue {
@@ -90,8 +90,8 @@ export default {
     }
 
     &.item-tip {
-      color: #9e9e9e;
-      font-size: 9px;
+      color: #cc0000;
+      font-size: 12px;
     }
   }
 
@@ -110,12 +110,12 @@ export default {
 }
 
 .tip-red {
-  color: red;
-  font-size: 10px;
+  color: #cc0000;
+  font-size: 12px;
 }
 
 .chart-tips {
-  color: red;
+  color: #cc0000;
   font-size: 12px;
   padding: 10px 5px;
 }

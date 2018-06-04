@@ -101,7 +101,7 @@ export default {
       background: #1cd4ae;
     }
     .tag-1 {
-      background: #ffcc66;
+      background: #cc0000;
     }
     .tag-2 {
       background: #33ccff;
@@ -111,7 +111,7 @@ export default {
     }
 
     .info {
-      color: #9e9e9e;
+      color: #333333;
       font-size: 11px;
       width: 300px;
       display: inline-block;

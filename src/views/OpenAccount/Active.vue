@@ -111,7 +111,7 @@ export default {
 .active-name,
 .active-cnt,
 .active-tips {
-  color: red;
+  color: #cc0000;
   font-size: 14px;
 }
 

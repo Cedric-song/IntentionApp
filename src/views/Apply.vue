@@ -2,6 +2,12 @@
   <div class="apply">
     <van-nav-bar title="智能填报" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
     <van-row gutter="20">
+      <van-col span="24" class="subtitle">
+        <div class="subname">智能报考 一键生成</div>
+        <div class="cnt">
+          从2000多所高校中精准锁定目标，冲稳保三个梯度推荐，系统规划志愿结构，降低落榜风险，提高考分价值。
+        </div>
+      </van-col>
       <van-col span="24">
         <van-cell-group>
           <van-radio-group v-model="form.category" class="radio">
@@ -12,19 +18,19 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.score" placeholder="" label="分数" maxlength="3" />
+          <van-field v-model="form.score" placeholder="" label="分数" type="number" required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="生源所在地" disabled @click="handleLocalClick" />
+          <van-field v-model="form.local" placeholder="" label="生源所在地" disabled required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="院校所在省市" />
+          <van-field v-model="form.name" placeholder="" label="院校所在省份" />
         </van-cell-group>
       </van-col>
 
@@ -40,7 +46,16 @@
       </van-col>
 
       <van-col span="24">
+        <div class="times-tip">当前剩余次数：{{times}}次</div>
+      </van-col>
+      <van-col span="24">
         <van-button type="primary" bottom-action class="btn" @click="handleConfirm">确定</van-button>
+      </van-col>
+
+    </van-row>
+    <van-row :gutter="20">
+      <van-col span="24" class="tip-red">
+        操作提示：若无特别需要可不填院校所在省市、院校级别、意向专业，以保证推荐结果全面
       </van-col>
     </van-row>
   </div>
@@ -51,7 +66,10 @@
 export default {
   data() {
     return {
-      form: {}
+      form: {
+        local: '吉林省'
+      },
+      times: '10'
     }
   },
   methods: {
@@ -63,16 +81,14 @@ export default {
           message: '每次测试将消耗一点积分'
         })
         .then(() => {
-          this.$router.push({ name: 'Report' })
+          this.$router.push({ name: 'ReportList' })
         })
         .catch(() => {
           this.$toast.fail('取消测试')
         })
     }
   },
-  created() {
-    // document.title = '非注册用户录取概率测试'
-  }
+  created() {}
 }
 </script>
 
@@ -89,5 +105,33 @@ export default {
   padding: 10px;
   text-align: center;
   justify-content: space-evenly;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #cc0000;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  .subname {
+    text-align: center;
+    padding: 15px;
+    &:nth-child(2) {
+      color: #000;
+      padding: 5px 0;
+    }
+  }
+  .cnt {
+    font-size: 13px;
+    color: #333333;
+    span {
+      color: #cc0000;
+    }
+  }
+}
+
+.tip-red {
+  color: #cc0000;
+  font-size: 12px;
+  padding-top: 10px;
 }
 </style>

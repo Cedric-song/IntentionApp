@@ -228,7 +228,7 @@ export default {
 
 .ad {
   font-size: 20px;
-  color: #ffcc66;
+  color: #cc0000;
   text-align: center;
   padding: 10px;
 }

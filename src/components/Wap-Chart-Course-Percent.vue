@@ -39,7 +39,7 @@ module.exports = {
           if (item.data >= 95) {
             return '#1cd4ae'
           } else if (item.data >= 80 && item.data < 95) {
-            return '#FFCC66'
+            return '#cc0000'
           } else if (item.data >= 55 && item.data < 80) {
             return '#33CCFF'
           } else {

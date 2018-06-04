@@ -70,10 +70,10 @@ export default {
 }
 
 .bill {
-  color: red;
+  color: #cc0000;
   font-size: 20px;
   div {
-    color: red;
+    color: #cc0000;
   }
 }
 </style>

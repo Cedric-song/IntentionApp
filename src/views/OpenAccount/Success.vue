@@ -17,13 +17,13 @@
 <style lang="scss" scoped>
 .success {
   .info {
-    color: #ffcc66;
+    color: #cc0000;
     font-size: 20px;
     padding: 20px;
   }
 
   .tips {
-    color: red;
+    color: #cc0000;
     a {
       color: blue;
       text-decoration: underline;

@@ -151,7 +151,7 @@ export default {
 
 <style lang="scss" scoped>
 .tips {
-  color: red;
+  color: #cc0000;
   font-size: 11px;
   padding: 10px;
 }

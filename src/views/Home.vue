@@ -65,6 +65,21 @@ export default {
       images: [Home1, Home2],
       service: [
         {
+          name: '成绩查询',
+          icon: '#icon-chengji',
+          to: 'Score'
+        },
+        {
+          name: '录取概率测试',
+          icon: '#icon-ceshi',
+          to: 'Test'
+        },
+        {
+          name: '一键智能填报',
+          icon: '#icon-tianbao',
+          to: 'Apply'
+        },
+        {
           name: '院校查询',
           icon: '#icon-university',
           to: 'UniversityList'
@@ -74,11 +89,7 @@ export default {
           icon: '#icon-major',
           to: 'MajorList'
         },
-        {
-          name: '成绩查询',
-          icon: '#icon-chengji',
-          to: 'Score'
-        },
+
         {
           name: '开卡',
           icon: '#icon-account',
@@ -88,17 +99,6 @@ export default {
           name: '激活',
           icon: '#icon-active',
           to: 'ActiveCard'
-        },
-
-        {
-          name: '录取概率测试',
-          icon: '#icon-ceshi',
-          to: 'Test'
-        },
-        {
-          name: '智能填报',
-          icon: '#icon-tianbao',
-          to: 'Apply'
         }
       ],
       otherService: [
@@ -142,7 +142,7 @@ export default {
   }
 
   span {
-    font-size: 12px;
+    font-size: 13px;
     padding-top: 10px;
     color: #4a4a4a;
   }
@@ -156,10 +156,10 @@ export default {
 }
 
 .tips {
-  font-size: 10px;
-  padding-bottom: 40px !important;
+  font-size: 12px;
+  padding-bottom: 50px !important;
   .spec-tips {
-    color: #ffcc66;
+    color: #cc0000;
   }
 }
 </style>

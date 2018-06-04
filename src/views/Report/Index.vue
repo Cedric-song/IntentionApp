@@ -161,7 +161,7 @@ export default {
           height: 30px;
           line-height: 30px;
           background: #fff;
-          color: #9e9e9e;
+          color: #333333;
         }
       }
 

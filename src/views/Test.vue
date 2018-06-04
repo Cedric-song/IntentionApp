@@ -4,11 +4,12 @@
 
     <van-row gutter="20">
       <van-col span="24" class="subtitle">
-        <div class="subname">智能分析录取概率</div>
+        <!-- <div class="subname">智能分析录取概率</div> -->
         <div class="subname">精准预测目标学校录取概率</div>
         <div class="cnt">
-          以近8年全省真实历史数据为支撑，通过全国建模大赛特级专家团队构建独家智能模型，全面展示录取位次历年差异，录取线差发展趋势，
-          <span>独家测试提供各专业录取概率</span> ，真正实现大数据价值，让您从容报考、心中有“数”
+          <!-- 以近8年全省真实历史数据为支撑，通过全国建模大赛特级专家团队构建独家智能模型，全面展示录取位次历年差异，录取线差发展趋势，
+          <span>独家测试提供各专业录取概率</span> ，真正实现大数据价值，让您从容报考、心中有“数” -->
+          全国建模大赛特级专家团队构建专利级算法模型，独家预测提供各专业录取概率，推荐十大“靠谱专业”（录取概率最高的前十专业）
         </div>
       </van-col>
 
@@ -42,7 +43,7 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.score" placeholder="" label="分数" maxlength="3" />
+          <van-field v-model="form.score" placeholder="" label="分数" type="number" maxlength="5" />
         </van-cell-group>
       </van-col>
 
@@ -52,6 +53,9 @@
         </van-cell-group>
       </van-col>
 
+      <van-col span="24">
+        <div class="times-tip">当前剩余次数：{{times}}次</div>
+      </van-col>
       <van-col span="24">
         <van-button type="primary" bottom-action class="btn" @click="handleConfirm">确定</van-button>
       </van-col>
@@ -67,7 +71,8 @@ export default {
     return {
       form: {
         province: '吉林省'
-      }
+      },
+      times: 10
     }
   },
   methods: {
@@ -112,21 +117,22 @@ export default {
   }
   .subtitle {
     font-size: 20px;
-    color: #ffcc66;
+    color: #cc0000;
     padding-top: 10px;
     padding-bottom: 10px;
     .subname {
       text-align: center;
+      padding: 15px;
       &:nth-child(2) {
         color: #000;
         padding: 5px 0;
       }
     }
     .cnt {
-      font-size: 11px;
-      color: #9e9e9e;
+      font-size: 13px;
+      color: #333333;
       span {
-        color: #ffcc66;
+        color: #cc0000;
       }
     }
   }

@@ -13,6 +13,7 @@ import Qrcode from '@/views/Qrcode'
 import Expert from '@/views/Expert'
 import Apply from '@/views/Apply'
 import Report from '@/views/Report/Index'
+import ReportList from '@/views/Report/List'
 import ReportItem from '@/views/Report/Item'
 import OpenAccount from '@/views/OpenAccount/Index'
 import InputInfo from '@/views/OpenAccount/InputInfo'
@@ -93,12 +94,17 @@ const router = new Router({
       component: Apply
     },
     {
-      path: '/report',
+      path: '/report-list/:id',
       name: 'Report',
       component: Report
     },
     {
-      path: '/report/:id',
+      path: '/report-list',
+      name: 'ReportList',
+      component: ReportList
+    },
+    {
+      path: '/report-item/:id',
       name: 'ReportItem',
       component: ReportItem
     },
@@ -153,7 +159,7 @@ const router = new Router({
       component: MajorList
     },
     {
-      path: '/major/:id',
+      path: '/major/:code',
       name: 'MajorItem',
       component: MajorItem
     }

@@ -12,7 +12,7 @@
           <van-collapse-item :title="item.name" :name="item.id" v-for="item in secondData" :key="item.id" :class="{ 'second-cell-active': secondActive === item.id}">
             <div slot="default">
               <van-cell-group class="second-cell">
-                <van-cell v-for="it in item.children" :key="it.id" :title="it.name" :to="{name: 'MajorItem',params: {id: it.id },query: {name: it.name} }" />
+                <van-cell v-for="it in item.children" :key="it.code" :title="it.name" :to="{name: 'MajorItem',params: {code: it.code },query: {name: it.name} }" />
               </van-cell-group>
             </div>
           </van-collapse-item>
@@ -137,6 +137,7 @@ export default {
     handleClickFirstCell(item) {
       this.secondData = item.children
       this.firstAcitve = item.id
+      window.scrollTo(0, 0)
     },
     FetchData() {
       const vm = this
@@ -145,8 +146,8 @@ export default {
         .GetMajorList()
         .then(res => {
           if (res.data.code == 200) {
-            vm.$store.commit(vm.$types.GetMajorList, res.data.data)
-            vm.initMajorList(res.data.data)
+            vm.$store.commit(vm.$types.GetMajorList, res.data.data.tree)
+            vm.initMajorList(res.data.data.tree)
           } else {
             vm.$dialog
               .alert({

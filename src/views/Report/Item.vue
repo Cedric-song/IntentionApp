@@ -143,11 +143,11 @@ export default {
 }
 
 .tip-red {
-  color: red;
+  color: #cc0000;
   font-size: 10px;
 }
 .chart-tips {
-  color: red;
+  color: #cc0000;
   font-size: 12px;
   padding: 10px 5px;
 }
@@ -158,7 +158,7 @@ export default {
   .info-item {
     padding-top: 5px;
     .item-red {
-      color: red;
+      color: #cc0000;
     }
 
     .item-blue {
@@ -166,7 +166,7 @@ export default {
     }
 
     &.item-tip {
-      color: #9e9e9e;
+      color: #333333;
       font-size: 9px;
     }
   }
