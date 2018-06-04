@@ -5,12 +5,12 @@
     <van-row>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="机主姓名" />
+          <van-field v-model="form.name" placeholder="" label="机主姓名" required />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="身份证" />
+          <van-field v-model="form.id" placeholder="" label="身份证" required />
         </van-cell-group>
       </van-col>
       <van-col span="24">

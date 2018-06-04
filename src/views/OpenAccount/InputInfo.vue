@@ -19,27 +19,27 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="机主姓名" />
+          <van-field v-model="form.name" placeholder="" label="机主姓名" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.id" placeholder="" label="身份证" />
+          <van-field v-model="form.id" placeholder="" label="身份证" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-uploader :after-read="onRead">
-          <van-cell title="※请上传身份证正面（照片面）照片：" value="" />
+          <van-cell title="※请上传身份证正面（照片面）照片：" value="" required/>
         </van-uploader>
       </van-col>
       <van-col span="24">
         <van-uploader :after-read="onRead">
-          <van-cell title="※请拍摄身份证反面（国徽面）照片：" value="" />
+          <van-cell title="※请拍摄身份证反面（国徽面）照片：" value="" required/>
         </van-uploader>
       </van-col>
       <van-col span="24">
         <van-uploader :after-read="onRead">
-          <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" />
+          <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required/>
         </van-uploader>
       </van-col>
 
@@ -59,13 +59,29 @@ export default {
   methods: {
     onRead() {},
     handlePost() {
-      this.$api.SaveEnterInfo(params).then(res => {
-        if (res.data.code == 200) {
-          this.$router.push({ name: 'InputPersonInfo' })
-        } else {
-          this.$toast.fail(res.data.msg)
+      const params = {
+        name: this.form.name,
+        id: this.form.id,
+        img1: '1',
+        img2: '11',
+        img3: '1'
+      }
+
+      for (let [key, value] of Object.entries(params)) {
+        if (!value) {
+          this.$toast.fail(`请补全所有必填信息。`)
+          return false
         }
-      })
+      }
+
+      this.$router.push({ name: 'InputPersonInfo' })
+      // this.$api.SaveEnterInfo(params).then(res => {
+      //   if (res.data.code == 200) {
+      //     this.$router.push({ name: 'InputPersonInfo' })
+      //   } else {
+      //     this.$toast.fail(res.data.msg)
+      //   }
+      // })
     }
   }
 }

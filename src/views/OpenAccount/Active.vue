@@ -71,6 +71,8 @@ export default {
   methods: {
     handleSubmit() {
       const vm = this
+      vm.$store.commit(vm.$types.ShowLoading, true)
+
       vm.$api
         .activeCard(this.form)
         .then(res => {
@@ -93,9 +95,12 @@ export default {
                 vm.$router.push({ name: 'Home' })
               })
           }
+
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
         .catch(err => {
           vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
         })
     }
   }

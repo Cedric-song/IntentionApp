@@ -9,48 +9,46 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field value="¥300.00" label="预付款" disabled />
+          <van-field value="¥300.00" label="预付款" disabled required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field value="吉林" label="归属省" disabled />
+          <van-field value="吉林" label="归属省" disabled required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group style="position:relative;">
-          <van-field value="" label="套餐选择" disabled />
+          <van-field value="" label="套餐选择" disabled required/>
           <van-radio-group v-model="form.set" class="radio">
             <van-radio name="1" style="padding:0 10px;">49元</van-radio>
             <van-radio name="2" style="padding:0 10px;">69元</van-radio>
           </van-radio-group>
         </van-cell-group>
-
       </van-col>
-
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.numberId" placeholder="" label="选择号码" />
+          <van-cell title="城市" :value="form.cityText" @click="showCityPicker = true" class="sg-form" required/>
         </van-cell-group>
       </van-col>
-
       <van-col span="24">
         <van-cell-group>
-          <van-cell title="城市" :value="form.cityText" @click="showCityPicker = true" class="sg-form" />
-          <van-picker show-toolbar title="选择城市" :columns="columns" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
+          <van-field v-model="form.number" placeholder="" label="选择号码" required/>
         </van-cell-group>
       </van-col>
-
-      <van-checkbox-group v-model="result" :max="1">
-        <van-row :gutter="20">
-          <van-col :span="12" v-for="(item) in list" :key="item" class="phonenumber">
-            <van-checkbox :name="item.id">
-              {{ item.number }}
-            </van-checkbox>
-          </van-col>
-        </van-row>
-      </van-checkbox-group>
+      <van-col span="24">
+        <van-radio-group v-model="form.numberId">
+          <van-row :gutter="20">
+            <van-col :span="12" v-for="(item) in list" :key="item.id" class="phonenumber">
+              <van-radio :name="item.id">{{item.number}}</van-radio>
+            </van-col>
+          </van-row>
+        </van-radio-group>
+      </van-col>
+      <van-col span="24" class="btm-picker">
+        <van-picker show-toolbar title="选择城市" :columns="columns" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
+      </van-col>
     </van-row>
   </div>
 </template>
@@ -60,9 +58,52 @@
 export default {
   data() {
     return {
-      form: {},
-      list: [],
-      result: [],
+      form: {
+        number: ''
+      },
+      list: [
+        {
+          number: 12213213123,
+          id: 1
+        },
+        {
+          number: 12213213123,
+          id: 2
+        },
+        {
+          number: 12213213123,
+          id: 3
+        },
+        {
+          number: 12213213123,
+          id: 4
+        },
+        {
+          number: 12213213123,
+          id: 5
+        },
+        {
+          number: 12213213123,
+          id: 6
+        },
+        {
+          number: 12213213123,
+          id: 7
+        },
+
+        {
+          number: 12213213123,
+          id: 8
+        },
+        {
+          number: 12213213123,
+          id: 9
+        },
+        {
+          number: 12213213123,
+          id: 10
+        }
+      ],
       columns: [
         {
           id: '220100',
@@ -100,6 +141,17 @@ export default {
       showCityPicker: false
     }
   },
+
+  watch: {
+    'form.numberId': {
+      immediate: true,
+      handler(val) {
+        if (val && val !== '') {
+          this.form.number = this.$_.find(this.list, { id: val }).number
+        }
+      }
+    }
+  },
   methods: {
     onConfirm(value, index) {
       this.form.cityId = value.id
@@ -110,33 +162,50 @@ export default {
       this.showCityPicker = false
     },
     FetchData() {
-      this.$api.GetPhoneNumber().then(res => {
-        if (res.data.code == 200) {
-          this.list = res.data.data.list
+      const vm = this
+      vm.$api.GetPhoneNumber().then(res => {
+        if (res.data.code == '200') {
+          vm.list = res.data.data.list
         } else {
-          this.$toast.fail(`获取电话号码列表失败，请稍后刷新再试。`)
+          vm.$toast.fail(`获取电话号码列表失败，请稍后刷新再试。`)
         }
       })
     },
     handlePost() {
       const params = {
         province: '吉林',
+        money: 300,
         set: this.form.set,
-        numberId: this.result[0],
+        numberid: this.form.number,
         cityId: this.form.cityId
       }
-      const vm = this
-      this.$api.SaveBaseInfo(params).then(res => {
-        if (res.data.code == 200) {
-          vm.$router.push({ name: 'InputInfo' })
-        } else {
-          this.$toast.fail(res.data.msg)
+
+      for (let [key, value] of Object.entries(params)) {
+        if (!value) {
+          this.$toast.fail(`请补全所有必填信息。`)
+          return false
         }
-      })
+      }
+
+      this.$router.push({ name: 'InputInfo' })
+      const vm = this
+      // vm.$api.SaveBaseInfo(params).then(res => {
+      //   if (res.data.code == '200') {
+      //     vm.$store.commit('SavePhoneInfo', {
+      //       money: params.money,
+      //       numberid: params.numberid,
+      //       number: this.form.number,
+      //       orderNo: res.data.data.orderNo
+      //     })
+      //     vm.$router.push({ name: 'InputInfo' })
+      //   } else {
+      //     vm.$toast.fail(res.data.msg)
+      //   }
+      // })
     }
   },
   created() {
-    this.FetchData()
+    // this.FetchData()
   }
 }
 </script>

@@ -30,7 +30,6 @@
       <van-col span="24">
         <van-cell-group>
           <van-field v-model="form.cityText" placeholder="" label="地区" @click="showCityPicker = true" />
-          <van-picker show-toolbar title="选择城市" :columns="columns" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -61,11 +60,13 @@
               <van-radio name="2">只双休日、假期送货（工作日不送货）</van-radio>
               <van-radio name="3">工作日、双休日与假期均可送货</van-radio>
             </van-cell>
-
           </van-radio-group>
         </van-cell-group>
       </van-col>
 
+      <van-col span="24" class="btm-picker">
+        <van-picker show-toolbar title="选择城市" :columns="columns" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
+      </van-col>
     </van-row>
   </div>
 </template>
@@ -125,13 +126,23 @@ export default {
     },
     handlePost() {
       const params = this.form
-      this.$api.SaveShipInfo(params).then(res => {
-        if (res.data.code == 200) {
-          this.$router.push({ name: 'PayAccount' })
-        } else {
-          this.$toast.fail(res.data.msg)
+
+      for (let [key, value] of Object.entries(params)) {
+        if (!value) {
+          this.$toast.fail(`请补全所有必填信息。`)
+          return false
         }
-      })
+      }
+
+      this.$router.push({ name: 'PayAccount' })
+
+      // this.$api.SaveShipInfo(params).then(res => {
+      //   if (res.data.code == 200) {
+      //     this.$router.push({ name: 'PayAccount' })
+      //   } else {
+      //     this.$toast.fail(res.data.msg)
+      //   }
+      // })
     }
   }
 }

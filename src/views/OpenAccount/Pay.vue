@@ -57,7 +57,8 @@ export default {
         .catch(() => {
           this.$toast.fail('取消付款')
         })
-    }
+    },
+    payAction() {}
   }
 }
 </script>
