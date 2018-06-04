@@ -12,6 +12,11 @@ export default {
       params: params
     })
   },
+  GetUniversityById(params) {
+    return Vue.axios.get('/v1/getUniversityById', {
+      params: params
+    })
+  },
   GetMajorList() {
     return Vue.axios.get('/v1/getMajor', {})
   },

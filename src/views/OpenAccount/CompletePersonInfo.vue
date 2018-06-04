@@ -15,7 +15,7 @@
       </van-col>
       <van-col span="24">
         <van-uploader :after-read="onReadImg1">
-          <div>※请上传身份证正面（照片面）照片：</div>
+          <div>※请拍摄身份证正面（照片面）照片：</div>
         </van-uploader>
         <div style="text-align: center;padding: 10px;">
           <img :src="img1" alt="" style="height:40px;display:inline-block;">

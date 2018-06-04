@@ -1,52 +1,69 @@
 <template>
-  <div>
+  <div v-if="Object.keys(this.form).length !== 0">
     <van-nav-bar :title="$route.query.name" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
-    <van-cell v-for="item in list" :key="item.id" class="cell" :to="{name: 'UniversityItem',params: {id: item.id},query: {name: item.name}}">
-      <template slot="icon">
-        <img :src="item.icon" alt="" class="icon">
-      </template>
-      <template slot="title">
-        <span class="van-cell-text">{{item.name}}</span>
-        <div class="tags">
-          <van-tag :class="'tag tag-'+ index" v-for="(it,index) in item.tags" :key="it">{{it}}</van-tag>
-        </div>
-        <span class="info">{{item.info}}</span>
-      </template>
-    </van-cell>
 
     <wap-subtitle subtitle="院校信息" style="margin-top: 20px;"></wap-subtitle>
     <van-row :gutter="20" class="info">
-      <van-col span="24" class="info-item">院校名称： 清华大学</van-col>
-      <van-col span="24" class="info-item">院校代码： 1001</van-col>
-      <van-col span="24" class="info-item">院校级别： 985 + 211</van-col>
-      <van-col span="24" class="info-item">所在省市： 北京</van-col>
-      <van-col span="24" class="info-item">特色专业： 航天学院</van-col>
-      <van-col span="24" class="info-item">专业介绍： 计算机学院/法学院/体育学院</van-col>
-      <van-col span="24" class="info-item">招办电话： 022-88886888</van-col>
+      <van-col span="24" class="info-item" style="text-align:center;height:130px;"><img :src="form.logo" alt=""></van-col>
+      <van-col span="24" class="info-item">院校名称： {{$route.query.name}}</van-col>
+      <van-col span="24" class="info-item">院校代码： {{form.schoolNo}}</van-col>
+      <van-col span="24" class="info-item">院校级别： {{form.eduLevel}}</van-col>
+      <van-col span="24" class="info-item">所在省市： {{form.provinceName}}</van-col>
+      <van-col span="24" class="info-item">详细地址： {{form.address}}</van-col>
+      <van-col span="24" class="info-item">所在省市： {{form.provinceName}}</van-col>
+      <van-col span="24" class="info-item">分类： {{form.category}}</van-col>
+      <van-col span="24" class="info-item">类别： {{form.nature}}</van-col>
+      <van-col span="24" class="info-item">招办电话： {{form.callPhone}}</van-col>
+      <van-col span="24" class="info-item">邮箱： {{form.emailAddress}}</van-col>
       <van-col span="24" class="info-item">官网：
-        <span class="item-blue">http://www.tsing.edu.cn/</span>
+        <span class="item-blue">{{form.webSite}}</span>
       </van-col>
     </van-row>
+    <template v-if="intro !== ''">
+      <wap-subtitle subtitle="院校简介" style="margin-top: 20px;"></wap-subtitle>
+      <van-row :gutter="20" class="info">
+        <van-col span="24" class="info-item info-intro" :class="{'showmore': showMore}"> {{intro}}</van-col>
+        <van-col span="24" class="info-item info-more" @click.native="showMore = !showMore"> {{showMore ? '收起' : '查看更多'}}</van-col>
+      </van-row>
+    </template>
+
   </div>
 </template>
 
 
 <script>
-import icon from '@/assets/imgs/peking.png'
-
 export default {
   data() {
     return {
-      list: [
-        {
-          id: '2',
-          icon: icon,
-          name: '清华大学',
-          tags: ['211', '985', '综合类', '北京'],
-          info: '爱国，进步，科学，民主'
-        }
-      ]
+      form: {},
+      intro: '',
+      showMore: false
     }
+  },
+  methods: {
+    getDate() {
+      const vm = this
+      vm.$store.commit(vm.$types.ShowLoading, true)
+
+      vm.$api
+        .GetUniversityById({ id: vm.$route.params.id })
+        .then(res => {
+          if (res.data.code == '200') {
+            vm.form = res.data.data
+            vm.intro = vm.form.remark.replace(/<br>/gi, '')
+          } else {
+            vm.$toast.fail(JSON.stringify(res.data.msg))
+          }
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
+        .catch(err => {
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
+    }
+  },
+  created() {
+    this.getDate()
   }
 }
 </script>
@@ -99,6 +116,27 @@ export default {
       color: #333333;
       font-size: 9px;
     }
+
+    &.info-intro {
+      &.showmore {
+        height: auto;
+      }
+      text-indent: 2em;
+      height: 97px;
+      text-overflow: ellipsis;
+      // white-space: nowrap;
+      overflow: hidden;
+    }
+
+    &.info-more {
+      text-align: center;
+      color: blue;
+    }
   }
+}
+
+img {
+  width: 120px;
+  height: 120px;
 }
 </style>

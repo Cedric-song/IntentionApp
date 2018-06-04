@@ -3,12 +3,12 @@
     <van-nav-bar title="大学列表页" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
     <van-row>
       <van-col :span="24">
-        <van-search placeholder="请输入学校名称" v-model="search" class="search" show-action>
+        <van-search placeholder="请输入学校名称" v-model="table.search" class="search" show-action>
           <div slot="action" @click="onSearch" class="search-btn">搜索</div>
         </van-search>
       </van-col>
     </van-row>
-    <van-list v-model="loading" :finished="finished" @load="onLoad">
+    <van-list v-model="tableLoading" :finished="finished" @load="onLoad" :offset="100">
       <van-cell v-for="item in list" :key="item.id" class="cell" :to="{name: 'UniversityItem',params: {id: item.id},query: {name: item.name}}">
         <template slot="icon">
           <img :src="item.icon" alt="" class="icon">
@@ -18,7 +18,7 @@
           <div class="tags">
             <van-tag :class="'tag tag-'+ index" v-for="(it,index) in item.tags" :key="it">{{it}}</van-tag>
           </div>
-          <span class="info">{{item.info}}</span>
+          <!-- <span class="info">{{item.info}}</span> -->
         </template>
       </van-cell>
     </van-list>
@@ -27,46 +27,59 @@
 
 
 <script>
-import icon from '@/assets/imgs/peking.png'
 export default {
   data() {
     return {
-      tags: ['danger'],
-      search: '',
-      list: [
-        {
-          id: '1',
-          icon: icon,
-          name: '北京大学',
-          tags: ['211', '985', '综合类', '北京'],
-          info: '爱国，进步，科学，民主'
-        },
-        {
-          id: '2',
-          icon: icon,
-          name: '清华大学',
-          tags: ['211', '985', '综合类', '北京'],
-          info: '爱国，进步，科学，民主'
-        }
-      ],
-      loading: false,
-      finished: true
+      list: [],
+      table: {
+        pn: 1,
+        rn: 20,
+        search: ''
+      },
+      currentSearch: '',
+      total: 0,
+      tableLoading: false,
+      finished: false
     }
   },
 
-  created() {
-    this.getList()
-  },
-
   methods: {
-    onLoad() {},
-    onSearch() {},
+    onLoad() {
+      const _totalPn = Math.ceil(this.total / this.table.rn)
+
+      if (_totalPn !== 0 && this.table.pn >= _totalPn) {
+        this.finished = true
+      } else {
+        this.finished = false
+      }
+      this.getList()
+    },
+    onSearch() {
+      if (this.currentSearch.trim() !== this.table.search.trim()) {
+        this.table.pn = 1
+        this.list = []
+      }
+      this.getList()
+    },
     getList() {
-      this.$api.GetUniversityList().then(res => {
-        if (res.data.code == 200) {
-          this.list = res.data.data.list
-        }
-      })
+      const vm = this
+      vm.$store.commit(vm.$types.ShowLoading, true)
+      vm.currentSearch = vm.table.search
+      vm.$api
+        .GetUniversityList(vm.table)
+        .then(res => {
+          if (res.data.code == 200) {
+            vm.total = res.data.data.total
+            vm.list = vm.list.concat(res.data.data.list)
+            vm.table.pn = vm.table.pn + 1
+            vm.tableLoading = false
+          }
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
+        .catch(err => {
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
     }
   }
 }
@@ -88,7 +101,7 @@ export default {
     color: #1cd4ae;
   }
   .cell {
-    line-height: 1.4;
+    line-height: 1.8;
     .icon {
       width: 50px;
       height: 50px;
@@ -118,6 +131,7 @@ export default {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      margin-top: 4px;
       -webkit-user-select: none;
     }
   }

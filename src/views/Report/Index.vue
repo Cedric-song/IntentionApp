@@ -47,6 +47,11 @@
     <van-list>
       <van-cell v-for="item in list2" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{name:'ReportItem',params: {id: item.id}}" />
     </van-list>
+
+    <van-row :gutter="20">
+      <van-col span="24" class="tip-red" style="font-size: 14px;">重要提示</van-col>
+      <van-col span="24" class="tip-red" v-for="(item,index) in tipInfo" :key="index">{{item}}</van-col>
+    </van-row>
   </div>
 </template>
 
@@ -56,6 +61,12 @@ export default {
   data() {
     return {
       overlay: true,
+      tipInfo: [
+        '1.本系统依据历年院校录取数据提供高考志愿填报智能模拟功能，不等同于实际的网上填报志愿，建议考生在填报志愿时，结合本系统的推荐以完善志愿表；',
+        '2.本系统提供“普通类文理科本一批、本二批、本三批、专科批”4个批次的志愿智能模拟功能;',
+        '3.在正式填报时，请以教育考试院公布的最新招生计划为准；',
+        '4.由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。'
+      ],
       list: [
         {
           name: '北京大学',

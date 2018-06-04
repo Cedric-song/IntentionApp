@@ -29,17 +29,19 @@
       </van-col>
       <van-col span="24">
         <van-uploader :after-read="onRead">
-          <van-cell title="※请上传身份证正面（照片面）照片：" value="" required/>
+          <van-cell title="※请上传或拍摄身份证正面（照片面）照片：" value="" required/>
         </van-uploader>
       </van-col>
       <van-col span="24">
         <van-uploader :after-read="onRead">
-          <van-cell title="※请拍摄身份证反面（国徽面）照片：" value="" required/>
+          <van-cell title="※请上传或拍摄身份证反面（国徽面）照片：" value="" required/>
         </van-uploader>
       </van-col>
       <van-col span="24">
         <van-uploader :after-read="onRead">
           <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required/>
+          <span>手持身份证照片只允许调用摄像头拍摄，效果如下图</span>
+
         </van-uploader>
       </van-col>
 

@@ -4,12 +4,12 @@
     <van-row gutter="20">
 
       <van-col span="24" class="ad">
-        预存300元话费免费开通电信志愿宝，成功选大学，报考无烦恼
+        开卡免费使用志愿宝，不浪费1分上好大学
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field value="¥300.00" label="预付款" disabled required/>
+          <van-field value="¥300.00" label="预付金额" disabled required/>
         </van-cell-group>
       </van-col>
 
@@ -136,6 +136,10 @@ export default {
         {
           id: '220800',
           text: '白城市'
+        },
+        {
+          id: '222400',
+          text: '延边朝鲜族自治州'
         }
       ],
       showCityPicker: false

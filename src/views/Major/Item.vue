@@ -1,6 +1,9 @@
 <template>
   <div>
     <van-nav-bar :title="$route.query.name" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
+    <van-row>
+
+    </van-row>
     <!-- <img :src="item.img" alt="" style="width: 100%;">
     <wap-subtitle subtitle="专业介绍" class="pd"></wap-subtitle>
     <van-row>
@@ -36,7 +39,7 @@
 export default {
   data() {
     return {
-      item: {},
+      // item: {},
       formArr: []
     }
   },
@@ -61,6 +64,7 @@ export default {
         .GetMajorItem({ code: vm.$route.params.code })
         .then(res => {
           if (res.data.code == 200) {
+            // vm.item = res.data.data
             vm.initData(res.data.data.professionRemark.split('<br>'))
           } else {
             vm.$dialog

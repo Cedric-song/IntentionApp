@@ -29,10 +29,17 @@
         激活说明：
       </van-col>
       <van-col span="24" class="active-cnt">
-        如果您的志愿宝套餐卡号已完成线下激活，请填写志愿宝套餐卡号，开通志愿宝服务功能，快递单号可不填。<br> 如果您的志愿宝套餐卡号处于待激活状态，请填写能联系到您的手机号，以便在卡号激活过程中与您保持联系。
+        1. 如果您的电信志愿宝套餐卡号已完成线下激活，请填写电信志愿宝套餐手机号，免费开通志愿宝VIP服务功能，快递单号可不填。
+      </van-col>
+      <van-col span="24" class="active-cnt">
+        2. 如果您的电信志愿宝套餐卡号处于待激活状态，请填写能联系到您的手机号（您目前正在使用的手机号码并请保持通话畅通），以便在卡号激活过程中与您保持联系，请填写你收到邮寄套餐卡的快递单号，以便确认您已接受到快递。
+
+      </van-col>
+      <van-col span="24" class="active-cnt">
+        3. 如您没有接到电信的客服电话，通知您还需要补交某些信息，您的卡号将在1-5个工作日内自动完成激活。
       </van-col>
       <van-col span="24" class="active-tips">
-        温馨提示：激活过程中如有问题请咨询10000号。
+        温馨提示：激活过程中如有问题请咨询线上客服或拨打10000号。
       </van-col>
       <van-col span="24" style="margin-top:20px;">
         <van-button type="primary" bottom-action class="btn" @click="handleSubmit" :disabled="btnDisabled">提交</van-button>
@@ -112,16 +119,16 @@ export default {
 .active-cnt,
 .active-tips {
   color: #cc0000;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .active-name {
-  padding: 20px;
+  padding: 10px;
 }
 
 .active-cnt,
 .active-tips {
-  padding: 0 20px;
+  padding: 0 10px;
 }
 </style>
 
