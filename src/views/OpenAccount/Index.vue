@@ -4,6 +4,9 @@
     <van-row gutter="20">
 
       <van-col span="24">
+        <div>
+          <img src="/static/imgs/home2.png" alt="">
+        </div>
         <div class="ad">
           开卡免费使用志愿宝， 不浪费1分上好大学
         </div>
@@ -24,8 +27,8 @@
         <van-cell-group style="position:relative;">
           <van-field value="" label="套餐选择" disabled required/>
           <van-radio-group v-model="form.set" class="radio">
-            <van-radio name="1" style="padding:0 10px;">49元</van-radio>
-            <van-radio name="2" style="padding:0 10px;">69元</van-radio>
+            <!-- <van-radio name="1" style="padding:0 10px;">49元</van-radio> -->
+            <van-radio name="1" style="padding:0 10px;">69元</van-radio>
           </van-radio-group>
         </van-cell-group>
       </van-col>
@@ -36,7 +39,7 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.number" placeholder="" label="选择号码" required/>
+          <van-cell title="选择号码" :value="form.number" class="sg-form" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -61,7 +64,8 @@ export default {
   data() {
     return {
       form: {
-        number: ''
+        number: '',
+        set: '1'
       },
       list: [
         {
@@ -159,6 +163,7 @@ export default {
     }
   },
   methods: {
+    handleSelectNo() {},
     onConfirm(value, index) {
       this.form.cityId = value.id
       this.form.cityText = value.text
@@ -238,5 +243,9 @@ export default {
   text-align: center;
   padding: 10px;
   margin: 0 20px;
+}
+
+img {
+  width: 100%;
 }
 </style>

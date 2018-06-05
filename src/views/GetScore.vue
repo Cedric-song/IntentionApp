@@ -4,13 +4,13 @@
     <van-row gutter="20" v-if="showScore">
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.id" placeholder="" label="准考证号" required/>
+          <van-field v-model="form.id" placeholder="请输入准考证号" label="准考证号" required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="姓名" required/>
+          <van-field v-model="form.name" placeholder="请输入姓名" label="姓名" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">

@@ -21,9 +21,18 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.shipNo" placeholder="" label="智能卡号" />
+          <!-- <van-field v-model="form.shipNo" placeholder="" label="智能卡号" maxlength="23" disabled/> -->
+          <div class="ship-id">智能卡号</div>
+          <div class="ship">
+            <el-input size="mini" class="ship-input" :maxlength="4" type="tel" v-model="ship.no1" ref="ship1"></el-input>
+            <el-input size="mini" class="ship-input" :maxlength="4" type="tel" v-model="ship.no2" ref="ship2"></el-input>
+            <el-input size="mini" class="ship-input" :maxlength="4" type="tel" v-model="ship.no3" ref="ship3"></el-input>
+            <el-input size="mini" class="ship-input" :maxlength="4" type="tel" v-model="ship.no4" ref="ship4"></el-input>
+            <el-input size="mini" class="ship-input" :maxlength="3" type="tel" v-model="ship.no5" ref="ship5"></el-input>
+          </div>
         </van-cell-group>
       </van-col>
+
       <van-col span="24" class="card-tip" @click.native="showDialog = true">查看示例</van-col>
 
       <van-col span="24" class="active-name">
@@ -48,7 +57,7 @@
     </van-row>
 
     <van-dialog v-model="showDialog" confirm-button-text="关闭">
-      <img src="/static/imgs/card-tip.png" alt="">
+      <img src="/static/imgs/card-tip.png" alt="" style="width: 100%;">
     </van-dialog>
   </div>
 </template>
@@ -64,6 +73,13 @@ export default {
         phoneNo: '',
         shipNo: ''
       },
+      ship: {
+        no1: '',
+        no2: '',
+        no3: '',
+        no4: '',
+        no5: ''
+      },
       showDialog: false,
       btnDisabled: true
     }
@@ -77,6 +93,19 @@ export default {
           this.btnDisabled = true
         } else {
           this.btnDisabled = false
+        }
+      }
+    },
+    ship: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        const vm = this
+        for (let [key, value] of Object.entries(val)) {
+          if (value.toString().length === 4) {
+            const index = ~~key[2] + 1
+            vm.$refs[`ship${index}`].focus()
+          }
         }
       }
     }
@@ -143,6 +172,29 @@ export default {
   padding: 10px;
   color: #0066ff;
 }
+.ship {
+  text-align: center;
+  margin: 10px 0;
+  padding-bottom: 20px;
+  .ship-input {
+    width: 50px;
+    font-size: 16px;
+  }
+}
+
+.ship-id {
+  color: #333;
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0 0 0;
+}
 </style>
+<style lang="scss">
+.el-input__inner {
+  padding: 0 5px;
+}
+</style>
+
 
 

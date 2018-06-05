@@ -1,6 +1,7 @@
 <template>
   <div>
-    <van-nav-bar title="填写邮寄信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="$router.push({name: 'PayAccount'})" />
+    <van-nav-bar title="填写邮寄信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="handlePost" />
+    <!-- <van-nav-bar title="填写邮寄信息" right-text="下一步" @click-right="handlePost" /> -->
 
     <van-row>
       <van-col span="24">
@@ -15,32 +16,32 @@
     <van-row>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="收货人" required/>
+          <van-field v-model="form.name" placeholder="请输入收货人姓名" label="收货人" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field value="吉林" placeholder="" label="省份" disabled required/>
+          <van-field value="吉林省" placeholder="" label="省份" disabled required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.cityText" placeholder="" label="地区" @click="showCityPicker = true" required/>
+          <van-cell title="地区" :value="form.cityText" @click="showCityPicker = true" class="sg-form" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.detail" placeholder="" label="详细地址" required/>
+          <van-field v-model="form.detail" placeholder="请输入收货地址" label="详细地址" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.postal" placeholder="" label="邮政编码" required/>
+          <van-field v-model="form.postal" placeholder="请输入6位邮政编码" label="邮政编码" required maxlength="6" :error="postalError" :error-message="postalErrorMsg" />
         </van-cell-group>
       </van-col>
       <van-col span="24" style="position:relative;">
         <van-cell-group>
-          <van-field v-model="form.number" placeholder="" label="手机号码" required />
+          <van-field v-model="form.number" placeholder="请输入11位手机号" label="手机号码" required maxlength="11" :error="numberError" :error-message="numberErrorMsg" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -73,12 +74,20 @@
 
 
 <script>
+const _numberErrorMsg = '请输入正确的手机号码'
+const _postalErrorMsg = '请输入正确的邮政编码'
+
 export default {
   data() {
     return {
       step: 1,
       form: {
-        shipSet: '1'
+        shipSet: '1',
+        name: '',
+        detail: '',
+        postal: '',
+        number: '',
+        cityId: ''
       },
       columns: [
         {
@@ -118,10 +127,46 @@ export default {
           text: '延边朝鲜族自治州'
         }
       ],
-      showCityPicker: false
+      showCityPicker: false,
+      numberError: false,
+      numberErrorMsg: '',
+      postalError: false,
+      postalErrorMsg: ''
+    }
+  },
+  watch: {
+    'form.number': {
+      handler(val, oldVal) {
+        this.numberError = false
+        this.numberErrorMsg = ''
+      }
+    },
+    'form.postal': {
+      handler(val, oldVal) {
+        this.postalError = false
+        this.postalErrorMsg = ''
+      }
     }
   },
   methods: {
+    validate() {
+      let flag = true
+      if (!RegExp(/^(1[0-9])[0-9]{9}$/).test(this.form.number)) {
+        this.$toast.fail(_numberErrorMsg)
+        this.numberErrorMsg = _numberErrorMsg
+        this.numberError = true
+        flag = false
+      }
+
+      if (!RegExp(/^[1-9]\d{5}(?!\d)$/).test(this.form.postal)) {
+        this.$toast.fail(_postalErrorMsg)
+        this.postalErrorMsg = _postalErrorMsg
+        this.postalError = true
+        flag = false
+      }
+
+      return flag
+    },
     onConfirm(value, index) {
       this.form.cityId = value.id
       this.form.cityText = value.text
@@ -131,6 +176,10 @@ export default {
       this.showCityPicker = false
     },
     handlePost() {
+      if (!this.validate()) {
+        return false
+      }
+
       const params = this.form
 
       for (let [key, value] of Object.entries(params)) {

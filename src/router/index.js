@@ -19,6 +19,7 @@ import OpenAccount from '@/views/OpenAccount/Index'
 import InputInfo from '@/views/OpenAccount/InputInfo'
 import InputPersonInfo from '@/views/OpenAccount/InputPersonInfo'
 import CompletePersonInfo from '@/views/OpenAccount/CompletePersonInfo'
+import Tips from '@/views/OpenAccount/Tips'
 import PayAccount from '@/views/OpenAccount/Pay'
 import PaySuccess from '@/views/OpenAccount/Success'
 import ActiveCard from '@/views/OpenAccount/Active'
@@ -128,6 +129,7 @@ const router = new Router({
       name: 'PayAccount',
       component: PayAccount
     },
+
     {
       path: '/open-account/success',
       name: 'PaySuccess',
@@ -142,6 +144,11 @@ const router = new Router({
       path: '/open-account/upload',
       name: 'CompletePersonInfo',
       component: CompletePersonInfo
+    },
+    {
+      path: '/open-account/tips',
+      name: 'Tips',
+      component: Tips
     },
     {
       path: '/university',
