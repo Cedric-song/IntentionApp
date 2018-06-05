@@ -18,11 +18,11 @@ export default {
       list: [
         {
           time: '2018-06-06 20:00:00',
-          name: '300'
+          name: '299'
         },
         {
           time: '2018-06-06 19:00:00',
-          name: '300'
+          name: '299'
         }
       ],
       loading: false,

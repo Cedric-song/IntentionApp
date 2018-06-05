@@ -14,7 +14,7 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field value="¥300.00" label="预付金额" disabled required/>
+          <van-field value="¥299.00" label="预付金额" disabled required/>
         </van-cell-group>
       </van-col>
 
@@ -174,7 +174,7 @@ export default {
     handlePost() {
       const params = {
         province: '吉林',
-        money: 300,
+        money: 299,
         set: this.form.set,
         numberid: this.form.number,
         cityId: this.form.cityId

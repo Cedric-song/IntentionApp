@@ -13,7 +13,7 @@
     <van-row :gutter="20" style="margin-top: 20px;">
       <van-col :span="24" class="bill">
         支付订单激活志愿宝
-        <div>支付金额：¥300.00</div>
+        <div>支付金额：¥299.00</div>
       </van-col>
       <van-col :span="24" class="set">
         <div class="set-title">套餐内容及自费说明</div>
@@ -91,7 +91,7 @@ export default {
       this.$dialog
         .confirm({
           title: '去付款',
-          message: '共计300元'
+          message: '共计299元'
         })
         .then(() => {
           this.$toast.success('付款成功')
