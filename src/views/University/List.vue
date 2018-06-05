@@ -8,8 +8,8 @@
         </van-search>
       </van-col>
     </van-row>
-    <van-list v-model="tableLoading" :finished="finished" @load="onLoad" :offset="100">
-      <van-cell v-for="item in list" :key="item.id" class="cell" :to="{name: 'UniversityItem',params: {id: item.id},query: {name: item.name}}">
+    <van-list v-model="tableLoading" :finished="finished" @load="onLoad" :offset="100" :immediate-check="false">
+      <van-cell v-for="(item,index) in list" :key="item.code + index" class="cell" :to="{name: 'UniversityItem',params: {id: item.id},query: {name: item.name}}">
         <template slot="icon">
           <img :src="item.icon" alt="" class="icon">
         </template>
@@ -33,7 +33,10 @@ export default {
     console.log('actived')
   },
   beforeRouteEnter(to, from, next) {
-    if (from.name === 'Home') {
+    if (from.name === 'UniversityItem') {
+      next()
+      return
+    } else {
       next(vm => {
         vm.list = []
         vm.table = {
@@ -43,10 +46,7 @@ export default {
         }
         vm.getList()
       })
-      return
     }
-
-    next()
   },
   data() {
     return {
