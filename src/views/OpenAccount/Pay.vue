@@ -18,23 +18,37 @@
       <van-col :span="24" class="set">
         <div class="set-title">套餐内容及自费说明</div>
         <el-table :data="tableData" style="width: 100%" border>
-          <el-table-column prop="money" label="月基本费（元）">
+          <el-table-column prop="name" label="套餐名称" width="150">
           </el-table-column>
-          <el-table-column prop="data" label="国内流量">
+          <el-table-column prop="money" label="月租费" width="150">
           </el-table-column>
-          <el-table-column prop="min" label="国内语音拨打分钟数（分钟）">
+          <el-table-column label="套餐内资费">
+            <el-table-column prop="data" label="流量" width="120">
+            </el-table-column>
+            <el-table-column prop="voice" label="国内语音（分钟）" width="120">
+            </el-table-column>
+            <el-table-column prop="range" label="免费接听范围" width="120">
+            </el-table-column>
           </el-table-column>
-          <el-table-column prop="set" label="套餐内容">
-            <template slot-scope="scope">
-              {{scope.row.set1}}
-              <br> {{scope.row.set2}}
-
-            </template>
+          <el-table-column label="超出后资费">
+            <el-table-column prop="fee" label="国内主叫通话资费（元/分钟）" width="120">
+            </el-table-column>
+            <el-table-column prop="plan" label="达量降速" width="120">
+            </el-table-column>
+            <el-table-column prop="text" label="短、彩信" width="120">
+            </el-table-column>
+          </el-table-column>
+          <el-table-column prop="gift" label="赠送" width="150">
           </el-table-column>
         </el-table>
       </van-col>
 
-      <img src="/static/imgs/set-info.png" alt="" style="width:100%;margin-bottom: 10px;">
+      <van-col span="24" class="info strong">
+        99元全国不限量套餐说明：
+      </van-col>
+      <van-col span="24" class="info" v-for="(item,index) in setInfo" :key="index">{{item}}</van-col>
+
+      <!-- <img src="/static/imgs/set-info.png" alt="" style="width:100%;margin-bottom: 10px;"> -->
 
       <van-col :span="24">
         <van-button type="primary" bottom-action class="btn" @click="handlePay">去付款</van-button>
@@ -51,13 +65,24 @@ export default {
       checked: '',
       tableData: [
         {
-          money: '99元',
-          data: '不限量（20GB达量降速）',
-          min: 300,
-          set: '',
-          set1: '1.国内接听免费',
-          set2: '2.赠送来电显示和189邮箱'
+          name: '(87001187)天翼不限量99元套餐201802',
+          money: '99',
+          data: '国内不限量',
+          voice: '300',
+          range: '国内',
+          fee: 0.15,
+          plan: '当月国内手机上网流量达到20GB后，上网速率降至1Mbps，次月恢复',
+          text: '0.1元/条',
+          gift: '来显'
         }
+      ],
+      setInfo: [
+        '1.套餐超出资费：国内流量：当月国内手机上网流量达到20GB后，上网速率降至1Mbps，次月恢复。',
+        '2.手机上网流量可用于4G、3G、2G上网方式，限在国内使用，不含WLAN（Wi-Fi）上网。',
+        '3.首月执行过渡期资费，订购当月套餐月基本费按日计扣（激活当日到月底），费用四舍五入到分，套餐内包含的流量及通话分钟按天折算，向上取整。',
+        '4.套餐内流量不适用于流量不清零规则。',
+        '5.国内不包括港澳台地区。',
+        '6.所有套餐包含内容及相关政策以电信公司解释为准'
       ]
     }
   },
@@ -94,6 +119,18 @@ export default {
     color: #cc0000;
   }
 }
+
+.info {
+  text-align: left;
+  font-size: 12px;
+  margin: 5px 0;
+  &.strong {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 10px 0;
+    color: #fb8522;
+  }
+}
 </style>
 
 
@@ -107,10 +144,12 @@ export default {
   .el-table th {
     background: #ffebd8;
     color: #fb8522;
+    padding: 5px;
   }
-
+  .el-table td {
+    padding: 0;
+  }
   .el-table--border {
-    /* border-color: #fb8522; */
   }
 
   .set-title {
