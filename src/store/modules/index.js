@@ -3,10 +3,12 @@
 import filter from './filter'
 import loading from './loading'
 import major from './major'
+import cacheUniversity from './cacheUniversityList'
 const modules = {
   filter,
   loading,
-  major
+  major,
+  cacheUniversity
 }
 
 // requireModule.keys().forEach(fileName => {

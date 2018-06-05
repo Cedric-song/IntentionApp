@@ -146,7 +146,10 @@ const router = new Router({
     {
       path: '/university',
       name: 'UniversityList',
-      component: UniversityList
+      component: UniversityList,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/university/:id',
@@ -168,7 +171,7 @@ const router = new Router({
 })
 
 
-router.afterEach((to, from, next) => {
+router.afterEach((to, from) => {
   window.scrollTo(0, 0);
 })
 

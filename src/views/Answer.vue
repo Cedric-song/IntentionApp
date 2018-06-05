@@ -86,7 +86,7 @@ export default {
     }
 
     .item-blue {
-      color: blue;
+      color: #0066ff;
     }
 
     &.item-tip {

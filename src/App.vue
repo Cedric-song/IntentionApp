@@ -3,7 +3,11 @@
     <van-popup v-model="$store.state.loading.Loading" class="loading-pop">
       <van-loading type="spinner" />
     </van-popup>
-    <router-view/>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" />
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
+
   </div>
 </template>
 

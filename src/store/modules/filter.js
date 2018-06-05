@@ -1,12 +1,12 @@
 import * as types from '../types'
 // state
 const state = {
-  ShowFilter: false
+  search: ''
 }
 
 const mutations = {
-  [types.ShowFilter](state, result) {
-    state.ShowFilter = result
+  [types.SetFilter](state, result) {
+    state.search = result.search
   }
 }
 

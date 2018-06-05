@@ -18,7 +18,6 @@
           <div class="tags">
             <van-tag :class="'tag tag-'+ index" v-for="(it,index) in item.tags" :key="it">{{it}}</van-tag>
           </div>
-          <!-- <span class="info">{{item.info}}</span> -->
         </template>
       </van-cell>
     </van-list>
@@ -28,6 +27,27 @@
 
 <script>
 export default {
+  name: 'UniversityList',
+
+  activated() {
+    console.log('actived')
+  },
+  beforeRouteEnter(to, from, next) {
+    if (from.name === 'Home') {
+      next(vm => {
+        vm.list = []
+        vm.table = {
+          pn: 1,
+          rn: 20,
+          search: ''
+        }
+        vm.getList()
+      })
+      return
+    }
+
+    next()
+  },
   data() {
     return {
       list: [],

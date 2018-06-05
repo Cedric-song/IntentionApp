@@ -22,8 +22,8 @@
     <template v-if="intro !== ''">
       <wap-subtitle subtitle="院校简介" style="margin-top: 20px;"></wap-subtitle>
       <van-row :gutter="20" class="info">
-        <van-col span="24" class="info-item info-intro" :class="{'showmore': showMore}"> {{intro}}</van-col>
-        <van-col span="24" class="info-item info-more" @click.native="showMore = !showMore"> {{showMore ? '收起' : '查看更多'}}</van-col>
+        <van-col span="24" class="info-item info-intro" :class="{'showmore': showMore}" v-html="intro"></van-col>
+        <van-col span=" 24 " class="info-item info-more " @click.native="showMore=! showMore "> {{showMore ? '收起' : '查看更多'}}</van-col>
       </van-row>
     </template>
 
@@ -109,7 +109,7 @@ export default {
     }
 
     .item-blue {
-      color: blue;
+      color: #0066ff;
     }
 
     &.item-tip {
@@ -130,7 +130,8 @@ export default {
 
     &.info-more {
       text-align: center;
-      color: blue;
+      color: #0066ff;
+      width: 100%;
     }
   }
 }

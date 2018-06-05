@@ -25,7 +25,7 @@
   .tips {
     color: #cc0000;
     a {
-      color: blue;
+      color: #0066ff;
       text-decoration: underline;
     }
   }
