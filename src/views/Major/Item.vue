@@ -1,29 +1,6 @@
 <template>
   <div>
     <van-nav-bar :title="$route.query.name" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
-    <van-row>
-
-    </van-row>
-    <!-- <img :src="item.img" alt="" style="width: 100%;">
-    <wap-subtitle subtitle="专业介绍" class="pd"></wap-subtitle>
-    <van-row>
-      <van-col span="24" class="cnts" v-html="item.professionRemark">
-
-      </van-col>
-    </van-row>
-    <wap-subtitle subtitle="主修课程" class="pd"></wap-subtitle>
-    <van-row>
-      <van-col span="24" class="cnts">
-        {{item.major}}
-      </van-col>
-    </van-row>
-    <wap-subtitle subtitle="就业方向" class="pd"></wap-subtitle>
-
-    <van-row>
-      <van-col span="24" class="cnts">
-        {{item.job}}
-      </van-col>
-    </van-row> -->
     <section v-for="(item) in formArr" :key="item.name">
       <wap-subtitle :subtitle="item.name" class="pd"></wap-subtitle>
       <van-row>
@@ -32,6 +9,9 @@
         </van-col>
       </van-row>
     </section>
+    <section v-show="formArr.length === 0" class="no-data" :class="{'show-data': !$store.state.loading.Loading }">
+      暂无数据
+    </section>
   </div>
 </template>
 
@@ -39,7 +19,6 @@
 export default {
   data() {
     return {
-      // item: {},
       formArr: []
     }
   },
@@ -99,5 +78,14 @@ export default {
   color: #333333;
   font-size: 13px;
   text-indent: 1em;
+}
+
+.no-data {
+  text-align: center;
+  margin-top: 40vh;
+  display: none;
+  &.show-data {
+    display: block;
+  }
 }
 </style>
