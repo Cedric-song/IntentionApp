@@ -3,8 +3,10 @@
     <van-nav-bar title="开卡" left-text="首页" right-text="下一步" left-arrow @click-left="$router.push({name: 'Home'})" @click-right="handlePost" />
     <van-row gutter="20">
 
-      <van-col span="24" class="ad">
-        开卡免费使用志愿宝，不浪费1分上好大学
+      <van-col span="24">
+        <div class="ad">
+          开卡免费使用志愿宝， 不浪费1分上好大学
+        </div>
       </van-col>
 
       <van-col span="24">
@@ -235,5 +237,6 @@ export default {
   color: #cc0000;
   text-align: center;
   padding: 10px;
+  margin: 0 20px;
 }
 </style>

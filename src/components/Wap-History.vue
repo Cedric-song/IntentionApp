@@ -10,8 +10,7 @@ module.exports = {
       rows: [
         { year: '2015', people: 5, position: 70, userPosition: '' },
         { year: '2016', people: 4, position: 71, userPosition: '' },
-        { year: '2017', people: 5, position: 91, userPosition: '' },
-        { year: '2018', people: 4, position: 80, userPosition: 105 }
+        { year: '2017', people: 5, position: 91, userPosition: '' }
       ]
     }
 
@@ -19,8 +18,7 @@ module.exports = {
     const array = [
       { year: '2015', people: 5, position: 70, userPosition: '' },
       { year: '2016', people: 4, position: 71, userPosition: '' },
-      { year: '2017', people: 5, position: 91, userPosition: '' },
-      { year: '2018', people: 4, position: 80, userPosition: 105 }
+      { year: '2017', people: 5, position: 91, userPosition: '' }
     ]
     array.forEach(item => {
       maxArray.push(Number(item.people))
@@ -29,7 +27,7 @@ module.exports = {
     this.chartSettings = {
       axisSite: { right: ['people'] },
       yAxisName: ['位次', '招生人数'],
-      metrics: ['people', 'position', 'userPosition'],
+      metrics: ['people', 'position'],
       showLine: ['position', 'userPosition'],
       label: {
         normal: { show: true, position: 'top' }
@@ -37,8 +35,7 @@ module.exports = {
       max: [0, 20],
       legendName: {
         people: '招生人数',
-        position: '位次',
-        userPosition: '考生位次'
+        position: '位次'
       }
     }
   }

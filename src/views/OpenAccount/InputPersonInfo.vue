@@ -13,55 +13,55 @@
     </van-row>
 
     <van-row>
-      <!-- <van-col span="24" class="tips">
-        温馨提示：请填写正确的身份证姓名和身份证号码，验证不通过的用户将无法购买号卡，请认真填写。<br> 如您的身份证已办理移动电话卡达5张，开通后可能无法正常使用，请您核对清楚后填写身份证信息。
-      </van-col> -->
-
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="收货人" />
+          <van-field v-model="form.name" placeholder="" label="收货人" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field value="吉林" placeholder="" label="省份" disabled/>
+          <van-field value="吉林" placeholder="" label="省份" disabled required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.cityText" placeholder="" label="地区" @click="showCityPicker = true" />
+          <van-field v-model="form.cityText" placeholder="" label="地区" @click="showCityPicker = true" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.detail" placeholder="" label="详细地址" />
+          <van-field v-model="form.detail" placeholder="" label="详细地址" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.postal" placeholder="" label="邮政编码" />
+          <van-field v-model="form.postal" placeholder="" label="邮政编码" required/>
+        </van-cell-group>
+      </van-col>
+      <van-col span="24" style="position:relative;">
+        <van-cell-group>
+          <van-field v-model="form.number" placeholder="" label="手机号码" required />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.number" placeholder="" label="手机号码" />
-        </van-cell-group>
-      </van-col>
-      <van-col span="24">
-        <van-cell-group>
-          <van-field value="送货上门" placeholder="" label="配送方式" disabled/>
+          <van-field value="送货上门" placeholder="" label="配送方式" disabled required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group style="position:relative;">
           <van-radio-group v-model="form.shipSet" class="radio">
-            <van-cell>套餐选择
+            <van-cell required>套餐选择
               <van-radio name="1">只工作日送货（双休日、假期不送货）</van-radio>
               <van-radio name="2">只双休日、假期送货（工作日不送货）</van-radio>
               <van-radio name="3">工作日、双休日与假期均可送货</van-radio>
             </van-cell>
           </van-radio-group>
         </van-cell-group>
+      </van-col>
+
+      <van-col span="24">
+        <span class="phone-tip">根据工信部实名制的要求，收货人必须与入网人一致</span>
       </van-col>
 
       <van-col span="24" class="btm-picker">
@@ -77,7 +77,9 @@ export default {
   data() {
     return {
       step: 1,
-      form: {},
+      form: {
+        shipSet: '1'
+      },
       columns: [
         {
           id: '220100',
@@ -110,6 +112,10 @@ export default {
         {
           id: '220800',
           text: '白城市'
+        },
+        {
+          id: '222400',
+          text: '延边朝鲜族自治州'
         }
       ],
       showCityPicker: false
@@ -156,12 +162,11 @@ export default {
   padding: 10px;
 }
 
-.radio {
-  // display: flex;
-  // padding: 10px;
+.phone-tip {
+  color: #cc0000;
+  padding-left: 10px;
   // position: absolute;
-  // z-index: 1000;
-  // left: 80px;
-  // top: 0;
+  // top: 30px;
+  font-size: 12px;
 }
 </style>

@@ -40,10 +40,9 @@
       <van-col span="24">
         <van-uploader :after-read="onRead">
           <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required/>
-          <span>手持身份证照片只允许调用摄像头拍摄，效果如下图</span>
-
         </van-uploader>
       </van-col>
+      <span class="tip-red">手持身份证照片只允许调用摄像头拍摄，效果如下图</span>
 
     </van-row>
   </div>

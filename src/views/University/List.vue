@@ -29,9 +29,6 @@
 export default {
   name: 'UniversityList',
 
-  activated() {
-    console.log('actived')
-  },
   beforeRouteEnter(to, from, next) {
     if (from.name === 'UniversityItem') {
       next()

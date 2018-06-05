@@ -26,19 +26,18 @@
       </van-col>
     </van-row>
 
-    <wap-subtitle subtitle="历年招生人数图（柱状图）" style="margin-top: 20px;"></wap-subtitle>
+    <!-- <wap-subtitle subtitle="历年招生人数图（柱状图）" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
       <van-col span="24" class="chart-tips">
         该图中的立柱为每年的招生人数，可以分析招生趋势，如果在我省的招生人数增加意味着此专业逐步变热，但是并非录取概率加大，因为受到填报人数的影响，反之亦然。
       </van-col>
     </van-row>
-
-    <wap-chart-count class="chart-position"></wap-chart-count>
+    <wap-chart-count class="chart-position"></wap-chart-count> -->
 
     <wap-subtitle subtitle="历年录取人数（折线）及录取位次（折线）图" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
       <van-col span="24" class="chart-tips">
-        该图中的一、二、三、征集四条线分别为第一志愿、第二志愿、第三志愿、征集志愿的录取人数的变化，通过此折线可以分析学校的热度，第一志愿是否能够录满，以此类推。 录取位次折线表示该校最低录取分数线对应的考生排位的变化，通过折线图可以判断考入该校的难易程度，如果对应的排位越来越低，说明学校越来越难考取，反之亦然。
+        录取人数折线表示该校近三年录取人数的变化趋势，通过此折线可以分析学校的热度，如果在我省的录取人数增加意味着此专业逐步变热，但是并非录取概率加大，因为受到填报人数的影响，反之亦然。录取位次折线表示该校最低录取分数线对应的考生排位的变化，通过折线图可以判断考入该校的难易程度，如果对应的排位越来越低，说明学校越来越难考取，反之亦然。
       </van-col>
     </van-row>
     <wap-chart-line class="chart-position"></wap-chart-line>
