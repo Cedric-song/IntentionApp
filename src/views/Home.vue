@@ -115,7 +115,10 @@ export default {
       ]
     }
   },
-  methods: {}
+  methods: {},
+  created() {
+    this.$api.GetOpenId({ state: location.href }).then(res => {})
+  }
 }
 </script>
 

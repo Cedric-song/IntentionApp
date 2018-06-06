@@ -7,10 +7,14 @@ if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = 'http://www.cxnb-bj.com/zhiling/'
 }
 
-
 Vue.use(VueAxios, axios)
 
 export default {
+  GetOpenId(params) {
+    return Vue.axios.get('/wx/toOauth.do', {
+      params: params
+    })
+  },
   GetUniversityList(params) {
     return Vue.axios.get('/v1/getUniversity.do', {
       params: params

@@ -34,12 +34,19 @@ module.exports = {
     cssSourceMap: true,
     proxyTable: {
       '/v1': {
-        // target: 'http://www.flintux.com:8082/',
         target: 'http://www.cxnb-bj.com/zhiling/',
         secure: false,
         changeOrigin: true,
         pathRewrite: {
           '^/v1': '/v1'
+        }
+      },
+      '/wx': {
+        target: 'http://www.cxnb-bj.com/zhiling/',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/wx': '/wx'
         }
       }
     }
