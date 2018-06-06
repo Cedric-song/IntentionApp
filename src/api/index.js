@@ -34,7 +34,9 @@ export default {
     })
   },
   GetScore(params) {
-    return Vue.axios.post('/v1/getScore.do', params)
+    return Vue.axios.get('/v1/getScore.do', {
+      params: params
+    })
   },
   GetPhoneNumber(params) {
     return Vue.axios.get('/v1/getNumbers.do', {
@@ -42,20 +44,28 @@ export default {
     })
   },
   SaveBaseInfo(params) {
-    return Vue.axios.post('/v1/baseInfo.do', params)
+    return Vue.axios.get('/v1/baseInfo.do', {
+      params: params
+    })
   },
   SaveEnterInfo(params) {
-    return Vue.axios.post('/v1/enterInfo.do', params)
+    return Vue.axios.get('/v1/enterInfo.do', {
+      params: params
+    })
   },
   SaveShipInfo(params) {
-    return Vue.axios.post('/v1/shipInfo.do', params)
+    return Vue.axios.get('/v1/shipInfo.do', {
+      params: params
+    })
   },
   ActiveCard(params) {
-    return Vue.axios.post('/v1/active.do', params)
+    return Vue.axios.get('/v1/active.do', {
+      params: params
+    })
   },
-  UploadImg(params) {
-    return Vue.axios.post('/v1/upload.do', params)
-  },
+  // UploadImg(params) {
+  //   return Vue.axios.post('/v1/upload.do', params)
+  // },
   PayAction(params) {
     return Vue.axios.get('/wx/pay.do', {
       params: params

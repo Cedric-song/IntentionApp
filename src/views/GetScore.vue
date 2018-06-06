@@ -97,23 +97,23 @@ export default {
         id: vm.form.id
       }
 
-      vm.$store.commit(vm.$types.ShowLoading, true)
-
-      vm.$api
-        .GetScore(params)
-        .then(res => {
-          if (res.data.code == 200) {
-            vm.showScore = false
-            vm.score = res.data.data
-          } else {
-            vm.$toast.fail(`${res.data.message}`)
-          }
-          vm.$store.commit(vm.$types.ShowLoading, false)
-        })
-        .catch(err => {
-          vm.$toast.fail(JSON.stringify(err))
-          vm.$store.commit(vm.$types.ShowLoading, false)
-        })
+      // vm.$store.commit(vm.$types.ShowLoading, true)
+      vm.$toast.fail(`暂无数据`)
+      // vm.$api
+      //   .GetScore(params)
+      //   .then(res => {
+      //     if (res.data.code == 200) {
+      //       vm.showScore = false
+      //       vm.score = res.data.data
+      //     } else {
+      //       vm.$toast.fail(`${res.data.message}`)
+      //     }
+      //     vm.$store.commit(vm.$types.ShowLoading, false)
+      //   })
+      //   .catch(err => {
+      //     vm.$toast.fail(JSON.stringify(err))
+      //     vm.$store.commit(vm.$types.ShowLoading, false)
+      //   })
     }
   },
 

@@ -70,7 +70,8 @@ export default {
   data() {
     return {
       form: {
-        province: '吉林省'
+        province: '吉林省',
+        category: '1'
       },
       times: 10
     }

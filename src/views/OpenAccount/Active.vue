@@ -113,9 +113,19 @@ export default {
     handleSubmit() {
       const vm = this
       vm.$store.commit(vm.$types.ShowLoading, true)
-
+      const params = {
+        name: this.form.name,
+        idCard: this.form.id,
+        phoneNo: this.form.phoneNo,
+        uimNo:
+          this.ship.no1 +
+          this.ship.no2 +
+          this.ship.no3 +
+          this.ship.no4 +
+          this.ship.no5
+      }
       vm.$api
-        .ActiveCard(this.form)
+        .ActiveCard(params)
         .then(res => {
           if (res.data.code == '200') {
             vm.$dialog
@@ -125,17 +135,18 @@ export default {
               .then(() => {
                 vm.$router.push({ name: 'Home' })
               })
-          } else {
+          } else if (res.data.code == '500') {
             vm.$dialog
               .alert({
                 message:
-                  '您已成功开通志愿宝服务，现在您可以使用概率测试xx次，智能填报xx次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！'
+                  '您已成功开通志愿宝服务，现在您可以使用概率测试30次，智能填报5次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！'
               })
               .then(() => {
                 vm.$router.push({ name: 'Home' })
               })
+          } else {
+            vm.$toast.fail(res.data.message)
           }
-
           vm.$store.commit(vm.$types.ShowLoading, false)
         })
         .catch(err => {
