@@ -160,10 +160,10 @@ export default {
 
       const params = {
         money: 0.01,
-        openid:
+        wxId:
           this.$store.state.userinfo.openid || 'oDtJ10RDKfRcoGTUVFySkeztR7Ko',
-        orderId: this.$route.query.orderId,
-        cardDetailId: this.$route.query.cardDetailId
+        orderId: this.$route.query.orderId || '1',
+        cardDetailId: this.$route.query.cardDetailId || '1'
       }
 
       this.$api.PayAction(params).then(res => {

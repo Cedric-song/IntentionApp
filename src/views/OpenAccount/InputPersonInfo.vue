@@ -174,6 +174,7 @@ export default {
       }
 
       params.shipMethod = 0
+      params.wxId = this.$store.state.userinfo.openid
       params.provinceName = '吉林省'
       params.provinceCode = '220000'
 
