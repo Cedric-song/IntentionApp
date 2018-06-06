@@ -162,6 +162,8 @@ export default {
         money: 0.01,
         wxId:
           this.$store.state.userinfo.openid || 'oDtJ10RDKfRcoGTUVFySkeztR7Ko',
+        openid:
+          this.$store.state.userinfo.openid || 'oDtJ10RDKfRcoGTUVFySkeztR7Ko',
         orderId: this.$route.query.orderId || '1',
         cardDetailId: this.$route.query.cardDetailId || '1'
       }
