@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import axios from './api'
+import './data'
 
 import Vant from 'vant'
 import 'vant/lib/vant-css/index.css'
@@ -15,9 +16,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 import {
   Lazyload
 } from 'vant'
+
 Vue.use(Lazyload, {
   preload: '100%'
 })
+
+import wx from 'weixin-js-sdk'
+Vue.prototype.$wx = wx
 
 import _ from 'lodash'
 

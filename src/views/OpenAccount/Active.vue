@@ -116,7 +116,7 @@ export default {
       vm.$store.commit(vm.$types.ShowLoading, true)
 
       vm.$api
-        .activeCard(this.form)
+        .ActiveCard(this.form)
         .then(res => {
           if (res.data.code == '200') {
             vm.$dialog

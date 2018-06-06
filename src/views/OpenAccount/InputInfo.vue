@@ -1,6 +1,6 @@
 <template>
   <div class="enter-net-info">
-    <van-nav-bar title="填写入网信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="handlePost" />
+    <van-nav-bar title="填写入网信息" left-text="关闭" right-text="下一步" left-arrow @click-left="handleLeftClose" @click-right="handlePost" />
 
     <van-row>
       <van-col span="24">
@@ -27,21 +27,35 @@
           <van-field v-model="form.id" placeholder="请输入机主身份证" label="身份证" required maxlength="18" :error="idError" :error-message="idErrorMsg" />
         </van-cell-group>
       </van-col>
-      <van-col span="24">
-        <van-uploader :after-read="onRead">
-          <van-cell title="※请上传或拍摄身份证正面（照片面）照片：" value="" required/>
-        </van-uploader>
+      <van-col span="24" class="img-cell">
+        <van-cell title="※请上传身份证正面（照片面）照片：" value="" required style="flex: 1;" />
+        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgFrontSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <img v-if="form.imgFront !== ''" :src="imgs.imgFront" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </van-col>
-      <van-col span="24">
-        <van-uploader :after-read="onRead">
-          <van-cell title="※请上传或拍摄身份证反面（国徽面）照片：" value="" required/>
-        </van-uploader>
+
+      <van-col span="24" class="img-cell">
+        <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required style="flex: 1;" />
+        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgBackSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <img v-if="form.imgBack !== ''" :src="imgs.imgBack" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </van-col>
-      <van-col span="24">
+
+      <van-col span="24" class="img-cell">
+        <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
+        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </van-col>
+      <!-- <van-col span="24">
         <van-uploader :after-read="onRead">
           <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required/>
         </van-uploader>
-      </van-col>
+      </van-col> -->
+
       <span class="tip-red">手持身份证照片只允许调用摄像头拍摄，效果如下图</span>
       <van-col span="24">
         <van-checkbox v-model="tipCheck" class="into-tip" shape="square"></van-checkbox>
@@ -60,7 +74,18 @@ export default {
   data() {
     return {
       step: 0,
-      form: {},
+      form: {
+        imgFront: '',
+        imgBack: '',
+        imgPerson: '',
+        id: '',
+        name: ''
+      },
+      imgs: {
+        imgFront: '',
+        imgBack: '',
+        imgPerson: ''
+      },
       idError: false,
       idErrorMsg: '',
       tipCheck: true
@@ -76,7 +101,55 @@ export default {
     }
   },
   methods: {
-    onRead() {},
+    handleImgFrontSuccess(res, file) {
+      if (res.code == '200') {
+        this.form.imgFront = res.data
+        this.imgs.imgFront = URL.createObjectURL(file.raw)
+      }
+    },
+    handleImgBackSuccess(res, file) {
+      if (res.code == '200') {
+        this.form.imgBack = res.data
+        this.imgs.imgBack = URL.createObjectURL(file.raw)
+      }
+    },
+    handleImgPersonSuccess(res, file) {
+      if (res.code == '200') {
+        this.form.imgPerson = res.data
+        this.imgs.imgPerson = URL.createObjectURL(file.raw)
+      }
+    },
+    beforeAvatarUpload(file) {
+      this.$store.commit(this.$types.ShowLoading, true)
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
+      return true
+    },
+    handleOnProgress() {
+      this.$store.commit(this.$types.ShowLoading, false)
+    },
+    handleLeftClose() {
+      this.$dialog
+        .confirm({
+          title: '关闭提示',
+          message: '关闭后，之前填写的信息将丢失，请谨慎操作。'
+        })
+        .then(() => {
+          this.$router.push({ name: 'OpenAccount' })
+        })
+        .catch(() => {
+          // on cancel
+        })
+    },
+
     validate() {
       let flag = true
       if (!this.tipCheck) {
@@ -105,9 +178,9 @@ export default {
       const params = {
         name: this.form.name,
         id: this.form.id,
-        img1: '1',
-        img2: '11',
-        img3: '1'
+        IDFront: this.form.imgFront,
+        IDBack: this.form.imgBack,
+        IDPerson: this.form.imgPerson
       }
 
       for (let [key, value] of Object.entries(params)) {
@@ -151,6 +224,38 @@ export default {
       height: 12px;
       line-height: 1;
       font-size: 8px;
+    }
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+  }
+  .avatar {
+    width: 100px;
+    height: 80px;
+    display: block;
+  }
+
+  .img-cell {
+    display: flex;
+    .van-cell {
+      flex: 1;
+      display: inline-block;
     }
   }
 }

@@ -46,7 +46,7 @@
         <van-radio-group v-model="form.numberId">
           <van-row :gutter="20">
             <van-col :span="12" v-for="(item) in list" :key="item.id" class="phonenumber">
-              <van-radio :name="item.id">{{item.number}}</van-radio>
+              <van-radio :name="item.id">{{item.phoneNo}}</van-radio>
             </van-col>
           </van-row>
         </van-radio-group>
@@ -65,78 +65,12 @@ export default {
     return {
       form: {
         number: '',
-        set: '1'
+        set: '1',
+        cityId: '',
+        numberId: ''
       },
-      list: [
-        {
-          number: 12213213123,
-          id: 1
-        },
-        {
-          number: 12213213123,
-          id: 2
-        },
-        {
-          number: 12213213123,
-          id: 3
-        },
-        {
-          number: 12213213123,
-          id: 4
-        },
-        {
-          number: 12213213123,
-          id: 5
-        },
-        {
-          number: 12213213123,
-          id: 6
-        },
-        {
-          number: 12213213123,
-          id: 7
-        },
-
-        {
-          number: 12213213123,
-          id: 8
-        },
-        {
-          number: 12213213123,
-          id: 9
-        },
-        {
-          number: 12213213123,
-          id: 10
-        }
-      ],
-      columns: [
-        {
-          id: '220100',
-          text: '长春市'
-        },
-
-        {
-          id: '222400',
-          text: '延边朝鲜族自治州'
-        },
-        {
-          id: '220300',
-          text: '四平市'
-        },
-        {
-          id: '220700',
-          text: '松原市'
-        },
-        {
-          id: '220800',
-          text: '白城市'
-        },
-        {
-          id: '220000',
-          text: '其他'
-        }
-      ],
+      list: [],
+      columns: this.$cityList,
       showCityPicker: false
     }
   },
@@ -146,7 +80,15 @@ export default {
       immediate: true,
       handler(val) {
         if (val && val !== '') {
-          this.form.number = this.$_.find(this.list, { id: val }).number
+          this.form.number = this.$_.find(this.list, { id: val }).phoneNo
+        }
+      }
+    },
+    'form.cityId': {
+      immediate: true,
+      handler(val) {
+        if (val && val !== '') {
+          this.FetchData({ cityId: val })
         }
       }
     }
@@ -161,15 +103,23 @@ export default {
     onCancel() {
       this.showCityPicker = false
     },
-    FetchData() {
+    FetchData(params) {
       const vm = this
-      vm.$api.GetPhoneNumber().then(res => {
-        if (res.data.code == '200') {
-          vm.list = res.data.data.list
-        } else {
-          vm.$toast.fail(`获取电话号码列表失败，请稍后刷新再试。`)
-        }
-      })
+      vm.$store.commit(vm.$types.ShowLoading, true)
+      vm.$api
+        .GetPhoneNumber(params)
+        .then(res => {
+          if (res.data.code == '200') {
+            vm.list = res.data.data
+          } else {
+            vm.$toast.fail(`获取电话号码列表失败，请稍后刷新再试。`)
+          }
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
+        .catch(err => {
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
     },
     handlePost() {
       const params = {
@@ -181,6 +131,10 @@ export default {
       }
 
       for (let [key, value] of Object.entries(params)) {
+        if (!value && key === 'numberid') {
+          this.$toast.fail(`请选择电话号码`)
+          return false
+        }
         if (!value) {
           this.$toast.fail(`请补全所有必填信息。`)
           return false
@@ -189,24 +143,32 @@ export default {
 
       this.$router.push({ name: 'InputInfo' })
       const vm = this
-      // vm.$api.SaveBaseInfo(params).then(res => {
-      //   if (res.data.code == '200') {
-      //     vm.$store.commit('SavePhoneInfo', {
-      //       money: params.money,
-      //       numberid: params.numberid,
-      //       number: this.form.number,
-      //       orderNo: res.data.data.orderNo
-      //     })
-      //     vm.$router.push({ name: 'InputInfo' })
-      //   } else {
-      //     vm.$toast.fail(res.data.msg)
-      //   }
-      // })
+      vm.$store.commit(vm.$types.ShowLoading, true)
+
+      vm.$api
+        .SaveBaseInfo(params)
+        .then(res => {
+          if (res.data.code == '200') {
+            vm.$store.commit('SavePhoneInfo', {
+              money: params.money,
+              numberid: params.numberid,
+              number: this.form.number,
+              orderNo: res.data.data.orderNo
+            })
+            vm.$store.commit(vm.$types.ShowLoading, false)
+            vm.$router.push({ name: 'InputInfo' })
+          } else {
+            vm.$store.commit(vm.$types.ShowLoading, false)
+            vm.$toast.fail(res.data.msg)
+          }
+        })
+        .catch(err => {
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
     }
   },
-  created() {
-    // this.FetchData()
-  }
+  created() {}
 }
 </script>
 
@@ -224,6 +186,7 @@ export default {
 .phonenumber {
   padding: 5px 0;
   text-align: center;
+  font-size: 13px;
 }
 
 .ad {

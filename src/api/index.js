@@ -8,39 +8,44 @@ Vue.use(VueAxios, axios)
 
 export default {
   GetUniversityList(params) {
-    return Vue.axios.get('/v1/getUniversity', {
+    return Vue.axios.get('/v1/getUniversity.do', {
       params: params
     })
   },
   GetUniversityById(params) {
-    return Vue.axios.get('/v1/getUniversityById', {
+    return Vue.axios.get('/v1/getUniversityById.do', {
       params: params
     })
   },
   GetMajorList() {
-    return Vue.axios.get('/v1/getMajor', {})
+    return Vue.axios.get('/v1/getMajor.do', {})
   },
   GetMajorItem(params) {
-    return Vue.axios.get('/v1/getMajorByCode', {
+    return Vue.axios.get('/v1/getMajorByCode.do', {
       params: params
     })
   },
   GetScore(params) {
-    return Vue.axios.post('/v1/getScore', params)
+    return Vue.axios.post('/v1/getScore.do', params)
   },
-  GetPhoneNumber() {
-    return Vue.axios.get('/v1/getNumbers')
+  GetPhoneNumber(params) {
+    return Vue.axios.get('/v1/getNumbers.do', {
+      params: params
+    })
   },
   SaveBaseInfo(params) {
-    return Vue.axios.post('/v1/baseInfo', params)
+    return Vue.axios.post('/v1/baseInfo.do', params)
   },
   SaveEnterInfo(params) {
-    return Vue.axios.post('/v1/enterInfo', params)
+    return Vue.axios.post('/v1/enterInfo.do', params)
   },
   SaveShipInfo(params) {
-    return Vue.axios.post('/v1/shipInfo', params)
+    return Vue.axios.post('/v1/shipInfo.do', params)
   },
-  activeCard(params) {
-    return Vue.axios.post('/v1/active', params)
+  ActiveCard(params) {
+    return Vue.axios.post('/v1/active.do', params)
+  },
+  UploadImg(params) {
+    return Vue.axios.post('/v1/upload.do', params)
   }
 }

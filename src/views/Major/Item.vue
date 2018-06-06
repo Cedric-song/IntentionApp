@@ -51,7 +51,6 @@ export default {
                 message: '获取数据失败，点击确定请稍后再试。'
               })
               .then(() => {
-                // vm.FetchData()
                 vm.$router.back()
               })
           }
