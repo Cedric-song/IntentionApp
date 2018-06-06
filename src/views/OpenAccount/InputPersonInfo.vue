@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="填写邮寄信息" left-text="后退" right-text="下一步" left-arrow @click-left="$router.back()" @click-right="handlePost" />
+    <van-nav-bar title="填写邮寄信息" left-text="关闭" right-text="下一步" left-arrow @click-left="handleLeftClose" @click-right="handlePost" />
     <!-- <van-nav-bar title="填写邮寄信息" right-text="下一步" @click-right="handlePost" /> -->
 
     <van-row>
@@ -89,33 +89,7 @@ export default {
         number: '',
         cityId: ''
       },
-      columns: [
-        {
-          id: '220100',
-          text: '长春市'
-        },
-
-        {
-          id: '222400',
-          text: '延边朝鲜族自治州'
-        },
-        {
-          id: '220300',
-          text: '四平市'
-        },
-        {
-          id: '220700',
-          text: '松原市'
-        },
-        {
-          id: '220800',
-          text: '白城市'
-        },
-        {
-          id: '220000',
-          text: '其他'
-        }
-      ],
+      columns: this.$cityList,
       showCityPicker: false,
       numberError: false,
       numberErrorMsg: '',
@@ -138,6 +112,19 @@ export default {
     }
   },
   methods: {
+    handleLeftClose() {
+      this.$dialog
+        .confirm({
+          title: '关闭提示',
+          message: '关闭后，之前填写的信息将丢失，请谨慎操作。'
+        })
+        .then(() => {
+          this.$router.push({ name: 'OpenAccount' })
+        })
+        .catch(() => {
+          // on cancel
+        })
+    },
     validate() {
       let flag = true
       if (!RegExp(/^(1[0-9])[0-9]{9}$/).test(this.form.number)) {
@@ -169,8 +156,16 @@ export default {
         return false
       }
 
-      const params = this.form
-
+      const params = {
+        receivePerson: this.form.name,
+        cityCode: this.form.cityId,
+        cityName: this.form.cityText,
+        receiveAddress: this.form.detail,
+        postalNo: this.form.postal,
+        ownerPhone: this.form.number,
+        shipSet: this.form.shipSet
+      }
+      console.log(params)
       for (let [key, value] of Object.entries(params)) {
         if (!value) {
           this.$toast.fail(`请补全所有必填信息。`)
@@ -178,15 +173,21 @@ export default {
         }
       }
 
-      this.$router.push({ name: 'PayAccount' })
+      params.shipMethod = 0
+      params.provinceName = '吉林省'
+      params.provinceCode = '220000'
 
-      // this.$api.SaveShipInfo(params).then(res => {
-      //   if (res.data.code == 200) {
-      //     this.$router.push({ name: 'PayAccount' })
-      //   } else {
-      //     this.$toast.fail(res.data.msg)
-      //   }
-      // })
+      params.orderId = this.$route.query.orderId || '1'
+      params.cardDetailId = this.$route.query.cardDetailId || '1'
+      // this.$router.push({ name: 'PayAccount' })
+
+      this.$api.SaveShipInfo(params).then(res => {
+        if (res.data.code == 200) {
+          this.$router.push({ name: 'PayAccount' })
+        } else {
+          this.$toast.fail(res.data.message)
+        }
+      })
     }
   }
 }

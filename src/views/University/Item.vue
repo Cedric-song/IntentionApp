@@ -52,7 +52,7 @@ export default {
             vm.form = res.data.data
             vm.intro = vm.form.remark.replace(/<br>/gi, '')
           } else {
-            vm.$toast.fail(JSON.stringify(res.data.msg))
+            vm.$toast.fail(JSON.stringify(res.data.message))
           }
           vm.$store.commit(vm.$types.ShowLoading, false)
         })

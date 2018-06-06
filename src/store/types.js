@@ -8,3 +8,6 @@ export const ClearPhoneInfo = 'CLEAR_PHONE_INFO'
 
 export const SetFilter = 'SET_FILTER'
 export const InitFilter = 'INIT_FILTER'
+
+
+export const SetUserinfo = 'SET_USERINFO'

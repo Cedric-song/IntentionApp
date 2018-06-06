@@ -1,6 +1,6 @@
 <template>
   <div class="dianxin">
-    <van-nav-bar title="中国电信用户入网协议" left-text="关闭" left-arrow @click-left="$router.back()" />
+    <van-nav-bar title="中国电信用户入网协议" left-text="关闭" left-arrow @click-left="$emit('update:show', false)" />
     <van-row :gutter="20">
       <van-col span="24" class="subtitle">甲方：</van-col>
       <van-col span="24" class="subtitle">乙方：中国电信股份有限公司电子渠道运营中心</van-col>
@@ -140,6 +140,7 @@
 .dianxin {
   font-size: 12px;
   color: #444444;
+  overflow: scroll;
   .subtitle {
     margin-top: 5px;
     &.strong {
@@ -157,3 +158,12 @@
   }
 }
 </style>
+
+
+<script>
+export default {
+  props: {
+    show: {}
+  }
+}
+</script>

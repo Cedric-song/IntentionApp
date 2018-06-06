@@ -5,7 +5,7 @@
 
       <van-col span="24">
         <div>
-          <img src="/static/imgs/home2.png" alt="">
+          <img src="/static/imgs/kaika.png" alt="">
         </div>
         <div class="ad">
           开卡免费使用志愿宝， 不浪费1分上好大学
@@ -28,7 +28,7 @@
           <van-field value="" label="套餐选择" disabled required/>
           <van-radio-group v-model="form.set" class="radio">
             <!-- <van-radio name="1" style="padding:0 10px;">49元</van-radio> -->
-            <van-radio name="1" style="padding:0 10px;">69元</van-radio>
+            <van-radio name="69" style="padding:0 10px;">69元</van-radio>
           </van-radio-group>
         </van-cell-group>
       </van-col>
@@ -65,7 +65,7 @@ export default {
     return {
       form: {
         number: '',
-        set: '1',
+        set: '69',
         cityId: '',
         numberId: ''
       },
@@ -123,11 +123,12 @@ export default {
     },
     handlePost() {
       const params = {
-        province: '吉林',
+        // province: '吉林',
         money: 299,
-        set: this.form.set,
-        numberid: this.form.number,
-        cityId: this.form.cityId
+        cardType: this.form.set,
+        phoneNo: this.form.number,
+        cityId: this.form.cityId,
+        numberId: this.form.numberId
       }
 
       for (let [key, value] of Object.entries(params)) {
@@ -141,7 +142,7 @@ export default {
         }
       }
 
-      this.$router.push({ name: 'InputInfo' })
+      // this.$router.push({ name: 'InputInfo' })
       const vm = this
       vm.$store.commit(vm.$types.ShowLoading, true)
 
@@ -149,17 +150,16 @@ export default {
         .SaveBaseInfo(params)
         .then(res => {
           if (res.data.code == '200') {
-            vm.$store.commit('SavePhoneInfo', {
-              money: params.money,
-              numberid: params.numberid,
-              number: this.form.number,
-              orderNo: res.data.data.orderNo
-            })
+            // vm.$store.commit(vm.$types.SavePhoneInfo, {
+            //   money: params.money,
+            //   numberid: params.numberid,
+            //   number: this.form.number
+            // })
             vm.$store.commit(vm.$types.ShowLoading, false)
-            vm.$router.push({ name: 'InputInfo' })
+            vm.$router.push({ name: 'InputInfo', query: res.data.data })
           } else {
             vm.$store.commit(vm.$types.ShowLoading, false)
-            vm.$toast.fail(res.data.msg)
+            vm.$toast.fail(res.data.message)
           }
         })
         .catch(err => {
@@ -190,7 +190,7 @@ export default {
 }
 
 .ad {
-  font-size: 20px;
+  font-size: 14px;
   color: #cc0000;
   text-align: center;
   padding: 10px;

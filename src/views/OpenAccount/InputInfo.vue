@@ -1,76 +1,85 @@
 <template>
   <div class="enter-net-info">
-    <van-nav-bar title="填写入网信息" left-text="关闭" right-text="下一步" left-arrow @click-left="handleLeftClose" @click-right="handlePost" />
+    <section v-show="!showTips">
+      <van-nav-bar title="填写入网信息" left-text="关闭" right-text="下一步" left-arrow @click-left="handleLeftClose" @click-right="handlePost" />
 
-    <van-row>
-      <van-col span="24">
-        <van-steps :active="step">
-          <van-step>填写入网信息</van-step>
-          <van-step>填写邮寄信息</van-step>
-          <van-step>支付</van-step>
-        </van-steps>
-      </van-col>
-    </van-row>
+      <van-row>
+        <van-col span="24">
+          <van-steps :active="step">
+            <van-step>填写入网信息</van-step>
+            <van-step>填写邮寄信息</van-step>
+            <van-step>支付</van-step>
+          </van-steps>
+        </van-col>
+      </van-row>
 
-    <van-row>
-      <van-col span="24" class="tips">
-        温馨提示：请填写正确的身份证姓名和身份证号码，验证不通过的用户将无法购买号卡，请认真填写。<br> 如您的身份证已办理移动电话卡达5张，开通后可能无法正常使用，请您核对清楚后填写身份证信息。
-      </van-col>
+      <van-row>
+        <van-col span="24" class="tips">
+          温馨提示：请填写正确的身份证姓名和身份证号码，验证不通过的用户将无法购买号卡，请认真填写。<br> 如您的身份证已办理移动电话卡达5张，开通后可能无法正常使用，请您核对清楚后填写身份证信息。
+        </van-col>
 
-      <van-col span="24">
-        <van-cell-group>
-          <van-field v-model="form.name" placeholder="请输入机主姓名" label="机主姓名" required/>
-        </van-cell-group>
-      </van-col>
-      <van-col span="24">
-        <van-cell-group>
-          <van-field v-model="form.id" placeholder="请输入机主身份证" label="身份证" required maxlength="18" :error="idError" :error-message="idErrorMsg" />
-        </van-cell-group>
-      </van-col>
-      <van-col span="24" class="img-cell">
-        <van-cell title="※请上传身份证正面（照片面）照片：" value="" required style="flex: 1;" />
-        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgFrontSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
-          <img v-if="form.imgFront !== ''" :src="imgs.imgFront" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </van-col>
+        <van-col span="24">
+          <van-cell-group>
+            <van-field v-model="form.name" placeholder="请输入机主姓名" label="机主姓名" required/>
+          </van-cell-group>
+        </van-col>
+        <van-col span="24">
+          <van-cell-group>
+            <van-field v-model="form.id" placeholder="请输入机主身份证" label="身份证" required maxlength="18" :error="idError" :error-message="idErrorMsg" />
+          </van-cell-group>
+        </van-col>
+        <van-col span="24" class="img-cell">
+          <van-cell title="※请上传身份证正面（照片面）照片：" value="" required style="flex: 1;" />
+          <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgFrontSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+            <img v-if="form.imgFront !== ''" :src="imgs.imgFront" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </van-col>
 
-      <van-col span="24" class="img-cell">
-        <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required style="flex: 1;" />
-        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgBackSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
-          <img v-if="form.imgBack !== ''" :src="imgs.imgBack" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </van-col>
+        <van-col span="24" class="img-cell">
+          <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required style="flex: 1;" />
+          <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgBackSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+            <img v-if="form.imgBack !== ''" :src="imgs.imgBack" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </van-col>
 
-      <van-col span="24" class="img-cell">
-        <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
-        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
-          <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </van-col>
-      <!-- <van-col span="24">
+        <van-col span="24" class="img-cell">
+          <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
+          <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+            <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </van-col>
+        <!-- <van-col span="24">
         <van-uploader :after-read="onRead">
           <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required/>
         </van-uploader>
       </van-col> -->
 
-      <span class="tip-red">手持身份证照片只允许调用摄像头拍摄，效果如下图</span>
-      <van-col span="24">
-        <van-checkbox v-model="tipCheck" class="into-tip" shape="square"></van-checkbox>
-        <span class="into-tip">阅读并同意入网协议
-          <span @click="$router.push({name: 'Tips'})">《 中国电信用户入网协议 》</span>
-        </span>
-      </van-col>
-    </van-row>
+        <span class="tip-red">手持身份证照片只允许调用摄像头拍摄，效果如下图</span>
+        <van-col span="24">
+          <van-checkbox v-model="tipCheck" class="into-tip" shape="square"></van-checkbox>
+          <span class="into-tip">阅读并同意入网协议
+            <span @click="showTips = true">《 中国电信用户入网协议 》</span>
+          </span>
+        </van-col>
+      </van-row>
+    </section>
+
+    <app-tips v-show="showTips" :show.sync="showTips"></app-tips>
+
   </div>
 </template>
 
 
 <script>
+import AppTips from './Tips'
 const _idErrorMsg = '请输入正确的身份证号'
 export default {
+  components: {
+    AppTips
+  },
   data() {
     return {
       step: 0,
@@ -88,7 +97,8 @@ export default {
       },
       idError: false,
       idErrorMsg: '',
-      tipCheck: true
+      tipCheck: true,
+      showTips: false
     }
   },
 
@@ -177,7 +187,7 @@ export default {
 
       const params = {
         name: this.form.name,
-        id: this.form.id,
+        idCard: this.form.id,
         IDFront: this.form.imgFront,
         IDBack: this.form.imgBack,
         IDPerson: this.form.imgPerson
@@ -190,14 +200,20 @@ export default {
         }
       }
 
-      this.$router.push({ name: 'InputPersonInfo' })
-      // this.$api.SaveEnterInfo(params).then(res => {
-      //   if (res.data.code == 200) {
-      //     this.$router.push({ name: 'InputPersonInfo' })
-      //   } else {
-      //     this.$toast.fail(res.data.msg)
-      //   }
-      // })
+      params.orderId = this.$route.query.orderId || ''
+      params.cardDetailId = this.$route.query.cardDetailId || ''
+
+      // this.$router.push({ name: 'InputPersonInfo' })
+      this.$api.SaveEnterInfo(params).then(res => {
+        if (res.data.code == 200) {
+          this.$router.push({
+            name: 'InputPersonInfo',
+            query: this.$route.query
+          })
+        } else {
+          this.$toast.fail(res.data.message)
+        }
+      })
     }
   }
 }
@@ -220,8 +236,8 @@ export default {
       color: #0066ff;
     }
     .van-checkbox__icon {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       line-height: 1;
       font-size: 8px;
     }

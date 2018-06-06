@@ -106,7 +106,7 @@ export default {
             vm.showScore = false
             vm.score = res.data.data
           } else {
-            vm.$toast.fail(`${res.data.msg}`)
+            vm.$toast.fail(`${res.data.message}`)
           }
           vm.$store.commit(vm.$types.ShowLoading, false)
         })

@@ -55,14 +55,17 @@
 </template>
 
 <script>
-import Home1 from '@/assets/imgs/home1.png'
-import Home2 from '@/assets/imgs/home2.png'
-
 export default {
   data() {
     return {
       active: 0,
-      images: [Home1, Home2],
+      images: [
+        '/static/imgs/home1.png',
+        '/static/imgs/home2.png',
+        '/static/imgs/home3.png',
+        '/static/imgs/home4.png',
+        '/static/imgs/home5.png'
+      ],
       service: [
         {
           name: '成绩查询',
@@ -117,10 +120,11 @@ export default {
   },
   methods: {},
   created() {
-    alert(2344)
-    this.$api.GetOpenId({ state: location.href }).then(res => {
-      alert(1234)
-    })
+    // this.$api.GetOpenId({ state: location.href }).then(res => {
+    //   if (res.data.code == '200') {
+    //     window.location.href = res.data.data
+    //   }
+    // })
   }
 }
 </script>

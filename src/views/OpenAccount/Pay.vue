@@ -58,9 +58,11 @@
 </template>
 
 <script>
+// oDtJ10RDKfRcoGTUVFySkeztR7Ko
 export default {
   data() {
     return {
+      wxparams: {},
       step: 2,
       checked: '',
       tableData: [
@@ -94,14 +96,70 @@ export default {
           message: '共计299元'
         })
         .then(() => {
-          this.$toast.success('付款成功')
-          this.$router.push({ name: 'PaySuccess' })
+          // this.$toast.success('付款成功')
+          // this.$router.push({ name: 'PaySuccess' })
+          this.payAction()
         })
         .catch(() => {
           this.$toast.fail('取消付款')
         })
     },
-    payAction() {}
+    runWeixinJS(cb) {
+      if (typeof window.WeixinJSBridge === 'undefined') {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', cb, false)
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', cb)
+          document.attachEvent('onWeixinJSBridgeReady', cb)
+        }
+      } else {
+        cb()
+      }
+    },
+    wechatpay() {
+      const vm = this
+      const data = this.wxparams
+      window.WeixinJSBridge.invoke(
+        'getBrandWCPayRequest',
+        {
+          appId: data.appId,
+          timeStamp: data.timeStamp,
+          nonceStr: data.nonceStr,
+          package: data.package,
+          signType: data.signType,
+          paySign: data.paySign
+        },
+        function(res) {
+          if (res.err_msg === 'get_brand_wcpay_request:ok') {
+            console.log('get_brand_wcpay_request:ok')
+          } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
+            WeixinJSBridge.invoke('closeWindow', {}, function(res) {
+              console.log('get_brand_wcpay_request:cancel')
+            })
+          } else {
+            WeixinJSBridge.invoke('closeWindow', {}, function(res) {
+              console.log('get_brand_wcpay_request:fail')
+            })
+          }
+        }
+      )
+    },
+    payAction() {
+      const vm = this
+      const params = {
+        money: 0.01,
+        openid: 'oDtJ10RDKfRcoGTUVFySkeztR7Ko',
+        orderId: '1',
+        cardDetailId: '2'
+      }
+
+      this.$api.PayAction(params).then(res => {
+        if (res.data.code == '200') {
+          this.wxparams = res.data.data
+          vm.runWeixinJS(vm.wechatpay)
+        }
+      })
+    }
   }
 }
 </script>

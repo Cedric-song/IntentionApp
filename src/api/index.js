@@ -55,5 +55,10 @@ export default {
   },
   UploadImg(params) {
     return Vue.axios.post('/v1/upload.do', params)
+  },
+  PayAction(params) {
+    return Vue.axios.get('/wx/pay.do', {
+      params: params
+    })
   }
 }
