@@ -125,7 +125,7 @@ const router = new Router({
       component: InputPersonInfo
     },
     {
-      path: '/open-account/pay',
+      path: '/pay',
       name: 'PayAccount',
       component: PayAccount
     },
