@@ -31,7 +31,7 @@ import MajorItem from '@/views/Major/Item'
 Vue.use(Router)
 
 const router = new Router({
-  // mode: 'history',
+  mode: 'history',
   routes: [
 
     {
