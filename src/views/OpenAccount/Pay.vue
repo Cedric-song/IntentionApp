@@ -144,10 +144,12 @@ export default {
           } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
             WeixinJSBridge.invoke('closeWindow', {}, function(res) {
               console.log('get_brand_wcpay_request:cancel')
+              vm.$toast.success('get_brand_wcpay_request:cancel')
             })
           } else {
             WeixinJSBridge.invoke('closeWindow', {}, function(res) {
               console.log('get_brand_wcpay_request:fail')
+              vm.$toast.success('get_brand_wcpay_request:fail')
             })
           }
         }
@@ -155,7 +157,7 @@ export default {
     },
     payAction() {
       const vm = this
-      debugger
+
       const params = {
         money: 0.01,
         openid:

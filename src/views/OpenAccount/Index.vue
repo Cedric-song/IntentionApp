@@ -123,7 +123,6 @@ export default {
     },
     handlePost() {
       const params = {
-        // province: '吉林',
         money: 299,
         cardType: this.form.set,
         phoneNo: this.form.number,
@@ -142,7 +141,7 @@ export default {
         }
       }
 
-      // this.$router.push({ name: 'InputInfo' })
+      params.wxId = this.$store.state.userinfo.openid
       const vm = this
       vm.$store.commit(vm.$types.ShowLoading, true)
 
@@ -150,13 +149,13 @@ export default {
         .SaveBaseInfo(params)
         .then(res => {
           if (res.data.code == '200') {
-            // vm.$store.commit(vm.$types.SavePhoneInfo, {
-            //   money: params.money,
-            //   numberid: params.numberid,
-            //   number: this.form.number
-            // })
+            const query = Object.assign(
+              { cardId: vm.form.numberId },
+              res.data.data
+            )
+            console.log(query)
             vm.$store.commit(vm.$types.ShowLoading, false)
-            vm.$router.push({ name: 'InputInfo', query: res.data.data })
+            vm.$router.push({ name: 'InputInfo', query: query })
           } else {
             vm.$store.commit(vm.$types.ShowLoading, false)
             vm.$toast.fail(res.data.message)

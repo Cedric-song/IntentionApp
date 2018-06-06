@@ -116,18 +116,21 @@ export default {
         this.form.imgFront = res.data
         this.imgs.imgFront = URL.createObjectURL(file.raw)
       }
+      this.$store.commit(this.$types.ShowLoading, false)
     },
     handleImgBackSuccess(res, file) {
       if (res.code == '200') {
         this.form.imgBack = res.data
         this.imgs.imgBack = URL.createObjectURL(file.raw)
       }
+      this.$store.commit(this.$types.ShowLoading, false)
     },
     handleImgPersonSuccess(res, file) {
       if (res.code == '200') {
         this.form.imgPerson = res.data
         this.imgs.imgPerson = URL.createObjectURL(file.raw)
       }
+      this.$store.commit(this.$types.ShowLoading, false)
     },
     beforeAvatarUpload(file) {
       this.$store.commit(this.$types.ShowLoading, true)
@@ -143,9 +146,7 @@ export default {
       // return isJPG && isLt2M
       return true
     },
-    handleOnProgress() {
-      this.$store.commit(this.$types.ShowLoading, false)
-    },
+    handleOnProgress() {},
     handleLeftClose() {
       this.$dialog
         .confirm({
@@ -200,10 +201,11 @@ export default {
         }
       }
 
+      params.wxId = this.$store.state.userinfo.openid
       params.orderId = this.$route.query.orderId || ''
       params.cardDetailId = this.$route.query.cardDetailId || ''
+      params.cardId = this.$route.query.cardId || ''
 
-      // this.$router.push({ name: 'InputPersonInfo' })
       this.$api.SaveEnterInfo(params).then(res => {
         if (res.data.code == 200) {
           this.$router.push({

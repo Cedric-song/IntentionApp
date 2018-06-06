@@ -20,7 +20,7 @@ export default {
     } else if (this.$store.state.userinfo.openid) {
       console.log(`openid: ${this.$store.state.userinfo.openid}`)
     } else {
-      // this.getOpenId()
+      this.getOpenId()
     }
   },
   methods: {
