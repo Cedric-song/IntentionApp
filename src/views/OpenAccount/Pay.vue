@@ -44,7 +44,7 @@
       </van-col>
 
       <van-col span="24" class="info strong">
-        99元全国不限量套餐说明：
+        套餐说明：
       </van-col>
       <van-col span="24" class="info" v-for="(item,index) in setInfo" :key="index">{{item}}</van-col>
       <van-col :span="24">
@@ -63,8 +63,8 @@ export default {
       checked: '',
       tableData: [
         {
-          name: '(87001187)天翼不限量99元套餐201802',
-          money: '99',
+          name: '金榜题名卡套餐',
+          money: '69',
           data: '国内不限量',
           voice: '300',
           range: '国内',

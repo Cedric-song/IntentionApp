@@ -52,7 +52,7 @@
       <van-col span="24">
         <van-cell-group style="position:relative;">
           <van-radio-group v-model="form.shipSet" class="radio">
-            <van-cell required>套餐选择
+            <van-cell required>配送时间
               <van-radio name="1">只工作日送货（双休日、假期不送货）</van-radio>
               <van-radio name="2">只双休日、假期送货（工作日不送货）</van-radio>
               <van-radio name="3">工作日、双休日与假期均可送货</van-radio>
@@ -89,7 +89,7 @@ export default {
         number: '',
         cityId: ''
       },
-      columns: this.$cityList,
+      columns: this.$cityWholeList,
       showCityPicker: false,
       numberError: false,
       numberErrorMsg: '',

@@ -6,9 +6,8 @@
         您已成功开通志愿宝服务，现在您可以使用概率测试30次，智能填报5次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！
       </van-col>
       <van-col span="24" class="tips">
-        温馨提示：请您在收到志愿宝套餐卡后尽快在志愿宝首页点击
-        <a href="javascript:;" @click="$router.push({name: 'ActiveCard'})">激活</a> ，以便正常享受话费返还优惠，您也可到以下
-        <a href="http://www.10010.com/">营业厅</a> 线下开卡激活。如有问题请咨询10000号。
+        温馨提示：请您在收到“金榜题名卡”后尽快在志愿宝首页点击
+        <a href="javascript:;" @click="$router.push({name: 'ActiveCard'})">激活</a> ，以便正常使用。如有问题请拨打10000号。
       </van-col>
     </van-row>
   </div>

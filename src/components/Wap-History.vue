@@ -26,7 +26,7 @@ module.exports = {
 
     this.chartSettings = {
       axisSite: { right: ['people'] },
-      yAxisName: ['位次', '招生人数'],
+      yAxisName: ['位次', '录取人数'],
       metrics: ['people', 'position'],
       showLine: ['position', 'userPosition'],
       label: {
@@ -34,7 +34,7 @@ module.exports = {
       },
       max: [0, 20],
       legendName: {
-        people: '招生人数',
+        people: '录取人数',
         position: '位次'
       }
     }

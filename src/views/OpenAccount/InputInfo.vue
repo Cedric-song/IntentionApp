@@ -57,7 +57,7 @@
         </van-uploader>
       </van-col> -->
 
-        <span class="tip-red">手持身份证照片只允许调用摄像头拍摄，效果如下图</span>
+        <!-- <span class="tip-red">手持身份证照片只允许调用摄像头拍摄，效果如下图</span> -->
         <van-col span="24">
           <van-checkbox v-model="tipCheck" class="into-tip" shape="square"></van-checkbox>
           <span class="into-tip">阅读并同意入网协议

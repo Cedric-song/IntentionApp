@@ -119,13 +119,7 @@ export default {
     }
   },
   methods: {},
-  created() {
-    // this.$api.GetOpenId({ state: location.href }).then(res => {
-    //   if (res.data.code == '200') {
-    //     window.location.href = res.data.data
-    //   }
-    // })
-  }
+  created() {}
 }
 </script>
 
