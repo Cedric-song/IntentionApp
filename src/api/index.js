@@ -4,7 +4,7 @@ import VueAxios from 'vue-axios'
 
 // axios.defaults.timeout = 30000
 if (process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'http://www.cxnb-bj.com/zhiling/'
+  // axios.defaults.baseURL = 'http://www.cxnb-bj.com/zhiling/'
 }
 
 Vue.use(VueAxios, axios)
