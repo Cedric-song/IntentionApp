@@ -117,7 +117,9 @@ export default {
   },
   methods: {},
   created() {
-    this.$api.GetOpenId({ state: location.href }).then(res => {})
+    this.$api.GetOpenId({ state: location.href }).then(res => {
+      alert(1234)
+    })
   }
 }
 </script>
