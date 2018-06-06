@@ -1,6 +1,6 @@
 <template>
   <div class="pay">
-    <van-nav-bar title="支付订单激活志愿宝" left-text="后退" left-arrow @click-left="$router.back()" />
+    <van-nav-bar title="支付订单激活志愿宝" left-text="后退" left-arrow @click-left="handleLeftClose" />
     <van-row>
       <van-col span="24">
         <van-steps :active="step">
@@ -47,9 +47,6 @@
         99元全国不限量套餐说明：
       </van-col>
       <van-col span="24" class="info" v-for="(item,index) in setInfo" :key="index">{{item}}</van-col>
-
-      <!-- <img src="/static/imgs/set-info.png" alt="" style="width:100%;margin-bottom: 10px;"> -->
-
       <van-col :span="24">
         <van-button type="primary" bottom-action class="btn" @click="handlePay">去付款</van-button>
       </van-col>
@@ -58,7 +55,6 @@
 </template>
 
 <script>
-// oDtJ10RDKfRcoGTUVFySkeztR7Ko
 export default {
   data() {
     return {
@@ -89,6 +85,19 @@ export default {
     }
   },
   methods: {
+    handleLeftClose() {
+      this.$dialog
+        .confirm({
+          title: '关闭提示',
+          message: '关闭后，之前填写的信息将丢失，请谨慎操作。'
+        })
+        .then(() => {
+          this.$router.push({ name: 'OpenAccount' })
+        })
+        .catch(() => {
+          // on cancel
+        })
+    },
     handlePay() {
       this.$dialog
         .confirm({
@@ -96,8 +105,6 @@ export default {
           message: '共计299元'
         })
         .then(() => {
-          // this.$toast.success('付款成功')
-          // this.$router.push({ name: 'PaySuccess' })
           this.payAction()
         })
         .catch(() => {
@@ -132,6 +139,8 @@ export default {
         function(res) {
           if (res.err_msg === 'get_brand_wcpay_request:ok') {
             console.log('get_brand_wcpay_request:ok')
+            vm.$toast.success('付款成功')
+            vm.$router.push({ name: 'PaySuccess' })
           } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
             WeixinJSBridge.invoke('closeWindow', {}, function(res) {
               console.log('get_brand_wcpay_request:cancel')
@@ -146,11 +155,13 @@ export default {
     },
     payAction() {
       const vm = this
+      debugger
       const params = {
         money: 0.01,
-        openid: 'oDtJ10RDKfRcoGTUVFySkeztR7Ko',
-        orderId: '1',
-        cardDetailId: '2'
+        openid:
+          this.$store.state.userinfo.openid || 'oDtJ10RDKfRcoGTUVFySkeztR7Ko',
+        orderId: this.$route.query.orderId,
+        cardDetailId: this.$route.query.cardDetailId
       }
 
       this.$api.PayAction(params).then(res => {

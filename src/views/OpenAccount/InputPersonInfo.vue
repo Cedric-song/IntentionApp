@@ -183,7 +183,7 @@ export default {
 
       this.$api.SaveShipInfo(params).then(res => {
         if (res.data.code == 200) {
-          this.$router.push({ name: 'PayAccount' })
+          this.$router.push({ name: 'PayAccount', query: this.$route.query })
         } else {
           this.$toast.fail(res.data.message)
         }

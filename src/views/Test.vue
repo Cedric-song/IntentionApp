@@ -31,7 +31,7 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="考号" />
+          <van-field v-model="form.id" placeholder="" label="考号" />
         </van-cell-group>
       </van-col>
 

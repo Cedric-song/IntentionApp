@@ -30,18 +30,18 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="院校所在省份" />
+          <van-field v-model="form.provinceId" placeholder="" label="院校所在省份" />
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="院校级别" />
+          <van-field v-model="form.level" placeholder="" label="院校级别" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="意向专业" />
+          <van-field v-model="form.major" placeholder="" label="意向专业" />
         </van-cell-group>
       </van-col>
 
@@ -67,7 +67,8 @@ export default {
   data() {
     return {
       form: {
-        local: '吉林省'
+        local: '吉林省',
+        localId: '220000'
       },
       times: '10'
     }
