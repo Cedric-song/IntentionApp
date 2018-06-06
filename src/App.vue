@@ -27,6 +27,7 @@ export default {
     getOpenId() {
       this.$api.GetOpenId({ state: location.href.split('?')[0] }).then(res => {
         if (res.data.code == '200') {
+          debugger
           window.location.href = res.data.data
         }
       })
