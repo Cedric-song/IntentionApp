@@ -44,12 +44,30 @@
           </el-upload>
         </van-col>
 
-        <van-col span="24" class="img-cell">
+        <van-col span="24" style="position:relative;" class="img-cell">
           <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
           <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
             <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+        </van-col>
+
+        <van-col span="24" style="position:relative;" class="img-cell" v-if="$route.query.showSpecial">
+          <!-- <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required /> -->
+          <van-cell-group class="img-cell-group">
+            <div required>※请拍摄手持身份证正面（国徽面）照片：</div>
+            <van-button @click="handleTakePhoto" class="take-photo">拍照</van-button>
+            <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon take-photo-icon"></i>
+          </van-cell-group>
+          <!-- <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+            <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload> -->
+          <!-- <van-uploader :after-read="onRead" accept="image/*" multiple>
+            <van-icon name="photograph" />
+          </van-uploader> -->
+
         </van-col>
         <!-- <van-col span="24">
         <van-uploader :after-read="onRead">
@@ -57,7 +75,6 @@
         </van-uploader>
       </van-col> -->
 
-        <!-- <span class="tip-red">手持身份证照片只允许调用摄像头拍摄，效果如下图</span> -->
         <van-col span="24">
           <van-checkbox v-model="tipCheck" class="into-tip" shape="square"></van-checkbox>
           <span class="into-tip">阅读并同意入网协议
@@ -111,6 +128,50 @@ export default {
     }
   },
   methods: {
+    handleTakePhoto() {
+      this.$wx.ready(function() {
+        this.$wx.checkJsApi({
+          jsApiList: ['chooseImage', 'previewImage'],
+          success: function(res) {
+            if (res.checkResult.getLocation == false) {
+              this.$toast.fail(
+                '你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！'
+              )
+              return
+            } else {
+              this.$wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function(res) {
+                  this.$dialog
+                    .alert({
+                      title: '标题',
+                      message: JSON.stringify(res)
+                    })
+                    .then(() => {
+                      // on close
+                    })
+                  var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                }
+              })
+            }
+          }
+        })
+      })
+      this.$wx.error(function(res) {
+        this.$toast.fail('验证失败，请退出重试！')
+      })
+    },
+    onRead(file, content) {
+      const vm = this
+      let param = new FormData()
+      param.append('file', file.file, file.file.name)
+      this.$api.uploadImg(param).then(res => {
+        vm.form.imgPerson = res.data.data
+        vm.imgs.imgPerson = res.data.data
+      })
+    },
     handleImgFrontSuccess(res, file) {
       if (res.code == '200') {
         this.form.imgFront = res.data
@@ -216,6 +277,25 @@ export default {
           this.$toast.fail(res.data.message)
         }
       })
+    },
+    initWxConfig(param) {
+      this.$wx.config({
+        debug: process.env.NODE_ENV !== 'production',
+        appId: param.appId,
+        timestamp: param.timestamp,
+        nonceStr: param.nonceStr,
+        signature: param.signature,
+        jsApiList: ['chooseImage', 'previewImage']
+      })
+    }
+  },
+  created() {
+    if (this.$route.query.showSpecial) {
+      this.$api.GetWxConfig({ url: location.href }).then(res => {
+        if (res.data.code == '200') {
+          this.initWxConfig(res.data.data)
+        }
+      })
     }
   }
 }
@@ -272,9 +352,22 @@ export default {
   .img-cell {
     display: flex;
     .van-cell {
-      flex: 1;
+      // flex: 1;
+      width: 200px;
       display: inline-block;
     }
+  }
+
+  .take-photo {
+    // position: absolute;
+  }
+
+  .take-photo-icon {
+    border: 1px solid #8c939d;
+  }
+
+  .img-cell-group {
+    padding: 10px 0;
   }
 }
 </style>

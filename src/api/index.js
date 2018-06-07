@@ -7,6 +7,11 @@ if (process.env.NODE_ENV === 'production') {
   // axios.defaults.baseURL = 'http://www.cxnb-bj.com/zhiling/'
 }
 
+const config = {
+  headers: {
+    'Content-Type': 'form-data'
+  }
+}
 Vue.use(VueAxios, axios)
 
 export default {
@@ -65,6 +70,14 @@ export default {
   },
   PayAction(params) {
     return Vue.axios.get('/wx/pay.do', {
+      params: params
+    })
+  },
+  uploadImg(params) {
+    return Vue.axios.post('/v1/upload.do', params, config)
+  },
+  GetWxConfig(params) {
+    return Vue.axios.get('/wx/getWxConfig.do', {
       params: params
     })
   }

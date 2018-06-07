@@ -46,7 +46,7 @@ Vue.prototype.$cityWholeList = [
   },
   {
     id: '222400',
-    text: '延边朝鲜族自治州'
+    text: '辽源市'
   },
   {
     id: '220500',
