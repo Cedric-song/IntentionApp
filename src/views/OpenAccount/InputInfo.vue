@@ -141,6 +141,7 @@ export default {
       return new Blob([ia], { type: mimeString })
     },
     sumitImageFile(imageBase64) {
+      const vm = this
       var blob = this.dataURItoBlob(imageBase64)
       var canvas = document.createElement('canvas')
       var dataURL = canvas.toDataURL('image/jpeg', 0.2)
@@ -152,7 +153,6 @@ export default {
       this.$api.uploadImg(fd).then(res => {
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
-        alert(res.data.data)
         vm.$store.commit(vm.$types.ShowLoading, false)
       })
     },
