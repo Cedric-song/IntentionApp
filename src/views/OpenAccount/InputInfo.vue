@@ -281,7 +281,6 @@ export default {
         IDPerson: this.form.imgPerson
       }
 
-      alert(this.form.imgPerson)
       for (let [key, value] of Object.entries(params)) {
         if (!value) {
           this.$toast.fail(`请补全所有必填信息。`)
@@ -323,7 +322,6 @@ export default {
     }
   },
   created() {
-    // this.$store.commit(this.$types.ShowLoading, true)
     if (this.$route.query.showSpecial) {
       this.$api.GetWxConfig({ url: location.href }).then(res => {
         if (res.data.code == '200') {
