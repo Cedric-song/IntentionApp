@@ -147,6 +147,8 @@ export default {
       var fd = new FormData(document.forms[0])
 
       fd.append('file', blob, 'image.png')
+      this.$toast.success('ready to uplpad')
+
       this.$api.uploadImg(fd).then(res => {
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
