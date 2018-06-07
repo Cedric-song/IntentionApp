@@ -186,7 +186,7 @@ export default {
   margin: 10px 0;
   padding-bottom: 20px;
   .ship-input {
-    width: 50px;
+    width: 60px;
     font-size: 16px;
   }
 }
@@ -201,7 +201,8 @@ export default {
 </style>
 <style lang="scss">
 .el-input__inner {
-  padding: 0 5px;
+  padding: 0;
+  font-size: 12px;
 }
 </style>
 
