@@ -5,18 +5,18 @@
     <van-row>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="机主姓名" required/>
+          <van-field v-model="form.name" placeholder="请输入机主姓名" label="机主姓名" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.id" placeholder="" label="身份证" required/>
+          <van-field v-model="form.id" placeholder="请输入机主身份证号码" label="身份证" required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.phoneNo" placeholder="" label="※手机号码" required/>
+          <van-field v-model="form.phoneNo" label="※手机号码" required placeholder="请输入11位手机号" maxlength="11" :error="numberError" :error-message="numberErrorMsg" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -63,6 +63,8 @@
 
 
 <script>
+const _numberErrorMsg = '请输入正确的手机号码'
+
 export default {
   data() {
     return {
@@ -80,7 +82,9 @@ export default {
         no5: ''
       },
       showDialog: false,
-      btnDisabled: true
+      btnDisabled: true,
+      numberError: false,
+      numberErrorMsg: ''
     }
   },
   watch: {
@@ -107,11 +111,33 @@ export default {
           }
         }
       }
+    },
+    'form.phoneNo': {
+      handler(val, oldVal) {
+        this.numberError = false
+        this.numberErrorMsg = ''
+      }
     }
   },
   methods: {
+    validate() {
+      let flag = true
+      if (!RegExp(/^(1[0-9])[0-9]{9}$/).test(this.form.phoneNo)) {
+        this.$toast.fail(_numberErrorMsg)
+        this.numberErrorMsg = _numberErrorMsg
+        this.numberError = true
+        flag = false
+      }
+
+      return flag
+    },
     handleSubmit() {
       const vm = this
+
+      if (!this.validate()) {
+        return false
+      }
+
       vm.$store.commit(vm.$types.ShowLoading, true)
       const params = {
         name: this.form.name,

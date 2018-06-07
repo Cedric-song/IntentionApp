@@ -4,18 +4,11 @@
 
     <van-row gutter="20">
       <van-col span="24" class="subtitle">
-        <!-- <div class="subname">智能分析录取概率</div> -->
         <div class="subname">精准预测目标学校录取概率</div>
         <div class="cnt">
-          <!-- 以近8年全省真实历史数据为支撑，通过全国建模大赛特级专家团队构建独家智能模型，全面展示录取位次历年差异，录取线差发展趋势，
-          <span>独家测试提供各专业录取概率</span> ，真正实现大数据价值，让您从容报考、心中有“数” -->
           全国建模大赛特级专家团队构建专利级算法模型，独家预测提供各专业录取概率，推荐十大“靠谱专业”（录取概率最高的前十专业）
         </div>
       </van-col>
-
-      <!-- <van-col span="24">
-        <img class="home-bg" src="@/assets/imgs/home.jpeg" alt="" @click="handleImgClick">
-      </van-col> -->
       <van-col span="24">
         <van-cell-group>
           <van-radio-group v-model="form.category" class="radio">
