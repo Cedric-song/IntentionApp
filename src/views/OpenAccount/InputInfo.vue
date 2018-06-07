@@ -51,7 +51,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </van-col>
-        <input type="file" accept="image/*" capture="camera" v-if="$route.query.showSpecial" @change="handleCameraChange" ref="camera">
+
         <van-col span="24" style="position:relative;" class="img-cell" v-if="$route.query.showSpecial">
           <!-- <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required /> -->
           <van-cell-group class="img-cell-group">
@@ -69,12 +69,6 @@
           </van-uploader> -->
 
         </van-col>
-        <!-- <van-col span="24">
-        <van-uploader :after-read="onRead">
-          <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required/>
-        </van-uploader>
-      </van-col> -->
-
         <van-col span="24">
           <van-checkbox v-model="tipCheck" class="into-tip" shape="square"></van-checkbox>
           <span class="into-tip">阅读并同意入网协议
@@ -128,23 +122,27 @@ export default {
     }
   },
   methods: {
-    handleCameraChange(file) {
-      const vm = this
+    convertBase64UrlToBlob(urlData) {
+      var bytes = window.atob(urlData.split(',')[1])
+      var ab = new ArrayBuffer(bytes.length)
+      var ia = new Uint8Array(ab)
+      for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i)
+      }
 
-      let param = new FormData()
-      alert(`file: ${JSON.stringify(file)}`)
-      param.append('file', file, file.name)
-      alert(`param: ${JSON.stringify(param)}`)
+      return new Blob([ab], { type: 'image/png' })
+    },
+    sumitImageFile(base64Codes) {
+      var form = document.forms[0]
+      var formData = new FormData(form)
+      formData.append('imageName', convertBase64UrlToBlob(base64Codes))
 
-      this.$api.uploadImg(param).then(res => {
-        alert(`res${JSON.stringify(res.data.data)}`)
+      this.$api.uploadImg(formData).then(res => {
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
       })
     },
-    uploadPhotoTaken() {},
     handleTakePhoto() {
-      // this.runWeixinJS(this.wxAction)
       const vm = this
       this.$wx.ready(function() {
         vm.$wx.checkJsApi({
@@ -178,8 +176,7 @@ export default {
                             success: function(res) {
                               const localData = res.localData
                               vm.$toast(JSON.stringify(localData))
-
-                              // vm.$api.uploadImg()
+                              vm.sumitImageFile(localData)
                             }
                           })
                         }
