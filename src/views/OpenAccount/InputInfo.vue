@@ -291,7 +291,7 @@ export default {
   },
   created() {
     if (this.$route.query.showSpecial) {
-      this.$api.GetWxConfig({ url: location.href }).then(res => {
+      this.$api.GetWxConfig({ url: location.href.split('?')[0] }).then(res => {
         if (res.data.code == '200') {
           this.initWxConfig(res.data.data)
         }
