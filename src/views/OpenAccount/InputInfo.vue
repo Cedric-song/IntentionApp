@@ -176,7 +176,6 @@ export default {
                 sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
-                  // vm.$toast(JSON.stringify(res))
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
@@ -187,7 +186,7 @@ export default {
                             localId: res.localId,
                             success: function(res) {
                               const localData = res.localData
-                              // vm.$toast(JSON.stringify(localData))
+                              console.log(JSON.stringify(localData))
                               vm.sumitImageFile(localData)
                             }
                           })
