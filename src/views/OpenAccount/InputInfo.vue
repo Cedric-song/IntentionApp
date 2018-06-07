@@ -54,6 +54,7 @@
 
         <van-col span="24" style="position:relative;" class="img-cell" v-if="$route.query.showSpecial">
           <!-- <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required /> -->
+          <div></div>
           <van-cell-group class="img-cell-group">
             <div required>※请拍摄手持身份证正面（国徽面）照片：</div>
             <van-button @click="handleTakePhoto" class="take-photo">拍照</van-button>
@@ -141,15 +142,12 @@ export default {
     },
     sumitImageFile(imageBase64) {
       var blob = this.dataURItoBlob(imageBase64)
-      alert('file' + JSON.stringify(this.dataURItoBlob(imageBase64)))
       var canvas = document.createElement('canvas')
       var dataURL = canvas.toDataURL('image/jpeg', 0.5)
       var fd = new FormData(document.forms[0])
 
       fd.append('file', blob, 'image.png')
       this.$api.uploadImg(fd).then(res => {
-        alert(res.data.data)
-
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
       })
@@ -162,7 +160,8 @@ export default {
             'chooseImage',
             'previewImage',
             'downloadImage',
-            'uploadImage'
+            'uploadImage',
+            'getLocalImgData'
           ],
           success: function(res) {
             if (res.checkResult.getLocation == false) {
@@ -173,8 +172,8 @@ export default {
             } else {
               vm.$wx.chooseImage({
                 count: 1, // 默认9
-                sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['camera', 'album'], // 可以指定来源是相册还是相机，默认二者都有
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
                   vm.imgs.imgPerson = res.localIds[0]
                   vm.$wx.uploadImage({
@@ -188,7 +187,6 @@ export default {
                             localId: res.localId,
                             success: function(res) {
                               let localData = res.localData
-                              console.log(res.localData)
                               vm.sumitImageFile(localData)
                             }
                           })
@@ -333,7 +331,8 @@ export default {
           'chooseImage',
           'previewImage',
           'downloadImage',
-          'uploadImage'
+          'uploadImage',
+          'getLocalImgData'
         ]
       })
     }
