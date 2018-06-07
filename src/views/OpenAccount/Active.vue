@@ -128,9 +128,11 @@ export default {
         .ActiveCard(params)
         .then(res => {
           if (res.data.code == '200') {
+            // '激活信息提交成功，感谢您的使用！'
             vm.$dialog
               .alert({
-                message: '激活信息提交成功，感谢您的使用！'
+                message:
+                  '您已成功开通志愿宝服务，现在您可以使用概率测试30次，智能填报5次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！'
               })
               .then(() => {
                 vm.$router.push({ name: 'Home' })
