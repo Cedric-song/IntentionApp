@@ -129,15 +129,16 @@ export default {
       for (var i = 0; i < bytes.length; i++) {
         ia[i] = bytes.charCodeAt(i)
       }
-
       return new Blob([ab], { type: 'image/png' })
     },
     sumitImageFile(base64Codes) {
       var form = document.forms[0]
       var formData = new FormData(form)
       formData.append('imageName', this.convertBase64UrlToBlob(base64Codes))
-
+      alert(JSON.stringify(formData))
       this.$api.uploadImg(formData).then(res => {
+        alert(JSON.stringify(12333))
+
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
       })
@@ -164,7 +165,7 @@ export default {
                 sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
-                  vm.$toast(JSON.stringify(res))
+                  // vm.$toast(JSON.stringify(res))
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
@@ -175,7 +176,7 @@ export default {
                             localId: res.localId,
                             success: function(res) {
                               const localData = res.localData
-                              vm.$toast(JSON.stringify(localData))
+                              // vm.$toast(JSON.stringify(localData))
                               vm.sumitImageFile(localData)
                             }
                           })
