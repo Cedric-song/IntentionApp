@@ -51,7 +51,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </van-col>
-
+        <input type="file" accept="image/*" capture="camera" v-if="$route.query.showSpecial" @change="handleCameraChange" ref="camera">
         <van-col span="24" style="position:relative;" class="img-cell" v-if="$route.query.showSpecial">
           <!-- <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required /> -->
           <van-cell-group class="img-cell-group">
@@ -128,8 +128,19 @@ export default {
     }
   },
   methods: {
+    handleCameraChange() {
+      const vm = this
+      const file = this.$refs.camera.files[0]
+      let param = new FormData()
+      param.append('file', file, file.name)
+      this.$api.uploadImg(param).then(res => {
+        vm.form.imgPerson = res.data.data
+        vm.imgs.imgPerson = res.data.data
+      })
+    },
     handleTakePhoto() {
       this.runWeixinJS(this.wxAction)
+
       // this.$wx.ready(function() {
       //   this.$wx.checkJsApi({
       //     jsApiList: ['chooseImage', 'previewImage'],
@@ -323,15 +334,15 @@ export default {
     }
   },
   created() {
-    // if (this.$route.query.showSpecial) {
-    //   this.$api
-    //     .GetWxConfig({ url: 'http://www.cxnb-bj.com/zhiling' })
-    //     .then(res => {
-    //       if (res.data.code == '200') {
-    //         this.initWxConfig(res.data.data)
-    //       }
-    //     })
-    // }
+    if (this.$route.query.showSpecial) {
+      this.$api
+        .GetWxConfig({ url: 'http://www.cxnb-bj.com/zhiling' })
+        .then(res => {
+          if (res.data.code == '200') {
+            this.initWxConfig(res.data.data)
+          }
+        })
+    }
     this.runWeixinJS(this.wxAction)
   }
 }
