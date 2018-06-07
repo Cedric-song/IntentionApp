@@ -204,6 +204,7 @@ export default {
 <style lang="scss">
 .el-input__inner {
   padding: 0 !important;
+  text-align: center;
   font-size: 11px;
 }
 </style>
