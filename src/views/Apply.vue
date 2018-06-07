@@ -68,7 +68,8 @@ export default {
     return {
       form: {
         local: '吉林省',
-        localId: '220000'
+        localId: '220000',
+        category: '1'
       },
       times: '10'
     }

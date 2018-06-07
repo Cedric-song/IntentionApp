@@ -159,7 +159,7 @@ export default {
       const vm = this
 
       const params = {
-        money: 0.01,
+        money: 299,
         wxId:
           this.$store.state.userinfo.openid || 'oDtJ10RDKfRcoGTUVFySkeztR7Ko',
         openid:

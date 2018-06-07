@@ -85,7 +85,7 @@ export default {
       this.$dialog
         .confirm({
           title: '确认测试',
-          message: '每次测试将消耗一点积分'
+          message: '每次测试将消耗一点次数'
         })
         .then(() => {
           this.$router.push({ name: 'Answer' })

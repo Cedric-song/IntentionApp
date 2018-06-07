@@ -13,30 +13,28 @@
           <van-field v-model="form.id" placeholder="" label="身份证" required />
         </van-cell-group>
       </van-col>
-      <van-col span="24">
-        <van-uploader :after-read="onReadImg1">
-          <div>※请拍摄身份证正面（照片面）照片：</div>
-        </van-uploader>
-        <div style="text-align: center;padding: 10px;">
-          <img :src="img1" alt="" style="height:40px;display:inline-block;">
-        </div>
+      <van-col span="24" class="img-cell">
+        <van-cell title="※请上传身份证正面（照片面）照片：" value="" required style="flex: 1;" />
+        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgFrontSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <img v-if="form.imgFront !== ''" :src="imgs.imgFront" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </van-col>
-      <van-col span="24">
-        <van-uploader :after-read="onReadImg2">
-          <div>※请拍摄身份证反面（国徽面）照片：</div>
-        </van-uploader>
-        <div style="text-align: center;padding: 10px;">
-          <img :src="img2" alt="" style="height:40px;display:inline-block;">
-        </div>
 
+      <van-col span="24" class="img-cell">
+        <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required style="flex: 1;" />
+        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgBackSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <img v-if="form.imgBack !== ''" :src="imgs.imgBack" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </van-col>
-      <van-col span="24">
-        <van-uploader :after-read="onReadImg3">
-          <div>※请拍摄手持身份证正面（国徽面）照片：</div>
-        </van-uploader>
-        <div style="text-align:center;padding: 10px;">
-          <img :src="img3" alt="" style="height:40px;display:inline-block;">
-        </div>
+
+      <van-col span="24" class="img-cell">
+        <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
+        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </van-col>
       <van-col span="24" style="margin-top:20px;">
         <van-button type="primary" bottom-action class="btn" @click="handleSubmit">提交</van-button>
@@ -51,35 +49,198 @@
 export default {
   data() {
     return {
-      form: {},
-      img1: ''
+      step: 0,
+      form: {
+        imgFront: '',
+        imgBack: '',
+        imgPerson: '',
+        id: '',
+        name: ''
+      },
+      imgs: {
+        imgFront: '',
+        imgBack: '',
+        imgPerson: ''
+      },
+      idError: false,
+      idErrorMsg: '',
+      tipCheck: true,
+      showTips: false
+    }
+  },
+  watch: {
+    'form.id': {
+      handler(val, oldVal) {
+        this.idError = false
+        this.idErrorMsg = ''
+      }
     }
   },
   methods: {
-    onRead(file, name) {
-      this[name] = file.content
+    handleImgFrontSuccess(res, file) {
+      if (res.code == '200') {
+        this.form.imgFront = res.data
+        this.imgs.imgFront = URL.createObjectURL(file.raw)
+      }
+      this.$store.commit(this.$types.ShowLoading, false)
     },
-    onReadImg1(file) {
-      this.onRead(file, 'img1')
+    handleImgBackSuccess(res, file) {
+      if (res.code == '200') {
+        this.form.imgBack = res.data
+        this.imgs.imgBack = URL.createObjectURL(file.raw)
+      }
+      this.$store.commit(this.$types.ShowLoading, false)
     },
-    onReadImg2(file) {
-      this.onRead(file, 'img2')
+    handleImgPersonSuccess(res, file) {
+      if (res.code == '200') {
+        this.form.imgPerson = res.data
+        this.imgs.imgPerson = URL.createObjectURL(file.raw)
+      }
+      this.$store.commit(this.$types.ShowLoading, false)
     },
-    onReadImg3(file) {
-      this.onRead(file, 'img3')
+    beforeAvatarUpload(file) {
+      this.$store.commit(this.$types.ShowLoading, true)
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
+      return true
     },
-    handleSubmit() {
-      this.$router.push({ name: 'Home' })
+    handleOnProgress() {},
+    handleLeftClose() {
+      this.$dialog
+        .confirm({
+          title: '关闭提示',
+          message: '关闭后，之前填写的信息将丢失，请谨慎操作。'
+        })
+        .then(() => {
+          this.$router.push({ name: 'OpenAccount' })
+        })
+        .catch(() => {
+          // on cancel
+        })
+    },
+
+    validate() {
+      let flag = true
+      if (!this.tipCheck) {
+        this.$toast.fail('请阅读并同意入网协议')
+        return false
+      }
+
+      if (
+        !RegExp(
+          /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/
+        ).test(this.form.id)
+      ) {
+        this.$toast.fail(_idErrorMsg)
+        this.idErrorMsg = _idErrorMsg
+        this.idError = true
+        flag = false
+      }
+
+      return flag
+    },
+    handlePost() {
+      if (!this.validate()) {
+        return false
+      }
+
+      const params = {
+        name: this.form.name,
+        idCard: this.form.id,
+        IDFront: this.form.imgFront,
+        IDBack: this.form.imgBack,
+        IDPerson: this.form.imgPerson
+      }
+
+      for (let [key, value] of Object.entries(params)) {
+        if (!value) {
+          this.$toast.fail(`请补全所有必填信息。`)
+          return false
+        }
+      }
+
+      params.wxId = this.$store.state.userinfo.openid
+      params.orderId = this.$route.query.orderId || ''
+      params.cardDetailId = this.$route.query.cardDetailId || ''
+      params.cardId = this.$route.query.cardId || ''
+
+      this.$api.SaveEnterInfo(params).then(res => {
+        if (res.data.code == 200) {
+          this.$router.push({
+            name: 'InputPersonInfo',
+            query: this.$route.query
+          })
+        } else {
+          this.$toast.fail(res.data.message)
+        }
+      })
     }
   }
 }
 </script>
 
+<style lang="scss">
+.upload-info {
+  .tips {
+    color: #cc0000;
+    font-size: 11px;
+    padding: 10px;
+  }
+  .into-tip {
+    font-size: 12px;
+    padding: 10px 0;
+    color: #000;
+    display: inline-block;
+    vertical-align: middle;
+    span {
+      color: #0066ff;
+    }
+    .van-checkbox__icon {
+      width: 14px;
+      height: 14px;
+      line-height: 1;
+      font-size: 8px;
+    }
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+  }
+  .avatar {
+    width: 100px;
+    height: 80px;
+    display: block;
+  }
 
-<style lang="scss" scoped>
-.tips {
-  color: #cc0000;
-  font-size: 11px;
-  padding: 10px;
+  .img-cell {
+    display: flex;
+    .van-cell {
+      flex: 1;
+      display: inline-block;
+    }
+  }
 }
 </style>

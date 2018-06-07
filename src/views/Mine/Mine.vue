@@ -2,12 +2,6 @@
   <div>
     <van-nav-bar title="我的" left-text="" right-text="" />
     <van-row :gutter="20">
-      <!-- <van-col :span="24">
-        <van-cell-group>
-          <van-cell title="用户认证" icon="" is-link :to="{name: 'Verify'}" />
-        </van-cell-group>
-      </van-col> -->
-      <!-- CompletePersonInfo -->
       <van-col :span="24">
         <van-cell-group>
           <van-cell title="购买记录" icon="" is-link :to="{name: 'History'}" />

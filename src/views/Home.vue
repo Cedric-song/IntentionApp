@@ -70,17 +70,20 @@ export default {
         {
           name: '成绩查询',
           icon: '#icon-chengji',
-          to: 'Score'
+          // to: 'Score'
+          to: 'Home'
         },
         {
           name: '录取概率测试',
           icon: '#icon-ceshi',
-          to: 'Test'
+          // to: 'Test'
+          to: 'Home'
         },
         {
           name: '一键智能填报',
           icon: '#icon-tianbao',
-          to: 'Apply'
+          // to: 'Apply'
+          to: 'Home'
         },
         {
           name: '院校查询',
@@ -101,7 +104,8 @@ export default {
         {
           name: '激活',
           icon: '#icon-active',
-          to: 'ActiveCard'
+          // to: 'ActiveCard'
+          to: 'Home'
         }
       ],
       otherService: [

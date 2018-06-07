@@ -6,6 +6,8 @@
         <van-list :finished="finished" @load="onLoad">
           <van-cell v-for="item in list" :key="item.time" :title="item.time + ''" :value="item.cost" />
         </van-list>
+        <div v-if="list.length === 0" style="text-align:center;"> 暂无数据 </div>
+
       </van-col>
     </van-row>
   </div>
@@ -16,14 +18,14 @@ export default {
   data() {
     return {
       list: [
-        {
-          time: '2018-06-06 20:00:00',
-          cost: ''
-        },
-        {
-          time: '2018-06-06 19:00:00',
-          cost: ''
-        }
+        // {
+        //   time: '2018-06-06 20:00:00',
+        //   cost: ''
+        // },
+        // {
+        //   time: '2018-06-06 19:00:00',
+        //   cost: ''
+        // }
       ],
       loading: false,
       finished: false
