@@ -151,7 +151,7 @@ export default {
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
         alert(res.data.data)
-        vm.$store.commit(this.$types.ShowLoading, false)
+        vm.$store.commit(vm.$types.ShowLoading, false)
       })
     },
     handleTakePhoto() {
@@ -172,7 +172,7 @@ export default {
               )
               return
             } else {
-              vm.$store.commit(this.$types.ShowLoading, true)
+              vm.$store.commit(vm.$types.ShowLoading, true)
               vm.$wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
