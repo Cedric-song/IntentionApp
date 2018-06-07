@@ -185,9 +185,8 @@ export default {
                           vm.$wx.getLocalImgData({
                             localId: res.localId,
                             success: function(res) {
-                              const localData = res.localData
-                              console.log(JSON.stringify(localData))
-                              alert(localData)
+                              let localData = res.localData
+                              localData.replace('jgp', 'jpeg')
                               vm.sumitImageFile(localData)
                             }
                           })
