@@ -148,7 +148,7 @@ export default {
 
       fd.append('file', blob, 'image.png')
       this.$api.uploadImg(fd).then(res => {
-        alert(JSON.stringify(12333))
+        alert(res.data.data)
 
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
@@ -176,22 +176,24 @@ export default {
                 sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
+                  vm.imgs.imgPerson = res.localIds[0]
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
-                      vm.$wx.downloadImage({
-                        serverId: res.serverId,
-                        success: function(res) {
-                          vm.$wx.getLocalImgData({
-                            localId: res.localId,
-                            success: function(res) {
-                              let localData = res.localData
-                              localData.replace('jgp', 'jpeg')
-                              vm.sumitImageFile(localData)
-                            }
-                          })
-                        }
-                      })
+                      vm.form.imgPerson = res.serverId
+                      // vm.$wx.downloadImage({
+                      //   serverId: res.serverId,
+                      //   success: function(res) {
+                      //     vm.$wx.getLocalImgData({
+                      //       localId: res.localId,
+                      //       success: function(res) {
+                      //         let localData = res.localData
+                      //         localData.replace('jgp', 'jpeg')
+                      //         vm.sumitImageFile(localData)
+                      //       }
+                      //     })
+                      //   }
+                      // })
                     }
                   })
                 }
@@ -296,6 +298,7 @@ export default {
         IDPerson: this.form.imgPerson
       }
 
+      alert(this.form.imgPerson)
       for (let [key, value] of Object.entries(params)) {
         if (!value) {
           this.$toast.fail(`请补全所有必填信息。`)
