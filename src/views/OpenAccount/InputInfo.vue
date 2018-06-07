@@ -150,6 +150,7 @@ export default {
       this.$api.uploadImg(fd).then(res => {
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
+        alert(res.data.data)
         vm.$store.commit(this.$types.ShowLoading, false)
       })
     },
@@ -171,13 +172,13 @@ export default {
               )
               return
             } else {
+              vm.$store.commit(this.$types.ShowLoading, true)
               vm.$wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
                   // vm.imgs.imgPerson = res.localIds[0]
-                  vm.$store.commit(this.$types.ShowLoading, true)
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
@@ -206,15 +207,7 @@ export default {
         this.$toast.fail('验证失败，请退出重试！')
       })
     },
-    onRead(file, content) {
-      const vm = this
-      let param = new FormData()
-      param.append('file', file.file, file.file.name)
-      this.$api.uploadImg(param).then(res => {
-        vm.form.imgPerson = res.data.data
-        vm.imgs.imgPerson = res.data.data
-      })
-    },
+
     handleImgFrontSuccess(res, file) {
       if (res.code == '200') {
         this.form.imgFront = res.data
