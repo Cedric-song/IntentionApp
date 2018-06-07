@@ -29,28 +29,30 @@
           </van-cell-group>
         </van-col>
         <van-col span="24" class="img-cell">
-          <van-cell title="※请上传身份证正面（照片面）照片：" value="" required style="flex: 1;" />
-          <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgFrontSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <van-cell title="※请上传身份证正面（照片面）照片：" value="" required />
+          <van-button @click="handleTakePhoto('imgFront')" class="take-photo" type="primary">选择图片</van-button>
+          <div class="avatar-uploader">
             <img v-if="form.imgFront !== ''" :src="imgs.imgFront" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          </div>
         </van-col>
 
         <van-col span="24" class="img-cell">
-          <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required style="flex: 1;" />
-          <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgBackSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required />
+          <van-button @click="handleTakePhoto('imgBack')" class="take-photo" type="primary">选择图片</van-button>
+          <div class="avatar-uploader">
             <img v-if="form.imgBack !== ''" :src="imgs.imgBack" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          </div>
         </van-col>
 
         <van-col span="24" style="position:relative;" class="img-cell">
-          <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
-          <van-button @click="handleTakePhoto" class="take-photo" type="primary">拍照</van-button>
-          <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+          <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required />
+          <van-button @click="handleTakePhoto('imgPerson')" class="take-photo" type="primary">拍摄图片</van-button>
+          <div class="avatar-uploader">
             <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          </div>
         </van-col>
 
         <van-col span="24">
@@ -123,13 +125,13 @@ export default {
       }
       return new Blob([ia], { type: mimeString })
     },
-    sumitImageFile(imageBase64) {
+    sumitImageFile(imageBase64, name) {
       const vm = this
       var blob = this.dataURItoBlob(imageBase64)
       var canvas = document.createElement('canvas')
-      canvas.setAttribute('width', '50px')
-      canvas.setAttribute('height', '50px')
-      var dataURL = canvas.toDataURL('image/jpeg', 0.2)
+      canvas.setAttribute('width', '20px')
+      canvas.setAttribute('height', '20px')
+      var dataURL = canvas.toDataURL('image/jpeg', 0.1)
       var fd = new FormData(document.forms[0])
 
       fd.append('file', blob, 'image.png')
@@ -138,13 +140,14 @@ export default {
       this.$api.uploadImg(fd).then(res => {
         this.$toast.success('上传成功')
 
-        vm.form.imgPerson = res.data.data
-        vm.imgs.imgPerson = res.data.data
+        vm.form[name] = res.data.data
+        vm.imgs[name] = res.data.data
         vm.$store.commit(vm.$types.ShowLoading, false)
       })
     },
-    handleTakePhoto() {
+    handleTakePhoto(name) {
       const vm = this
+      const sourceType = name === 'imgPerson' ? ['camera'] : ['album', 'camera']
       this.$wx.ready(function() {
         vm.$wx.checkJsApi({
           jsApiList: [
@@ -164,9 +167,8 @@ export default {
               vm.$wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+                sourceType: sourceType, // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
-                  // vm.imgs.imgPerson = res.localIds[0]
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
@@ -178,7 +180,7 @@ export default {
                             localId: res.localId,
                             success: function(res) {
                               let localData = res.localData
-                              vm.sumitImageFile(localData)
+                              vm.sumitImageFile(localData, name)
                             }
                           })
                         }
@@ -356,17 +358,10 @@ export default {
       font-size: 8px;
     }
   }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+  .avatar-uploader {
     margin-top: 20px;
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409eff;
-  }
+
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -374,6 +369,7 @@ export default {
     height: 80px;
     line-height: 80px;
     text-align: center;
+    border: 1px dashed #d9d9d9;
   }
   .avatar {
     width: 100px;
@@ -383,8 +379,9 @@ export default {
 
   .img-cell {
     display: flex;
+    position: relative;
     .van-cell {
-      width: 200px;
+      width: 220px;
       height: 120px;
       display: inline-block;
     }
@@ -393,7 +390,7 @@ export default {
   .take-photo {
     position: absolute;
     bottom: 10px;
-    width: 80px;
+    // width: 80px;
     left: 10px;
   }
 
