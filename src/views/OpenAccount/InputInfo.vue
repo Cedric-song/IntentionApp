@@ -122,25 +122,30 @@ export default {
     }
   },
   methods: {
-    convertBase64UrlToBlob(urlData) {
-      var bytes = window.atob(urlData.split(',')[1])
-      var ab = new ArrayBuffer(bytes.length)
-      var ia = new Uint8Array(ab)
-      for (var i = 0; i < bytes.length; i++) {
-        ia[i] = bytes.charCodeAt(i)
+    convertBase64UrlToBlob(base64Data) {
+      var byteString
+      if (base64Data.split(',')[0].indexOf('base64') >= 0) {
+        byteString = atob(base64Data.split(',')[1])
+      } else {
+        byteString = unescape(base64Data.split(',')[1])
       }
-      alert(JSON.stringify(ab))
-
-      return new Blob([ab], { type: 'image/png' })
+      var mimeString = base64Data
+        .split(',')[0]
+        .split(':')[1]
+        .split(';')[0]
+      var ia = new Uint8Array(byteString.length)
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+      }
+      return new Blob([ia], { type: mimeString })
     },
-    sumitImageFile(base64Codes) {
-      alert(JSON.stringify(base64Codes))
-      var form = document.forms[0]
-      var formData = new FormData(form)
-      alert('formData' + JSON.stringify(formData))
-      formData.append('imageName', this.convertBase64UrlToBlob(base64Codes))
-      alert(JSON.stringify(formData))
-      this.$api.uploadImg(formData).then(res => {
+    sumitImageFile(imageBase64) {
+      var blob = dataURItoBlob(imageBase64)
+      var canvas = document.createElement('canvas')
+      var dataURL = canvas.toDataURL('image/jpeg', 0.5)
+      var fd = new FormData(document.forms[0])
+      fd.append('the_file', blob, 'image.png')
+      this.$api.uploadImg(fd).then(res => {
         alert(JSON.stringify(12333))
 
         vm.form.imgPerson = res.data.data
