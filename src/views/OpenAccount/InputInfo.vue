@@ -148,23 +148,23 @@ export default {
     },
     handleTakePhoto() {
       // this.runWeixinJS(this.wxAction)
-
+      const vm = this
       this.$wx.ready(function() {
-        this.$wx.checkJsApi({
+        vm.$wx.checkJsApi({
           jsApiList: ['chooseImage', 'previewImage'],
           success: function(res) {
             if (res.checkResult.getLocation == false) {
-              this.$toast.fail(
+              vm.$toast.fail(
                 '你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！'
               )
               return
             } else {
-              this.$wx.chooseImage({
+              vm.$wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
-                  this.$dialog
+                  vm.$dialog
                     .alert({
                       title: '标题',
                       message: JSON.stringify(res)
