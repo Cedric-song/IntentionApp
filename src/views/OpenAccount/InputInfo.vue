@@ -150,6 +150,7 @@ export default {
       this.$api.uploadImg(fd).then(res => {
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
+        vm.$store.commit(this.$types.ShowLoading, false)
       })
     },
     handleTakePhoto() {
@@ -175,11 +176,12 @@ export default {
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
-                  vm.imgs.imgPerson = res.localIds[0]
+                  // vm.imgs.imgPerson = res.localIds[0]
+                  vm.$store.commit(this.$types.ShowLoading, true)
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
-                      vm.form.imgPerson = res.serverId
+                      // vm.form.imgPerson = res.serverId
                       vm.$wx.downloadImage({
                         serverId: res.serverId,
                         success: function(res) {
