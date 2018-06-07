@@ -46,6 +46,7 @@
 
         <van-col span="24" style="position:relative;" class="img-cell">
           <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
+          <van-button @click="handleTakePhoto" class="take-photo" type="primary">拍照</van-button>
           <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
             <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -57,7 +58,7 @@
           <div></div>
           <van-cell-group class="img-cell-group">
             <div required>※请拍摄手持身份证正面（国徽面）照片：</div>
-            <van-button @click="handleTakePhoto" class="take-photo">拍照</van-button>
+            <van-button @click="handleTakePhoto" class="take-photo" type="primary">拍照</van-button>
             <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar" ref="imgPerson">
             <i v-else class="el-icon-plus avatar-uploader-icon take-photo-icon"></i>
           </van-cell-group>
@@ -148,9 +149,11 @@ export default {
       var fd = new FormData(document.forms[0])
 
       fd.append('file', blob, 'image.png')
-      this.$toast.success('ready to uplpad')
+      vm.$toast.success('uplpading')
 
       this.$api.uploadImg(fd).then(res => {
+        this.$toast.success('upload success')
+
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
         vm.$store.commit(vm.$types.ShowLoading, false)
@@ -174,17 +177,16 @@ export default {
               )
               return
             } else {
-              vm.$store.commit(vm.$types.ShowLoading, true)
               vm.$wx.chooseImage({
                 count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
                   // vm.imgs.imgPerson = res.localIds[0]
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
-                      // vm.form.imgPerson = res.serverId
+                      vm.$store.commit(vm.$types.ShowLoading, true)
                       vm.$wx.downloadImage({
                         serverId: res.serverId,
                         success: function(res) {
@@ -375,7 +377,7 @@ export default {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 20px;
   }
   .avatar-uploader .el-upload:hover {
     border-color: #409eff;
@@ -399,12 +401,16 @@ export default {
     .van-cell {
       // flex: 1;
       width: 200px;
+      height: 120px;
       display: inline-block;
     }
   }
 
   .take-photo {
-    // position: absolute;
+    position: absolute;
+    bottom: 10px;
+    width: 120px;
+    left: 10px;
   }
 
   .take-photo-icon {
