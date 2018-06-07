@@ -187,6 +187,7 @@ export default {
                             success: function(res) {
                               const localData = res.localData
                               console.log(JSON.stringify(localData))
+                              alert(localData)
                               vm.sumitImageFile(localData)
                             }
                           })
