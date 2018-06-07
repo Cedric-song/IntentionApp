@@ -70,8 +70,7 @@ export default {
         {
           name: '成绩查询',
           icon: '#icon-chengji',
-          // to: 'Score'
-          to: 'Home'
+          to: 'Score'
         },
         {
           name: '录取概率测试',
@@ -104,8 +103,7 @@ export default {
         {
           name: '激活',
           icon: '#icon-active',
-          // to: 'ActiveCard'
-          to: 'Home'
+          to: 'ActiveCard'
         }
       ],
       otherService: [
