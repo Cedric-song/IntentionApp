@@ -136,10 +136,10 @@ export default {
                 vm.$router.push({ name: 'Home' })
               })
           } else if (res.data.code == '500') {
+            // '您已成功开通志愿宝服务，现在您可以使用概率测试30次，智能填报5次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！'
             vm.$dialog
               .alert({
-                message:
-                  '您已成功开通志愿宝服务，现在您可以使用概率测试30次，智能填报5次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！'
+                message: res.data.message
               })
               .then(() => {
                 vm.$router.push({ name: 'Home' })
