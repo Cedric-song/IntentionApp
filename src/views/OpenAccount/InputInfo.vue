@@ -131,6 +131,8 @@ export default {
     handleCameraChange() {
       const vm = this
       const file = this.$refs.camera.files[0]
+      var fr = new FileReader()
+      // fr.readAsDataURL(file)
       alert(`files: ${JSON.stringify(this.$refs.camera.files)}`)
 
       let param = new FormData()
@@ -341,13 +343,11 @@ export default {
   },
   created() {
     if (this.$route.query.showSpecial) {
-      this.$api
-        .GetWxConfig({ url: 'http://www.cxnb-bj.com/zhiling' })
-        .then(res => {
-          if (res.data.code == '200') {
-            this.initWxConfig(res.data.data)
-          }
-        })
+      this.$api.GetWxConfig({ url: location.href.split('?')[0] }).then(res => {
+        if (res.data.code == '200') {
+          this.initWxConfig(res.data.data)
+        }
+      })
     }
     this.runWeixinJS(this.wxAction)
   }
