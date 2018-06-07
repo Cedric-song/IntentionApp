@@ -291,11 +291,13 @@ export default {
   },
   created() {
     if (this.$route.query.showSpecial) {
-      this.$api.GetWxConfig({ url: location.href.split('?')[0] }).then(res => {
-        if (res.data.code == '200') {
-          this.initWxConfig(res.data.data)
-        }
-      })
+      this.$api
+        .GetWxConfig({ url: 'http://www.cxnb-bj.com/zhiling' })
+        .then(res => {
+          if (res.data.code == '200') {
+            this.initWxConfig(res.data.data)
+          }
+        })
     }
   }
 }
