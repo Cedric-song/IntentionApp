@@ -131,6 +131,8 @@ export default {
     handleCameraChange() {
       const vm = this
       const file = this.$refs.camera.files[0]
+      alert(`files: ${JSON.stringify(this.$refs.camera.files)}`)
+
       let param = new FormData()
       alert(`file: ${JSON.stringify(file)}`)
       param.append('file', file, file.name)

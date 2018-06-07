@@ -115,7 +115,7 @@ const router = new Router({
       component: OpenAccount
     },
     {
-      path: '/zhiling/input-info',
+      path: '/open-account/input-info',
       name: 'InputInfo',
       component: InputInfo
     },
