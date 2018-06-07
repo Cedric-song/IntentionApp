@@ -14,28 +14,32 @@
         </van-cell-group>
       </van-col>
       <van-col span="24" class="img-cell">
-        <van-cell title="※请上传身份证正面（照片面）照片：" value="" required style="flex: 1;" />
-        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgFrontSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+        <van-cell title="※请上传身份证正面（照片面）照片：" value="" required />
+        <van-button @click="handleTakePhoto('imgFront')" class="take-photo" type="primary">选择图片</van-button>
+        <div class="avatar-uploader">
           <img v-if="form.imgFront !== ''" :src="imgs.imgFront" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        </div>
       </van-col>
 
       <van-col span="24" class="img-cell">
-        <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required style="flex: 1;" />
-        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgBackSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+        <van-cell title="※请上传身份证反面（国徽面）照片：" value="" required />
+        <van-button @click="handleTakePhoto('imgBack')" class="take-photo" type="primary">选择图片</van-button>
+        <div class="avatar-uploader">
           <img v-if="form.imgBack !== ''" :src="imgs.imgBack" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        </div>
       </van-col>
 
-      <van-col span="24" class="img-cell">
-        <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required style="flex: 1;" />
-        <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
+      <van-col span="24" style="position:relative;" class="img-cell">
+        <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required />
+        <van-button @click="handleTakePhoto('imgPerson')" class="take-photo" type="primary">拍摄图片</van-button>
+        <div class="avatar-uploader">
           <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        </div>
       </van-col>
+
       <van-col span="24" style="margin-top:20px;">
         <van-button type="primary" bottom-action class="btn" @click="handleSubmit">提交</van-button>
       </van-col>
@@ -77,6 +81,111 @@ export default {
     }
   },
   methods: {
+    initWxConfig(param) {
+      this.$wx.config({
+        debug: process.env.NODE_ENV !== 'production',
+        appId: param.appId,
+        timestamp: param.timestamp,
+        nonceStr: param.nonceStr,
+        signature: param.signature,
+        jsApiList: [
+          'chooseImage',
+          'previewImage',
+          'downloadImage',
+          'uploadImage',
+          'getLocalImgData'
+        ]
+      })
+    },
+    dataURItoBlob(base64Data) {
+      var byteString
+      if (base64Data.split(',')[0].indexOf('base64') >= 0) {
+        byteString = atob(base64Data.split(',')[1])
+      } else {
+        byteString = unescape(base64Data.split(',')[1])
+      }
+      var mimeString = base64Data
+        .split(',')[0]
+        .split(':')[1]
+        .split(';')[0]
+      var ia = new Uint8Array(byteString.length)
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+      }
+      return new Blob([ia], { type: mimeString })
+    },
+    sumitImageFile(imageBase64, name) {
+      const vm = this
+      var blob = this.dataURItoBlob(imageBase64)
+      var canvas = document.createElement('canvas')
+      canvas.setAttribute('width', '20px')
+      canvas.setAttribute('height', '20px')
+      var dataURL = canvas.toDataURL('image/jpeg', 0.1)
+      var fd = new FormData(document.forms[0])
+
+      fd.append('file', blob, 'image.png')
+      vm.$toast.success('开始上传')
+
+      this.$api.uploadImg(fd).then(res => {
+        this.$toast.success('上传成功')
+
+        vm.form[name] = res.data.data
+        vm.imgs[name] = res.data.data
+        vm.$store.commit(vm.$types.ShowLoading, false)
+      })
+    },
+    handleTakePhoto(name) {
+      const vm = this
+      const sourceType = name === 'imgPerson' ? ['camera'] : ['album', 'camera']
+      this.$wx.ready(function() {
+        vm.$wx.checkJsApi({
+          jsApiList: [
+            'chooseImage',
+            'previewImage',
+            'downloadImage',
+            'uploadImage',
+            'getLocalImgData'
+          ],
+          success: function(res) {
+            if (res.checkResult.getLocation == false) {
+              vm.$toast.fail(
+                '你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！'
+              )
+              return
+            } else {
+              vm.$wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: sourceType, // 可以指定来源是相册还是相机，默认二者都有
+                success: function(res) {
+                  vm.$wx.uploadImage({
+                    localId: res.localIds[0],
+                    success: function(res) {
+                      vm.$store.commit(vm.$types.ShowLoading, true)
+                      vm.$wx.downloadImage({
+                        serverId: res.serverId,
+                        success: function(res) {
+                          vm.$wx.getLocalImgData({
+                            localId: res.localId,
+                            success: function(res) {
+                              let localData = res.localData
+                              vm.sumitImageFile(localData, name)
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          }
+        })
+      })
+      this.$wx.error(function(res) {
+        this.$toast.fail('验证失败，请退出重试！')
+      })
+    },
     handleImgFrontSuccess(res, file) {
       if (res.code == '200') {
         this.form.imgFront = res.data
@@ -112,20 +221,6 @@ export default {
       // return isJPG && isLt2M
       return true
     },
-    handleOnProgress() {},
-    handleLeftClose() {
-      this.$dialog
-        .confirm({
-          title: '关闭提示',
-          message: '关闭后，之前填写的信息将丢失，请谨慎操作。'
-        })
-        .then(() => {
-          this.$router.push({ name: 'OpenAccount' })
-        })
-        .catch(() => {
-          // on cancel
-        })
-    },
 
     validate() {
       let flag = true
@@ -148,6 +243,7 @@ export default {
       return flag
     },
     handlePost() {
+      const vm = this
       if (!this.validate()) {
         return false
       }
@@ -174,15 +270,20 @@ export default {
 
       this.$api.SaveEnterInfo(params).then(res => {
         if (res.data.code == 200) {
-          this.$router.push({
-            name: 'InputPersonInfo',
-            query: this.$route.query
-          })
+          vm.$toast.success('补录成功')
+          vm.$router.push({ name: 'Mine' })
         } else {
-          this.$toast.fail(res.data.message)
+          vm.$toast.fail(res.data.message)
         }
       })
     }
+  },
+  created() {
+    this.$api.GetWxConfig({ url: location.href }).then(res => {
+      if (res.data.code == '200') {
+        this.initWxConfig(res.data.data)
+      }
+    })
   }
 }
 </script>
@@ -210,17 +311,10 @@ export default {
       font-size: 8px;
     }
   }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    margin-top: 10px;
+  .avatar-uploader {
+    margin-top: 20px;
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409eff;
-  }
+
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -228,6 +322,7 @@ export default {
     height: 80px;
     line-height: 80px;
     text-align: center;
+    border: 1px dashed #d9d9d9;
   }
   .avatar {
     width: 100px;
@@ -237,10 +332,27 @@ export default {
 
   .img-cell {
     display: flex;
+    position: relative;
     .van-cell {
-      flex: 1;
+      width: 220px;
+      height: 120px;
       display: inline-block;
     }
+  }
+
+  .take-photo {
+    position: absolute;
+    bottom: 10px;
+    // width: 80px;
+    left: 10px;
+  }
+
+  .take-photo-icon {
+    border: 1px solid #8c939d;
+  }
+
+  .img-cell-group {
+    padding: 10px 0;
   }
 }
 </style>

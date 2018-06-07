@@ -30,7 +30,7 @@
         该图中的立柱为每年的录取人数，可以分析录取趋势，如果在我省的录取人数增加意味着此专业逐步变热，但是并非录取概率加大，因为受到填报人数的影响，反之亦然。 录取位次折线表示该校最低录取分数线对应的考生排位的变化，通过折线图可以判断考入该校的难易程度，如果对应的排位越来越低，说明学校越来越难考取，反之亦然。
       </van-col>
     </van-row>
-    <wap-history class="chart-position"></wap-history>
+    <wap-history class="chart-position" :chart1="data.chart1"></wap-history>
 
     <wap-subtitle subtitle="历年录取线差图（柱状对比图）" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
@@ -66,11 +66,26 @@
 export default {
   data() {
     return {
-      form: {
-        rating: 4
+      form: {},
+      data: {
+        chart1: []
       }
     }
-  }
+  },
+  methods: {
+    fetchData() {
+      const param = {
+        wxId: this.$store.state.userinfo.openid,
+        id: this.$route.query.id
+      }
+      this.$api.GetTestAnswerById(param).then(res => {
+        if (res.data.code == '200') {
+          debugger
+        }
+      })
+    }
+  },
+  created() {}
 }
 </script>
 

@@ -4,6 +4,12 @@
 
 <script>
 module.exports = {
+  props: {
+    chart1: {
+      type: Array,
+      default: []
+    }
+  },
   created: function() {
     this.chartData = {
       columns: ['year', 'people', 'position', 'userPosition'],

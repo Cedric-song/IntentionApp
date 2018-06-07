@@ -80,5 +80,16 @@ export default {
     return Vue.axios.get('/wx/getWxConfig.do', {
       params: params
     })
+  },
+  TestUniversity(params) {
+    return Vue.axios.post('/v1/test.do', params)
+  },
+  GetTestAnswerById(params) {
+    return Vue.axios.get('/v1/getTestById.do', {
+      params: params
+    })
+  },
+  GetTestTime(params) {
+    return Vue.axios.post('/v1/getTestTime.do', params)
   }
 }

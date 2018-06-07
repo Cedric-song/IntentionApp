@@ -19,30 +19,30 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="考生姓名" />
+          <van-field v-model="form.name" placeholder="" label="考生姓名" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.id" placeholder="" label="考号" />
-        </van-cell-group>
-      </van-col>
-
-      <van-col span="24">
-        <van-cell-group>
-          <van-field v-model="form.province" placeholder="" label="考生生源地" disabled/>
+          <van-field v-model="form.id" placeholder="" label="考号" required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.score" placeholder="" label="分数" type="number" maxlength="5" />
+          <van-field v-model="provinceName" placeholder="" label="考生生源地" disabled required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="目标学校名称" />
+          <van-field v-model="form.score" placeholder="" label="分数" type="number" maxlength="5" required/>
+        </van-cell-group>
+      </van-col>
+
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="form.university" placeholder="" label="目标学校名称" required />
         </van-cell-group>
       </van-col>
 
@@ -50,7 +50,7 @@
         <div class="times-tip">当前剩余次数：{{times}}次</div>
       </van-col>
       <van-col span="24">
-        <van-button type="primary" bottom-action class="btn" @click="handleConfirm">确定</van-button>
+        <van-button type="primary" bottom-action class="btn" @click="handleConfirm" :disabled="btnDisabled">确定</van-button>
       </van-col>
 
     </van-row>
@@ -62,18 +62,20 @@
 export default {
   data() {
     return {
+      provinceName: '吉林省',
       form: {
-        province: '吉林省',
-        category: '1'
+        province: '220000',
+        category: '1',
+        name: '',
+        score: '',
+        university: '',
+        id: ''
       },
-      times: 10
+      times: '',
+      btnDisabled: true
     }
   },
   methods: {
-    handleImgClick() {
-      // 如果有用户信息去选号。如果没有用户信息，就去认证信息页。
-      this.$router.push({ name: 'OpenAccount' })
-    },
     handleConfirm() {
       this.$dialog
         .confirm({
@@ -81,14 +83,63 @@ export default {
           message: '每次测试将消耗一点次数'
         })
         .then(() => {
-          this.$router.push({ name: 'Answer' })
+          this.handleAction()
         })
         .catch(() => {
           this.$toast.fail('取消测试')
         })
+    },
+    handleAction() {
+      const vm = this
+      const param = Object.assign(
+        {
+          wxId: this.$store.state.userinfo.openid
+        },
+        this.form
+      )
+      this.$api.TestUniversity(param).then(res => {
+        if (res.data.code == '200') {
+          vm.$router.push({ name: 'Answer', query: { id: res.data.data.id } })
+        } else {
+          vm.$toast.fail(res.data.message)
+        }
+      })
     }
   },
-  created() {}
+  created() {
+    const vm = this
+
+    this.$api
+      .GetTestTime({ wxId: this.$store.state.userinfo.openid })
+      .then(res => {
+        if (res.data.code == '200') {
+          vm.times = res.data.data.useNum
+        } else {
+          vm.$toast.fail(res.data.message)
+        }
+      })
+  },
+
+  watch: {
+    form: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (
+          val.id === '' ||
+          val.name === '' ||
+          val.university === '' ||
+          val.score === '' ||
+          this.times == '0' ||
+          this.times === ''
+        ) {
+          this.btnDisabled = true
+        } else {
+          this.btnDisabled = false
+        }
+      }
+    }
+  }
 }
 </script>
 

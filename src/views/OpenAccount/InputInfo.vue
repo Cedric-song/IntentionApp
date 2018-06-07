@@ -322,13 +322,11 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.showSpecial) {
-      this.$api.GetWxConfig({ url: location.href }).then(res => {
-        if (res.data.code == '200') {
-          this.initWxConfig(res.data.data)
-        }
-      })
-    }
+    this.$api.GetWxConfig({ url: location.href }).then(res => {
+      if (res.data.code == '200') {
+        this.initWxConfig(res.data.data)
+      }
+    })
   }
 }
 </script>
