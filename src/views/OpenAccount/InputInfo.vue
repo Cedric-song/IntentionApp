@@ -174,26 +174,26 @@ export default {
               vm.$wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+                sourceType: ['camera', 'album'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
                   vm.imgs.imgPerson = res.localIds[0]
                   vm.$wx.uploadImage({
                     localId: res.localIds[0],
                     success: function(res) {
                       vm.form.imgPerson = res.serverId
-                      // vm.$wx.downloadImage({
-                      //   serverId: res.serverId,
-                      //   success: function(res) {
-                      //     vm.$wx.getLocalImgData({
-                      //       localId: res.localId,
-                      //       success: function(res) {
-                      //         let localData = res.localData
-                      //         localData.replace('jgp', 'jpeg')
-                      //         vm.sumitImageFile(localData)
-                      //       }
-                      //     })
-                      //   }
-                      // })
+                      vm.$wx.downloadImage({
+                        serverId: res.serverId,
+                        success: function(res) {
+                          vm.$wx.getLocalImgData({
+                            localId: res.localId,
+                            success: function(res) {
+                              let localData = res.localData
+                              console.log(res.localData)
+                              vm.sumitImageFile(localData)
+                            }
+                          })
+                        }
+                      })
                     }
                   })
                 }
