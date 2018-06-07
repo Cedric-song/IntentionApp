@@ -30,4 +30,8 @@ body {
   font-size: 12px;
 }
 
+.el-icon-plus:before {
+  content: '' !important;
+}
+
 @import 'hack-vant.scss';
