@@ -323,14 +323,14 @@ export default {
     }
   },
   created() {
-    this.$store.commit(this.$types.ShowLoading, true)
-    // if (this.$route.query.showSpecial) {
-    //   this.$api.GetWxConfig({ url: location.href }).then(res => {
-    //     if (res.data.code == '200') {
-    //       this.initWxConfig(res.data.data)
-    //     }
-    //   })
-    // }
+    // this.$store.commit(this.$types.ShowLoading, true)
+    if (this.$route.query.showSpecial) {
+      this.$api.GetWxConfig({ url: location.href }).then(res => {
+        if (res.data.code == '200') {
+          this.initWxConfig(res.data.data)
+        }
+      })
+    }
   }
 }
 </script>
