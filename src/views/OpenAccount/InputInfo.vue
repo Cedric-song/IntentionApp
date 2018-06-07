@@ -140,8 +140,8 @@ export default {
       return new Blob([ia], { type: mimeString })
     },
     sumitImageFile(imageBase64) {
-      var blob = dataURItoBlob(imageBase64)
-      alert('file' + JSON.stringify(dataURItoBlob(imageBase64)))
+      var blob = this.dataURItoBlob(imageBase64)
+      alert('file' + JSON.stringify(this.dataURItoBlob(imageBase64)))
       var canvas = document.createElement('canvas')
       var dataURL = canvas.toDataURL('image/jpeg', 0.5)
       var fd = new FormData(document.forms[0])
