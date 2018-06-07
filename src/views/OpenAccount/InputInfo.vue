@@ -141,10 +141,12 @@ export default {
     },
     sumitImageFile(imageBase64) {
       var blob = dataURItoBlob(imageBase64)
+      alert('file' + JSON.stringify(dataURItoBlob(imageBase64)))
       var canvas = document.createElement('canvas')
       var dataURL = canvas.toDataURL('image/jpeg', 0.5)
       var fd = new FormData(document.forms[0])
-      fd.append('the_file', blob, 'image.png')
+
+      fd.append('file', blob, 'image.png')
       this.$api.uploadImg(fd).then(res => {
         alert(JSON.stringify(12333))
 
