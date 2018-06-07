@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <van-popup v-model="$store.state.loading.Loading" class="loading-pop">
-      <van-loading type="spinner" :close-on-click-overlay="false" />
+    <van-popup v-model="$store.state.loading.Loading" class="loading-pop" :close-on-click-overlay="false">
+      <van-loading type="spinner" />
     </van-popup>
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive" />

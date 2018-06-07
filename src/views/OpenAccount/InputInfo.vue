@@ -53,24 +53,6 @@
           </el-upload>
         </van-col>
 
-        <van-col span="24" style="position:relative;" class="img-cell" v-if="$route.query.showSpecial">
-          <!-- <van-cell title="※请拍摄手持身份证正面（国徽面）照片：" value="" required /> -->
-          <div></div>
-          <van-cell-group class="img-cell-group">
-            <div required>※请拍摄手持身份证正面（国徽面）照片：</div>
-            <van-button @click="handleTakePhoto" class="take-photo" type="primary">拍照</van-button>
-            <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar" ref="imgPerson">
-            <i v-else class="el-icon-plus avatar-uploader-icon take-photo-icon"></i>
-          </van-cell-group>
-          <!-- <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
-            <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload> -->
-          <!-- <van-uploader :after-read="onRead" accept="image/*" multiple>
-            <van-icon name="photograph" />
-          </van-uploader> -->
-
-        </van-col>
         <van-col span="24">
           <van-checkbox v-model="tipCheck" class="into-tip" shape="square"></van-checkbox>
           <span class="into-tip">阅读并同意入网协议
@@ -145,14 +127,16 @@ export default {
       const vm = this
       var blob = this.dataURItoBlob(imageBase64)
       var canvas = document.createElement('canvas')
+      canvas.setAttribute('width', '50px')
+      canvas.setAttribute('height', '50px')
       var dataURL = canvas.toDataURL('image/jpeg', 0.2)
       var fd = new FormData(document.forms[0])
 
       fd.append('file', blob, 'image.png')
-      vm.$toast.success('uplpading')
+      vm.$toast.success('开始上传')
 
       this.$api.uploadImg(fd).then(res => {
-        this.$toast.success('upload success')
+        this.$toast.success('上传成功')
 
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
@@ -337,13 +321,14 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.showSpecial) {
-      this.$api.GetWxConfig({ url: location.href }).then(res => {
-        if (res.data.code == '200') {
-          this.initWxConfig(res.data.data)
-        }
-      })
-    }
+    this.$store.commit(this.$types.ShowLoading, true)
+    // if (this.$route.query.showSpecial) {
+    //   this.$api.GetWxConfig({ url: location.href }).then(res => {
+    //     if (res.data.code == '200') {
+    //       this.initWxConfig(res.data.data)
+    //     }
+    //   })
+    // }
   }
 }
 </script>
@@ -399,7 +384,6 @@ export default {
   .img-cell {
     display: flex;
     .van-cell {
-      // flex: 1;
       width: 200px;
       height: 120px;
       display: inline-block;
@@ -409,7 +393,7 @@ export default {
   .take-photo {
     position: absolute;
     bottom: 10px;
-    width: 120px;
+    width: 80px;
     left: 10px;
   }
 
