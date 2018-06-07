@@ -57,7 +57,7 @@
           <van-cell-group class="img-cell-group">
             <div required>※请拍摄手持身份证正面（国徽面）照片：</div>
             <van-button @click="handleTakePhoto" class="take-photo">拍照</van-button>
-            <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar">
+            <img v-if="form.imgPerson !== ''" :src="imgs.imgPerson" class="avatar" ref="imgPerson">
             <i v-else class="el-icon-plus avatar-uploader-icon take-photo-icon"></i>
           </van-cell-group>
           <!-- <el-upload style="flex: 1;" class="avatar-uploader" action="/v1/upload.do" :show-file-list="false" :on-success="handleImgPersonSuccess" :before-upload="beforeAvatarUpload" :on-progress="handleOnProgress">
@@ -128,12 +128,8 @@ export default {
     }
   },
   methods: {
-    handleCameraChange() {
+    handleCameraChange(file) {
       const vm = this
-      const file = this.$refs.camera.files[0]
-      var fr = new FileReader()
-      // fr.readAsDataURL(file)
-      alert(`files: ${JSON.stringify(this.$refs.camera.files)}`)
 
       let param = new FormData()
       alert(`file: ${JSON.stringify(file)}`)
@@ -146,12 +142,18 @@ export default {
         vm.imgs.imgPerson = res.data.data
       })
     },
+    uploadPhotoTaken() {},
     handleTakePhoto() {
       // this.runWeixinJS(this.wxAction)
       const vm = this
       this.$wx.ready(function() {
         vm.$wx.checkJsApi({
-          jsApiList: ['chooseImage', 'previewImage'],
+          jsApiList: [
+            'chooseImage',
+            'previewImage',
+            'downloadImage',
+            'uploadImage'
+          ],
           success: function(res) {
             if (res.checkResult.getLocation == false) {
               vm.$toast.fail(
@@ -164,15 +166,26 @@ export default {
                 sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function(res) {
-                  vm.$dialog
-                    .alert({
-                      title: '标题',
-                      message: JSON.stringify(res)
-                    })
-                    .then(() => {
-                      // on close
-                    })
-                  var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                  vm.$toast(JSON.stringify(res))
+                  vm.$wx.uploadImage({
+                    localId: res.localIds[0],
+                    success: function(res) {
+                      vm.$wx.downloadImage({
+                        serverId: res.serverId,
+                        success: function(res) {
+                          vm.$wx.getLocalImgData({
+                            localId: res.localId,
+                            success: function(res) {
+                              const localData = res.localData
+                              vm.$toast(JSON.stringify(localData))
+
+                              // vm.$api.uploadImg()
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
                 }
               })
             }
@@ -305,7 +318,12 @@ export default {
         timestamp: param.timestamp,
         nonceStr: param.nonceStr,
         signature: param.signature,
-        jsApiList: ['chooseImage', 'previewImage']
+        jsApiList: [
+          'chooseImage',
+          'previewImage',
+          'downloadImage',
+          'uploadImage'
+        ]
       })
     }
   },
