@@ -143,7 +143,7 @@ export default {
     sumitImageFile(imageBase64) {
       var blob = this.dataURItoBlob(imageBase64)
       var canvas = document.createElement('canvas')
-      var dataURL = canvas.toDataURL('image/jpeg', 0.5)
+      var dataURL = canvas.toDataURL('image/jpeg', 0.2)
       var fd = new FormData(document.forms[0])
 
       fd.append('file', blob, 'image.png')
