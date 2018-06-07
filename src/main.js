@@ -10,8 +10,8 @@ import './data'
 import Vant from 'vant'
 import 'vant/lib/vant-css/index.css'
 
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(Vant)
+
 
 import {
   Lazyload
@@ -29,16 +29,11 @@ import _ from 'lodash'
 Vue.prototype.$api = axios
 Vue.prototype.$_ = _
 
-import VCharts from 'v-charts'
-
 import '@/assets/font/iconfont.js'
 import '@/assets/styles/main.scss'
 
-import moment from 'moment'
-Vue.prototype.$moment = moment
-
 if (process.env.NODE_ENV === 'production') {
-  console.log(`Package time: ${moment(Number(PACKAGE_TIME)).format('LLL')}`)
+  console.log(`Package time: ${PACKAGE_TIME}`)
 }
 
 import * as types from '@/store/types'
@@ -48,9 +43,26 @@ import './components/RegisterComponents'
 
 Vue.config.productionTip = false
 
-Vue.use(Vant)
-Vue.use(VCharts)
-Vue.use(ElementUI)
+
+import {
+  Table,
+  TableColumn,
+  Input,
+  InputNumber
+} from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Input)
+Vue.use(InputNumber)
+
+import VeHistogram from 'v-charts/lib/histogram'
+import VeBar from 'v-charts/lib/bar'
+import VeLine from 'v-charts/lib/line'
+Vue.component(VeHistogram.name, VeHistogram)
+Vue.component(VeBar.name, VeBar)
+Vue.component(VeLine.name, VeLine)
 
 /* eslint-disable no-new */
 new Vue({

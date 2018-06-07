@@ -325,6 +325,8 @@ export default {
     this.$api.GetWxConfig({ url: location.href }).then(res => {
       if (res.data.code == '200') {
         this.initWxConfig(res.data.data)
+      } else {
+        this.$toast.fail(res.data.message)
       }
     })
   }

@@ -93,10 +93,11 @@ export default {
       const vm = this
       const param = Object.assign(
         {
-          wxId: this.$store.state.userinfo.openid
+          wx_id: this.$store.state.userinfo.openid
         },
         this.form
       )
+      // debugger
       this.$api.TestUniversity(param).then(res => {
         if (res.data.code == '200') {
           vm.$router.push({ name: 'Answer', query: { id: res.data.data.id } })

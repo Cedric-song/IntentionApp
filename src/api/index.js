@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+const qs = require('qs')
 
 // axios.defaults.timeout = 30000
 if (process.env.NODE_ENV === 'production') {
@@ -10,6 +11,12 @@ if (process.env.NODE_ENV === 'production') {
 const config = {
   headers: {
     'Content-Type': 'form-data'
+  }
+}
+
+const SpecConfig = {
+  headers: {
+    'Content-type': 'application/x-www-form-urlencoded'
   }
 }
 Vue.use(VueAxios, axios)
@@ -82,7 +89,7 @@ export default {
     })
   },
   TestUniversity(params) {
-    return Vue.axios.post('/v1/test.do', params)
+    return Vue.axios.post('/v1/test.do', qs.stringify(params), SpecConfig)
   },
   GetTestAnswerById(params) {
     return Vue.axios.get('/v1/getTestById.do', {
@@ -90,6 +97,6 @@ export default {
     })
   },
   GetTestTime(params) {
-    return Vue.axios.post('/v1/getTestTime.do', params)
+    return Vue.axios.post('/v1/getTestTime.do', qs.stringify(params))
   }
 }
