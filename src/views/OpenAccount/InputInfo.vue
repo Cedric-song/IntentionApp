@@ -135,7 +135,7 @@ export default {
     sumitImageFile(base64Codes) {
       var form = document.forms[0]
       var formData = new FormData(form)
-      formData.append('imageName', convertBase64UrlToBlob(base64Codes))
+      formData.append('imageName', this.convertBase64UrlToBlob(base64Codes))
 
       this.$api.uploadImg(formData).then(res => {
         vm.form.imgPerson = res.data.data
