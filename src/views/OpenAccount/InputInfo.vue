@@ -129,11 +129,15 @@ export default {
       for (var i = 0; i < bytes.length; i++) {
         ia[i] = bytes.charCodeAt(i)
       }
+      alert(JSON.stringify(ab))
+
       return new Blob([ab], { type: 'image/png' })
     },
     sumitImageFile(base64Codes) {
+      alert(JSON.stringify(base64Codes))
       var form = document.forms[0]
       var formData = new FormData(form)
+      alert('formData' + JSON.stringify(formData))
       formData.append('imageName', this.convertBase64UrlToBlob(base64Codes))
       alert(JSON.stringify(formData))
       this.$api.uploadImg(formData).then(res => {
