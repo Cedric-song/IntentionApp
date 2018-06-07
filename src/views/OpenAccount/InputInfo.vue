@@ -147,41 +147,41 @@ export default {
       })
     },
     handleTakePhoto() {
-      this.runWeixinJS(this.wxAction)
+      // this.runWeixinJS(this.wxAction)
 
-      // this.$wx.ready(function() {
-      //   this.$wx.checkJsApi({
-      //     jsApiList: ['chooseImage', 'previewImage'],
-      //     success: function(res) {
-      //       if (res.checkResult.getLocation == false) {
-      //         this.$toast.fail(
-      //           '你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！'
-      //         )
-      //         return
-      //       } else {
-      //         this.$wx.chooseImage({
-      //           count: 1, // 默认9
-      //           sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      //           sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
-      //           success: function(res) {
-      //             this.$dialog
-      //               .alert({
-      //                 title: '标题',
-      //                 message: JSON.stringify(res)
-      //               })
-      //               .then(() => {
-      //                 // on close
-      //               })
-      //             var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-      //           }
-      //         })
-      //       }
-      //     }
-      //   })
-      // })
-      // this.$wx.error(function(res) {
-      //   this.$toast.fail('验证失败，请退出重试！')
-      // })
+      this.$wx.ready(function() {
+        this.$wx.checkJsApi({
+          jsApiList: ['chooseImage', 'previewImage'],
+          success: function(res) {
+            if (res.checkResult.getLocation == false) {
+              this.$toast.fail(
+                '你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！'
+              )
+              return
+            } else {
+              this.$wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function(res) {
+                  this.$dialog
+                    .alert({
+                      title: '标题',
+                      message: JSON.stringify(res)
+                    })
+                    .then(() => {
+                      // on close
+                    })
+                  var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                }
+              })
+            }
+          }
+        })
+      })
+      this.$wx.error(function(res) {
+        this.$toast.fail('验证失败，请退出重试！')
+      })
     },
     onRead(file, content) {
       const vm = this
@@ -299,7 +299,6 @@ export default {
       })
     },
     initWxConfig(param) {
-      console.log(JSON.stringify(param))
       this.$wx.config({
         debug: process.env.NODE_ENV !== 'production',
         appId: param.appId,
@@ -307,37 +306,6 @@ export default {
         nonceStr: param.nonceStr,
         signature: param.signature,
         jsApiList: ['chooseImage', 'previewImage']
-      })
-    },
-    runWeixinJS(cb) {
-      if (typeof window.WeixinJSBridge === 'undefined') {
-        if (document.addEventListener) {
-          document.addEventListener('WeixinJSBridgeReady', cb, false)
-        } else if (document.attachEvent) {
-          document.attachEvent('WeixinJSBridgeReady', cb)
-          document.attachEvent('onWeixinJSBridgeReady', cb)
-        }
-      } else {
-        cb()
-      }
-    },
-    wxAction() {
-      window.WeixinJSBridge.invoke('chooseImage', {
-        count: 1, // 默认9
-        sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
-        success: function(res) {
-          debugger
-          this.$dialog
-            .alert({
-              title: '标题',
-              message: JSON.stringify(res)
-            })
-            .then(() => {
-              // on close
-            })
-          var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-        }
       })
     }
   },
@@ -349,7 +317,6 @@ export default {
         }
       })
     }
-    this.runWeixinJS(this.wxAction)
   }
 }
 </script>
