@@ -122,7 +122,7 @@ export default {
     }
   },
   methods: {
-    convertBase64UrlToBlob(base64Data) {
+    dataURItoBlob(base64Data) {
       var byteString
       if (base64Data.split(',')[0].indexOf('base64') >= 0) {
         byteString = atob(base64Data.split(',')[1])
