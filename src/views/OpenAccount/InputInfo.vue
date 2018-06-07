@@ -132,8 +132,12 @@ export default {
       const vm = this
       const file = this.$refs.camera.files[0]
       let param = new FormData()
+      alert(`file: ${JSON.stringify(file)}`)
       param.append('file', file, file.name)
+      alert(`param: ${JSON.stringify(param)}`)
+
       this.$api.uploadImg(param).then(res => {
+        alert(`res${JSON.stringify(res.data.data)}`)
         vm.form.imgPerson = res.data.data
         vm.imgs.imgPerson = res.data.data
       })
