@@ -144,7 +144,7 @@ export default {
                 message: res.data.message
               })
               .then(() => {
-                vm.$router.push({ name: 'Home' })
+                // vm.$router.push({ name: 'Home' })
               })
           } else {
             vm.$toast.fail(res.data.message)
@@ -188,7 +188,7 @@ export default {
   margin: 10px 0;
   padding-bottom: 20px;
   .ship-input {
-    width: 60px;
+    width: 65px;
     font-size: 16px;
   }
 }
@@ -203,8 +203,8 @@ export default {
 </style>
 <style lang="scss">
 .el-input__inner {
-  padding: 0;
-  font-size: 12px;
+  padding: 0 !important;
+  font-size: 11px;
 }
 </style>
 
