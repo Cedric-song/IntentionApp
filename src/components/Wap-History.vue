@@ -10,21 +10,20 @@ module.exports = {
     }
   },
   created: function() {
-    this.chartData = {
-      columns: ['year', 'people', 'position', 'userPosition'],
-      rows: [
-        { year: '2015', people: 5, position: 70, userPosition: '' },
-        { year: '2016', people: 4, position: 71, userPosition: '' },
-        { year: '2017', people: 5, position: 91, userPosition: '' }
-      ]
-    }
-
-    let maxArray = []
-    const array = [
+    const fadeRows = [
       { year: '2015', people: 5, position: 70, userPosition: '' },
       { year: '2016', people: 4, position: 71, userPosition: '' },
       { year: '2017', people: 5, position: 91, userPosition: '' }
     ]
+
+    this.chartData = {
+      columns: ['year', 'people', 'position', 'userPosition'],
+      rows: this.chart1
+    }
+
+    let maxArray = []
+    const array = this.chart1
+
     array.forEach(item => {
       maxArray.push(Number(item.people))
     })

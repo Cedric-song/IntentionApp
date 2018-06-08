@@ -15,7 +15,7 @@
         <span class="item-blue" v-if="data.info.popular && data.info.popular.length === 2">{{data.info.popular[1]}}</span>
       </van-col>
       <van-col span="24" class="info-item item-tip">热度说明：热度指标由红色和蓝色两个数字构成，红色数字表示您在所有测试过该所大学的考生中的分数排名，数字越小代表名次越靠前，蓝色数字代表截止到现在一共有多少名考生测试过该所大学的录取概率，数字越大代表该校的关注考生越多、热度越高。</van-col>
-      <van-col span="24" class="info-item">院校级别： {{data.info.level}}</van-col>
+      <van-col span="24" class="info-item">院校级别： {{level}}</van-col>
       <van-col span="24" class="info-item">所在省市： {{data.info.province}}</van-col>
       <van-col span="24" class="info-item">招办电话： {{data.info.phone}}</van-col>
       <van-col span="24" class="info-item">官网：
@@ -29,7 +29,7 @@
         该图中的立柱为每年的录取人数，可以分析录取趋势，如果在我省的录取人数增加意味着此专业逐步变热，但是并非录取概率加大，因为受到填报人数的影响，反之亦然。 录取位次折线表示该校最低录取分数线对应的考生排位的变化，通过折线图可以判断考入该校的难易程度，如果对应的排位越来越低，说明学校越来越难考取，反之亦然。
       </van-col>
     </van-row>
-    <wap-history class="chart-position"></wap-history>
+    <wap-history class="chart-position" :chart1="data.chart1" v-if="data.chart1.length !== 0"></wap-history>
 
     <wap-subtitle subtitle="历年录取线差图（柱状对比图）" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
@@ -37,7 +37,7 @@
         该图中前三年的立柱为当年的最低录取分数线与省控线的差值，最后的立柱为今年考生的分数与省控线的差值，如果前三年的差值越大，说明学校越不容易考取，反之亦然；如果今年的差值越大，说明考生考取的可能性越大，反之亦然。通过对比今年差值与往年差值的大小，可以分析考生考入该校的可能性。
       </van-col>
     </van-row>
-    <wap-chart-underscore class="chart-position" :year="new Date().getFullYear() - 3 "></wap-chart-underscore>
+    <wap-chart-underscore class="chart-position" :year="new Date().getFullYear() - 3 " :chart2="data.chart2" v-if="data.chart2.length !== 0"></wap-chart-underscore>
 
     <wap-subtitle subtitle="该校各专业录取对比图" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
@@ -65,12 +65,31 @@
 export default {
   data() {
     return {
-      form: {},
+      levelMap: [
+        {
+          id: '1',
+          label: '211'
+        },
+        {
+          id: '2',
+          label: '985'
+        },
+        {
+          id: '3',
+          label: '211 + 985'
+        },
+        {
+          id: '4',
+          label: '其他'
+        }
+      ],
+      level: '',
       data: {
         info: {
           popular: []
         },
-        chart1: []
+        chart1: [],
+        chart2: []
       }
     }
   },
@@ -83,13 +102,23 @@ export default {
       }
       this.$store.commit(this.$types.ShowLoading, true)
       this.$api.GetTestAnswerById(param).then(res => {
-        vm.data = res.data
+        if (res.data.code == '200') {
+          vm.data = res.data.data
+        }
         vm.$store.commit(vm.$types.ShowLoading, false)
       })
     }
   },
   created() {
     this.fetchData()
+  },
+  watch: {
+    'data.info.level': {
+      handler(val) {
+        const item = this.$_.find(this.levelMap, { id: val })
+        this.level = item ? item.label : '-'
+      }
+    }
   }
 }
 </script>

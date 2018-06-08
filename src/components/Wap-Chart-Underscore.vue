@@ -4,16 +4,24 @@
 
 <script>
 module.exports = {
-  created: function() {
+  props: {
+    chart2: {
+      type: Array
+    }
+  },
+  created() {
+    const fadeRows = [
+      { score: 101, year: '2018' },
+      { score: 120, year: '2017' },
+      { score: 98, year: '2016' },
+      { score: 91, year: '2015' }
+    ]
+
     this.chartData = {
       columns: ['year', 'score'],
-      rows: [
-        { score: 101, year: '2018' },
-        { score: 120, year: '2017' },
-        { score: 98, year: '2016' },
-        { score: 91, year: '2015' }
-      ].reverse()
+      rows: this.chart2
     }
+
     this.chartSettings = {
       metrics: ['score'],
       dimension: ['year'],
