@@ -167,6 +167,10 @@ const router = new Router({
       path: '/major/:code',
       name: 'MajorItem',
       component: MajorItem
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
 
   ]
