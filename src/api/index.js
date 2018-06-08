@@ -92,9 +92,7 @@ export default {
     return Vue.axios.post('/v1/test.do', qs.stringify(params), SpecConfig)
   },
   GetTestAnswerById(params) {
-    return Vue.axios.get('/v1/getTestById.do', {
-      params: params
-    })
+    return Vue.axios.post('/v1/getTestById.do', qs.stringify(params))
   },
   GetTestTime(params) {
     return Vue.axios.post('/v1/getTestTime.do', qs.stringify(params))

@@ -6,8 +6,7 @@
 module.exports = {
   props: {
     chart1: {
-      type: Array,
-      default: []
+      type: Array
     }
   },
   created: function() {

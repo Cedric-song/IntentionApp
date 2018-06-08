@@ -5,22 +5,21 @@
     <wap-subtitle subtitle="高校信息" style="margin-top: 20px;"></wap-subtitle>
 
     <van-row :gutter="20" class="info">
-      <van-col span="24" class="info-item">意向院校名称（代码）： 天津大学（00101）</van-col>
-      <van-col span="24" class="info-item">考生姓名： 李斯</van-col>
-      <van-col span="24" class="info-item">考生考号：100001</van-col>
-      <van-col span="24" class="info-item">考生分数： 590</van-col>
-      <van-col span="24" class="info-item">录取概率： 87%</van-col>
+      <van-col span="24" class="info-item">意向院校名称（代码）： {{data.info.university}}</van-col>
+      <van-col span="24" class="info-item">考生姓名： {{data.info.name}}</van-col>
+      <van-col span="24" class="info-item">考生考号：{{data.info.cardNo}}</van-col>
+      <van-col span="24" class="info-item">考生分数： {{data.info.score}}</van-col>
+      <van-col span="24" class="info-item">录取概率： {{data.info.rate}}</van-col>
       <van-col span="24" class="info-item">学校热度：
-        <span class="item-red">22</span> /
-        <span class="item-blue">20902</span>
+        <span class="item-red" v-if="data.info.popular && data.info.popular.length === 2">{{data.info.popular[0]}}</span> /
+        <span class="item-blue" v-if="data.info.popular && data.info.popular.length === 2">{{data.info.popular[1]}}</span>
       </van-col>
       <van-col span="24" class="info-item item-tip">热度说明：热度指标由红色和蓝色两个数字构成，红色数字表示您在所有测试过该所大学的考生中的分数排名，数字越小代表名次越靠前，蓝色数字代表截止到现在一共有多少名考生测试过该所大学的录取概率，数字越大代表该校的关注考生越多、热度越高。</van-col>
-      <van-col span="24" class="info-item">院校级别： 985 + 211</van-col>
-      <van-col span="24" class="info-item">所在省市： 天津</van-col>
-      <van-col span="24" class="info-item">招办电话： 022-88886888</van-col>
-      <van-col span="24" class="info-item">专业介绍： 计算机学院/法学院/体育学院</van-col>
+      <van-col span="24" class="info-item">院校级别： {{data.info.level}}</van-col>
+      <van-col span="24" class="info-item">所在省市： {{data.info.province}}</van-col>
+      <van-col span="24" class="info-item">招办电话： {{data.info.phone}}</van-col>
       <van-col span="24" class="info-item">官网：
-        <span class="item-blue">http://www.tju.edu.cn/</span>
+        <span class="item-blue">{{data.info.website}}</span>
       </van-col>
     </van-row>
 
@@ -30,7 +29,7 @@
         该图中的立柱为每年的录取人数，可以分析录取趋势，如果在我省的录取人数增加意味着此专业逐步变热，但是并非录取概率加大，因为受到填报人数的影响，反之亦然。 录取位次折线表示该校最低录取分数线对应的考生排位的变化，通过折线图可以判断考入该校的难易程度，如果对应的排位越来越低，说明学校越来越难考取，反之亦然。
       </van-col>
     </van-row>
-    <wap-history class="chart-position" :chart1="data.chart1"></wap-history>
+    <wap-history class="chart-position"></wap-history>
 
     <wap-subtitle subtitle="历年录取线差图（柱状对比图）" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
@@ -68,24 +67,30 @@ export default {
     return {
       form: {},
       data: {
+        info: {
+          popular: []
+        },
         chart1: []
       }
     }
   },
   methods: {
     fetchData() {
+      const vm = this
       const param = {
-        wxId: this.$store.state.userinfo.openid,
+        wx_id: this.$store.state.userinfo.openid,
         id: this.$route.query.id
       }
+      this.$store.commit(this.$types.ShowLoading, true)
       this.$api.GetTestAnswerById(param).then(res => {
-        if (res.data.code == '200') {
-          debugger
-        }
+        vm.data = res.data
+        vm.$store.commit(vm.$types.ShowLoading, false)
       })
     }
   },
-  created() {}
+  created() {
+    this.fetchData()
+  }
 }
 </script>
 

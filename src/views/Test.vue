@@ -100,7 +100,10 @@ export default {
       // debugger
       this.$api.TestUniversity(param).then(res => {
         if (res.data.code == '200') {
-          vm.$router.push({ name: 'Answer', query: { id: res.data.data.id } })
+          vm.$router.push({
+            name: 'Answer',
+            query: { id: res.data.data.userTestId }
+          })
         } else {
           vm.$toast.fail(res.data.message)
         }
