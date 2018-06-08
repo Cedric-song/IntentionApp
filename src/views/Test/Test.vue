@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <van-nav-bar title="录取概率测试" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
+    <van-nav-bar title="录取概率测试" left-text="首页" right-text="" left-arrow @click-left="$router.push({name: 'Home'})" />
 
     <van-row gutter="20">
       <van-col span="24" class="subtitle">
@@ -19,12 +19,12 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.name" placeholder="" label="考生姓名" required/>
+          <van-field v-model="form.name" placeholder="请输入考生姓名" label="考生姓名" required/>
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.id" placeholder="" label="考号" required/>
+          <van-field v-model="form.id" placeholder="请输入考生考号" label="考号" required/>
         </van-cell-group>
       </van-col>
 
@@ -36,13 +36,14 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.score" placeholder="" label="分数" type="number" maxlength="5" required/>
+          <van-field v-model="form.score" placeholder="请输入考生分数" label="分数" type="number" maxlength="5" required/>
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
-        <van-cell-group>
-          <van-field v-model="form.university" placeholder="" label="目标学校名称" required />
+        <van-cell-group class="sg-form">
+          <!-- <van-field v-model="form.university" placeholder="" label="目标学校名称" required /> -->
+          <van-cell title="目标学校名称" required :to="{name: 'SelectUniversity',query: form}" :value="form.university" />
         </van-cell-group>
       </van-col>
 
@@ -97,7 +98,7 @@ export default {
         },
         this.form
       )
-      // debugger
+      this.$store.commit(this.$types.ShowLoading, true)
       this.$api.TestUniversity(param).then(res => {
         if (res.data.code == '200') {
           vm.$router.push({
@@ -107,10 +108,23 @@ export default {
         } else {
           vm.$toast.fail(res.data.message)
         }
+
+        vm.$store.commit(vm.$types.ShowLoading, false)
       })
     }
   },
   created() {
+    this.$store.commit(this.$types.ShowLoading, true)
+    for (let [key, value] of Object.entries(this.form)) {
+      if (this.$route.query[key]) {
+        this.form[key] = this.$route.query[key]
+      }
+    }
+
+    if (!this.form.category) {
+      this.form.category = '1'
+    }
+
     const vm = this
 
     this.$api
@@ -121,6 +135,7 @@ export default {
         } else {
           vm.$toast.fail(res.data.message)
         }
+        vm.$store.commit(vm.$types.ShowLoading, false)
       })
   },
 
@@ -129,13 +144,13 @@ export default {
       deep: true,
       immediate: true,
       handler(val) {
-        if (
+        if (Object.keys(val).length === 0) {
+          this.btnDisabled = true
+        } else if (
           val.id === '' ||
           val.name === '' ||
           val.university === '' ||
-          val.score === '' ||
-          this.times == '0' ||
-          this.times === ''
+          val.score === ''
         ) {
           this.btnDisabled = true
         } else {

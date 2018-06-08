@@ -7,6 +7,13 @@
 
 <script>
 module.exports = {
+  data() {
+    return {
+      chartExtend: {},
+      grid: {},
+      chartSettings: {}
+    }
+  },
   props: {
     year: {
       default: ''
@@ -44,7 +51,7 @@ module.exports = {
       label: {
         normal: { show: true, position: 'right', formatter: '{c}分' }
       },
-      max: [this.$_.max(maxArray).toString()],
+      max: [this.$_.max(maxArray) + ''],
       legendName: {
         score: `${this.year}年线差`,
         userScore: `考生线差`

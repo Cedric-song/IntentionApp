@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
 import Score from '@/views/GetScore'
-import Test from '@/views/Test'
+import Test from '@/views/Test/Test'
+import Answer from '@/views/Test/Answer'
+import SelectUniversity from '@/views/Test/SelectUniversity'
+
 import Mine from '@/views/Mine/Mine'
 import BillHistory from '@/views/Mine/BillHistory'
 import ReportHistory from '@/views/Mine/ReportHistory'
 import TestHistory from '@/views/Mine/TestHistory'
 import Verify from '@/views/Verify'
-import Answer from '@/views/Answer'
 import Qrcode from '@/views/Qrcode'
 import Expert from '@/views/Expert'
 import Apply from '@/views/Apply'
@@ -49,6 +51,12 @@ const router = new Router({
       name: 'Test',
       component: Test
     },
+    {
+      path: '/test/select-university',
+      name: 'SelectUniversity',
+      component: SelectUniversity
+    },
+
     {
       path: '/mine',
       name: 'Mine',

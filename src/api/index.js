@@ -94,5 +94,8 @@ export default {
   },
   GetTestTime(params) {
     return Vue.axios.post('/v1/getTestTime.do', qs.stringify(params))
+  },
+  GetPayHistory(params) {
+    return Vue.axios.post('/v1/hisPayList.do', qs.stringify(params))
   }
 }
