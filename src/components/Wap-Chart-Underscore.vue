@@ -5,7 +5,7 @@
 <script>
 module.exports = {
   props: {
-    chart2: {
+    chart: {
       type: Array
     }
   },
@@ -19,7 +19,7 @@ module.exports = {
 
     this.chartData = {
       columns: ['year', 'score'],
-      rows: this.chart2
+      rows: this.chart
     }
 
     this.chartSettings = {

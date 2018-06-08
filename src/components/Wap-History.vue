@@ -5,7 +5,7 @@
 <script>
 module.exports = {
   props: {
-    chart1: {
+    chart: {
       type: Array
     }
   },
@@ -18,11 +18,11 @@ module.exports = {
 
     this.chartData = {
       columns: ['year', 'people', 'position', 'userPosition'],
-      rows: this.chart1
+      rows: this.chart
     }
 
     let maxArray = []
-    const array = this.chart1
+    const array = this.chart
 
     array.forEach(item => {
       maxArray.push(Number(item.people))

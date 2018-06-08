@@ -34,4 +34,19 @@ body {
   content: '' !important;
 }
 
+.chart-item {
+  position: relative;
+}
+
+.chart-no-data {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  height: 300px;
+  width: 100%;
+  line-height: 300px;
+  text-align: center;
+  border: 1px dashed #d7d7d7;
+}
+
 @import 'hack-vant.scss';

@@ -1,5 +1,8 @@
 <template>
-  <ve-bar :data="chartData" :settings="chartSettings" :extend="chartExtend" height="400px" :grid="grid"></ve-bar>
+  <div class="chart-item">
+    <ve-bar :data="chartData" :settings="chartSettings" :extend="chartExtend" height="400px" :grid="grid"></ve-bar>
+    <div v-show="chart.length === 0" class="chart-no-data">No data</div>
+  </div>
 </template>
 
 <script>
@@ -7,27 +10,13 @@ module.exports = {
   props: {
     year: {
       default: ''
+    },
+    chart: {
+      type: Array
     }
   },
   created() {
-    this.chartData = {
-      columns: ['major', 'score', 'userScore'],
-      rows: [
-        { major: '计算机', score: 120, userScore: 89 },
-        { major: '法律', score: 110, userScore: 89 },
-        { major: '数学', score: 98, userScore: 89 },
-        { major: '物理', score: 96, userScore: 89 },
-        { major: '化学', score: 90, userScore: 89 },
-        { major: '体育', score: 88, userScore: 89 },
-        { major: '英语', score: 78, userScore: 89 },
-        { major: '法语', score: 65, userScore: 89 },
-        { major: '日语', score: 59, userScore: 89 },
-        { major: '生物', score: 50, userScore: 89 }
-      ].reverse()
-    }
-
-    let maxArray = []
-    const array = [
+    const fadeRows = [
       { major: '计算机', score: 120, userScore: 89 },
       { major: '法律', score: 110, userScore: 89 },
       { major: '数学', score: 98, userScore: 89 },
@@ -38,7 +27,15 @@ module.exports = {
       { major: '法语', score: 65, userScore: 89 },
       { major: '日语', score: 59, userScore: 89 },
       { major: '生物', score: 50, userScore: 89 }
-    ].forEach(item => {
+    ].reverse()
+
+    this.chartData = {
+      columns: ['major', 'score', 'userScore'],
+      rows: this.chart
+    }
+
+    let maxArray = []
+    const array = this.chart.forEach(item => {
       maxArray.push(Number(item.score))
       maxArray.push(Number(item.userScore))
     })

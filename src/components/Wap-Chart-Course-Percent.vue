@@ -1,5 +1,8 @@
 <template>
-  <ve-bar :data="chartData" :settings="chartSettings" :extend="chartExtend" height="400px"></ve-bar>
+  <div class="chart-item">
+    <ve-bar :data="chartData" :settings="chartSettings" :extend="chartExtend" height="400px"></ve-bar>
+    <div v-show="chart.length === 0" class="chart-no-data">No data</div>
+  </div>
 </template>
 
 <script>
@@ -7,24 +10,30 @@ module.exports = {
   props: {
     year: {
       default: new Date().getFullYear()
+    },
+    chart: {
+      type: Array
     }
   },
   created() {
+    const fadeRows = [
+      { major: '计算机', percent: 95 },
+      { major: '法律', percent: 80 },
+      { major: '数学', percent: 70 },
+      { major: '物理', percent: 60 },
+      { major: '化学', percent: 50 },
+      { major: '体育', percent: 40 },
+      { major: '英语', percent: 30 },
+      { major: '法语', percent: 20 },
+      { major: '日语', percent: 19 },
+      { major: '生物', percent: 15 }
+    ].reverse()
+
     this.chartData = {
       columns: ['major', 'percent'],
-      rows: [
-        { major: '计算机', percent: 95 },
-        { major: '法律', percent: 80 },
-        { major: '数学', percent: 70 },
-        { major: '物理', percent: 60 },
-        { major: '化学', percent: 50 },
-        { major: '体育', percent: 40 },
-        { major: '英语', percent: 30 },
-        { major: '法语', percent: 20 },
-        { major: '日语', percent: 19 },
-        { major: '生物', percent: 15 }
-      ].reverse()
+      rows: this.chart
     }
+
     this.chartSettings = {
       metrics: ['percent'],
       label: {
