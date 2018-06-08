@@ -46,9 +46,7 @@ export default {
     })
   },
   GetScore(params) {
-    return Vue.axios.get('/v1/getScore.do', {
-      params: params
-    })
+    return Vue.axios.post('/v1/getScore.do', qs.stringify(params))
   },
   GetPhoneNumber(params) {
     return Vue.axios.get('/v1/getNumbers.do', {

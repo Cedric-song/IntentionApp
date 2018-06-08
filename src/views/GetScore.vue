@@ -50,7 +50,12 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="score.mixed" placeholder="" label="综合" />
+          <van-field v-model="score.english" placeholder="" label="英语" />
+        </van-cell-group>
+      </van-col>
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="score.mixed" placeholder="" :label="`${score.category}综合`" />
         </van-cell-group>
       </van-col>
       <van-col span="24">
@@ -94,26 +99,26 @@ export default {
       const vm = this
       const params = {
         name: vm.form.name,
-        id: vm.form.id
+        ticketNo: vm.form.id
       }
 
-      // vm.$store.commit(vm.$types.ShowLoading, true)
-      vm.$toast.fail(`暂无数据`)
-      // vm.$api
-      //   .GetScore(params)
-      //   .then(res => {
-      //     if (res.data.code == 200) {
-      //       vm.showScore = false
-      //       vm.score = res.data.data
-      //     } else {
-      //       vm.$toast.fail(`${res.data.message}`)
-      //     }
-      //     vm.$store.commit(vm.$types.ShowLoading, false)
-      //   })
-      //   .catch(err => {
-      //     vm.$toast.fail(JSON.stringify(err))
-      //     vm.$store.commit(vm.$types.ShowLoading, false)
-      //   })
+      vm.$store.commit(vm.$types.ShowLoading, true)
+      // vm.$toast.fail(`暂无数据`)
+      vm.$api
+        .GetScore(params)
+        .then(res => {
+          if (res.data.code == '200') {
+            vm.showScore = false
+            vm.score = res.data.data
+          } else {
+            vm.$toast.fail(`${res.data.message}`)
+          }
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
+        .catch(err => {
+          vm.$toast.fail(JSON.stringify(err))
+          vm.$store.commit(vm.$types.ShowLoading, false)
+        })
     }
   },
 
