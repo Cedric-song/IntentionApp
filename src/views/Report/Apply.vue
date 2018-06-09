@@ -43,8 +43,9 @@
         </van-cell-group>
       </van-col>
       <van-col span="24">
-        <van-cell-group>
-          <van-field v-model="form.major" placeholder="请选择意向专业" label="意向专业" />
+        <van-cell-group class="sg-form">
+          <!-- <van-field v-model="form.major" placeholder="请选择意向专业" label="意向专业" /> -->
+          <van-cell title="意向专业" :to="{name: 'SelectMajor',query: form}" :value="form.major" />
         </van-cell-group>
       </van-col>
 
@@ -52,7 +53,7 @@
         <div class="times-tip">当前剩余次数：{{times}}次</div>
       </van-col>
       <van-col span="24">
-        <van-button type="primary" bottom-action class="btn" @click="handleConfirm">确定</van-button>
+        <van-button type="primary" bottom-action class="btn" @click="handleConfirm" :disabled="btnDisabled">确定</van-button>
       </van-col>
 
     </van-row>
@@ -78,12 +79,26 @@ export default {
     return {
       showCityPicker: false,
       showLevelPicker: false,
+      btnDisabled: false,
       form: {
         local: '吉林省',
         localId: '220000',
-        category: '1'
+        category: '1',
+        major: '',
+        levelText: '',
+        level: '',
+        provinceText: '',
+        provinceId: '',
+        score: ''
       },
-      times: '10'
+      times: ''
+    }
+  },
+  watch: {
+    'form.score': {
+      handler(val) {
+        this.btnDisabled = val === ''
+      }
     }
   },
   methods: {
@@ -118,7 +133,31 @@ export default {
         })
     }
   },
-  created() {}
+
+  created() {
+    this.$store.commit(this.$types.ShowLoading, true)
+    for (let [key, value] of Object.entries(this.form)) {
+      if (this.$route.query[key]) {
+        this.form[key] = this.$route.query[key]
+      }
+    }
+
+    if (!this.form.category) {
+      this.form.category = '1'
+    }
+    const vm = this
+
+    this.$api
+      .GetTestTime({ wxId: this.$store.state.userinfo.openid })
+      .then(res => {
+        if (res.data.code == '200') {
+          vm.times = res.data.data.reportNum
+        } else {
+          vm.$toast.fail(res.data.message)
+        }
+        vm.$store.commit(vm.$types.ShowLoading, false)
+      })
+  }
 }
 </script>
 

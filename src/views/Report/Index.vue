@@ -60,7 +60,8 @@
 export default {
   data() {
     return {
-      overlay: true,
+      times: '',
+      overlay: false,
       tipInfo: [
         '1.本系统依据历年院校录取数据提供高考志愿填报智能模拟功能，不等同于实际的网上填报志愿，建议考生在填报志愿时，结合本系统的推荐以完善志愿表；',
         '2.本系统提供“普通类文理科本一批、本二批、本三批、专科批”4个批次的志愿智能模拟功能;',
@@ -111,7 +112,34 @@ export default {
     }
   },
 
-  methods: {}
+  methods: {},
+
+  watch: {
+    times: {
+      handler(val) {
+        if (val === '' || val == '0') {
+          this.overlay = true
+        } else if (Number(val) > 0) {
+          this.overlay = false
+        }
+      }
+    }
+  },
+  created() {
+    this.$store.commit(this.$types.ShowLoading, true)
+    const vm = this
+
+    this.$api
+      .GetTestTime({ wxId: this.$store.state.userinfo.openid })
+      .then(res => {
+        if (res.data.code == '200') {
+          vm.times = res.data.data.reportNum
+        } else {
+          vm.$toast.fail(res.data.message)
+        }
+        vm.$store.commit(vm.$types.ShowLoading, false)
+      })
+  }
 }
 </script>
 

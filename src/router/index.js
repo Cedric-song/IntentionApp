@@ -14,6 +14,7 @@ import Verify from '@/views/Verify'
 import Qrcode from '@/views/Qrcode'
 import Expert from '@/views/Expert'
 import Apply from '@/views/Report/Apply'
+import SelectMajor from '@/views/Report/SelectMajor'
 import Report from '@/views/Report/Index'
 import ReportList from '@/views/Report/List'
 import ReportItem from '@/views/Report/Item'
@@ -101,6 +102,11 @@ const router = new Router({
       path: '/apply',
       name: 'Apply',
       component: Apply
+    },
+    {
+      path: '/apply/select-major',
+      name: 'SelectMajor',
+      component: SelectMajor
     },
     {
       path: '/report-list/:id',
