@@ -70,3 +70,27 @@ Vue.prototype.$cityWholeList = [
   }
 
 ]
+
+
+Vue.prototype.$provinceList = require('./province.json')
+
+
+Vue.prototype.$levelList = [
+
+  {
+    id: '1',
+    text: '211'
+  },
+  {
+    id: '2',
+    text: '985'
+  },
+  {
+    id: '3',
+    text: '211 + 985'
+  },
+  {
+    id: '4',
+    text: '其他'
+  }
+]

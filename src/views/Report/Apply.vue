@@ -18,7 +18,7 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.score" placeholder="" label="分数" type="number" required/>
+          <van-field v-model="form.score" placeholder="请输入考生分数" label="分数" type="number" required/>
         </van-cell-group>
       </van-col>
 
@@ -30,18 +30,21 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.provinceId" placeholder="" label="院校所在省份" />
+          <!-- <van-field v-model="form.provinceId" placeholder="请输入院校所在省份" label="院校所在省份" /> -->
+          <van-cell title="院校所在省份" :value="form.provinceText" @click="showCityPicker = true" class="sg-form" />
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.level" placeholder="" label="院校级别" />
+          <!-- <van-field v-model="form.level" placeholder="请选择院校级别" label="院校级别" /> -->
+          <van-cell title="院校级别" :value="form.levelText" @click="showLevelPicker = true" class="sg-form" />
+
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.major" placeholder="" label="意向专业" />
+          <van-field v-model="form.major" placeholder="请选择意向专业" label="意向专业" />
         </van-cell-group>
       </van-col>
 
@@ -57,6 +60,13 @@
       <van-col span="24" class="tip-red">
         操作提示：若无特别需要可不填院校所在省市、院校级别、意向专业，以保证推荐结果全面
       </van-col>
+      <van-col span="24" class="btm-picker">
+        <van-picker show-toolbar title="选择院校所在省份" :columns="$provinceList" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
+      </van-col>
+
+      <van-col span="24" class="btm-picker">
+        <van-picker show-toolbar title="选择院校所在省份" :columns="$levelList" @cancel="onLevelCancel" @confirm="onLevelConfirm" v-show="showLevelPicker" />
+      </van-col>
     </van-row>
   </div>
 </template>
@@ -66,6 +76,8 @@
 export default {
   data() {
     return {
+      showCityPicker: false,
+      showLevelPicker: false,
       form: {
         local: '吉林省',
         localId: '220000',
@@ -75,6 +87,22 @@ export default {
     }
   },
   methods: {
+    onConfirm(value, index) {
+      this.form.provinceId = value.id
+      this.form.provinceText = value.text
+      this.showCityPicker = false
+    },
+    onCancel() {
+      this.showCityPicker = false
+    },
+    onLevelConfirm(value, index) {
+      this.form.level = value.id
+      this.form.levelText = value.text
+      this.showLevelPicker = false
+    },
+    onLevelCancel() {
+      this.showLevelPicker = false
+    },
     handleLocalClick() {},
     handleConfirm() {
       this.$dialog
