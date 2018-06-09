@@ -6,7 +6,7 @@
     <van-row :gutter="20" class="info">
       <van-col span="24" class="info-item" style="text-align:center;height:130px;"><img :src="form.logo" alt=""></van-col>
       <van-col span="24" class="info-item">院校名称： {{$route.query.name}}</van-col>
-      <van-col span="24" class="info-item">院校代码： {{form.schoolNo}}</van-col>
+      <van-col span="24" class="info-item">院校代码： {{form.code}}</van-col>
       <van-col span="24" class="info-item">院校级别： {{form.eduLevel}}</van-col>
       <van-col span="24" class="info-item">所在省市： {{form.provinceName}}</van-col>
       <van-col span="24" class="info-item">详细地址： {{form.address}}</van-col>
