@@ -97,5 +97,12 @@ export default {
   },
   GetPayHistory(params) {
     return Vue.axios.post('/v1/hisPayList.do', qs.stringify(params))
+  },
+  // Report 
+  TestReport(params) {
+    return Vue.axios.post('/v1/reportTest.do', qs.stringify(params))
+  },
+  GetReportById(params) {
+    return Vue.axios.post('/v1/getReportById.do', qs.stringify(params))
   }
 }

@@ -21,7 +21,7 @@ import ReportItem from '@/views/Report/Item'
 import OpenAccount from '@/views/OpenAccount/Index'
 import InputInfo from '@/views/OpenAccount/InputInfo'
 import InputPersonInfo from '@/views/OpenAccount/InputPersonInfo'
-import CompletePersonInfo from '@/views/OpenAccount/CompletePersonInfo'
+import CompletePersonInfo from '@/views/Mine/CompletePersonInfo'
 import PayAccount from '@/views/OpenAccount/Pay'
 import PaySuccess from '@/views/OpenAccount/Success'
 import ActiveCard from '@/views/OpenAccount/Active'
@@ -109,7 +109,7 @@ const router = new Router({
       component: SelectMajor
     },
     {
-      path: '/report-list/:id',
+      path: '/report-list/:categoryCode',
       name: 'Report',
       component: Report
     },
@@ -119,7 +119,7 @@ const router = new Router({
       component: ReportList
     },
     {
-      path: '/report-item/:id',
+      path: '/report-item/:categoryCode',
       name: 'ReportItem',
       component: ReportItem
     },

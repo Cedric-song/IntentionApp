@@ -75,8 +75,8 @@ export default {
         {
           name: '录取概率测试',
           icon: '#icon-ceshi',
-          to: 'Test'
-          // to: 'Home'
+          // to: 'Test'
+          to: 'Home'
         },
         {
           name: '一键智能填报',

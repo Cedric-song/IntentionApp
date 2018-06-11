@@ -64,10 +64,15 @@
         <br> 该图表示2017年上述十个专业录取的线差对比，线差越大的表示这个专业越不容易考取，反之亦然。
       </van-col>
     </van-row>
-    <wap-chart-course-percent class="chart-position"></wap-chart-course-percent>
+    <!-- <wap-chart-course-percent class="chart-position"></wap-chart-course-percent>
     <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 3 "></wap-chart-course-score>
     <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 2 "></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 1"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 1"></wap-chart-course-score> -->
+
+    <wap-chart-course-percent class="chart-position" v-if="GotData" :chart="data.chart3"></wap-chart-course-percent>
+    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 3 " v-if="GotData" :chart="data.chart4"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 2 " v-if="GotData" :chart="data.chart5"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 1" v-if="GotData" :chart="data.chart6"></wap-chart-course-score>
 
     <wap-subtitle subtitle="相应专业录取趋势图" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
@@ -130,7 +135,34 @@ export default {
           score2: '550',
           score3: '550'
         }
-      ]
+      ],
+      data: {
+        info: {},
+        chart1: [],
+        chart2: [],
+        chart3: [],
+        chart4: [],
+        chart5: [],
+        chart6: []
+      },
+      GotData: false
+    }
+  },
+  methods: {
+    fetchData() {
+      const vm = this
+      const param = {
+        wx_id: this.$store.state.userinfo.openid,
+        id: this.$route.query.id
+      }
+      this.$store.commit(this.$types.ShowLoading, true)
+      this.$api.GetReportById(param).then(res => {
+        if (res.data.code == '200') {
+          vm.data = res.data.data
+          vm.GotData = true
+        }
+        vm.$store.commit(vm.$types.ShowLoading, false)
+      })
     }
   }
 }

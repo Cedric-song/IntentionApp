@@ -1,6 +1,6 @@
 <template>
   <div class="apply">
-    <van-nav-bar title="智能填报" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
+    <van-nav-bar title="智能填报" left-text="返回" right-text="" left-arrow @click-left="$router.push({name: 'Home'})" />
     <van-row gutter="20">
       <van-col span="24" class="subtitle">
         <div class="subname">智能报考 一键生成</div>
@@ -30,21 +30,18 @@
 
       <van-col span="24">
         <van-cell-group>
-          <!-- <van-field v-model="form.provinceId" placeholder="请输入院校所在省份" label="院校所在省份" /> -->
           <van-cell title="院校所在省份" :value="form.provinceText" @click="showCityPicker = true" class="sg-form" />
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <!-- <van-field v-model="form.level" placeholder="请选择院校级别" label="院校级别" /> -->
           <van-cell title="院校级别" :value="form.levelText" @click="showLevelPicker = true" class="sg-form" />
 
         </van-cell-group>
       </van-col>
       <van-col span="24">
         <van-cell-group class="sg-form">
-          <!-- <van-field v-model="form.major" placeholder="请选择意向专业" label="意向专业" /> -->
           <van-cell title="意向专业" :to="{name: 'SelectMajor',query: form}" :value="form.major" />
         </van-cell-group>
       </van-col>
@@ -126,11 +123,29 @@ export default {
           message: '每次测试将消耗一点积分'
         })
         .then(() => {
-          this.$router.push({ name: 'ReportList' })
+          // this.$router.push({ name: 'ReportList' })
+          this.confirmAction()
         })
         .catch(() => {
           this.$toast.fail('取消测试')
         })
+    },
+    confirmAction() {
+      const vm = this
+      const param = {}
+      this.$store.commit(this.$types.ShowLoading, true)
+
+      this.$api.TestReport(param).then(res => {
+        if (res.data.code == '200') {
+          vm.$router.push({
+            name: 'ReportList',
+            query: { userTestId: res.data.data.userTestId }
+          })
+        } else {
+          vm.$toast.fail(res.data.message)
+        }
+        vm.$store.commit(vm.$types.ShowLoading, false)
+      })
     }
   },
 

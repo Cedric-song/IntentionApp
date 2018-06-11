@@ -242,7 +242,7 @@ export default {
 
       return flag
     },
-    handlePost() {
+    handleSubmit() {
       const vm = this
       if (!this.validate()) {
         return false
@@ -268,14 +268,14 @@ export default {
       params.cardDetailId = this.$route.query.cardDetailId || ''
       params.cardId = this.$route.query.cardId || ''
 
-      this.$api.SaveEnterInfo(params).then(res => {
-        if (res.data.code == 200) {
-          vm.$toast.success('补录成功')
-          vm.$router.push({ name: 'Mine' })
-        } else {
-          vm.$toast.fail(res.data.message)
-        }
-      })
+      // this.$api.SaveEnterInfo(params).then(res => {
+      //   if (res.data.code == 200) {
+      //     vm.$toast.success('补录成功')
+      //     vm.$router.push({ name: 'Mine' })
+      //   } else {
+      //     vm.$toast.fail(res.data.message)
+      //   }
+      // })
     }
   },
   created() {
