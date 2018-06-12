@@ -27,7 +27,7 @@ export default {
   methods: {
     onLoad() {},
     handleClick(item) {
-      this.$router.push({ name: 'CompletePersonInfo', query: item })
+      this.$router.push({ name: 'CompletePersonInfo' })
     },
     getHistory() {
       const vm = this
