@@ -82,6 +82,7 @@ export default {
   },
   methods: {
     initWxConfig(param) {
+      alert('initWxConfig')
       this.$wx.config({
         debug: process.env.NODE_ENV !== 'production',
         appId: param.appId,
@@ -279,6 +280,7 @@ export default {
     }
   },
   created() {
+    alert('created')
     this.$api.GetWxConfig({ url: location.href }).then(res => {
       if (res.data.code == '200') {
         this.initWxConfig(res.data.data)
@@ -286,6 +288,7 @@ export default {
     })
   },
   updated() {
+    alert('updated')
     this.$api.GetWxConfig({ url: location.href }).then(res => {
       if (res.data.code == '200') {
         this.initWxConfig(res.data.data)
