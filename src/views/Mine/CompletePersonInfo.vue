@@ -278,22 +278,11 @@ export default {
       })
     }
   },
-  // mounted() {
-  //   this.$api.GetWxConfig({ url: location.href }).then(res => {
-  //     if (res.data.code == '200') {
-  //       this.initWxConfig(res.data.data)
-  //     }
-  //   })
-  // },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.$store.commit(vm.$types.ShowLoading, true)
-      vm.$api.GetWxConfig({ url: location.href }).then(res => {
-        if (res.data.code == '200') {
-          vm.initWxConfig(res.data.data)
-        }
-        vm.$store.commit(vm.$types.ShowLoading, false)
-      })
+  mounted() {
+    this.$api.GetWxConfig({ url: 'http://www.cxnb.com/' }).then(res => {
+      if (res.data.code == '200') {
+        this.initWxConfig(res.data.data)
+      }
     })
   }
 }
