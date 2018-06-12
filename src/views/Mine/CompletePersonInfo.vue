@@ -278,11 +278,20 @@ export default {
       })
     }
   },
-  mounted() {
-    this.$api.GetWxConfig({ url: location.href }).then(res => {
-      if (res.data.code == '200') {
-        this.initWxConfig(res.data.data)
-      }
+  // mounted() {
+  //   this.$api.GetWxConfig({ url: location.href }).then(res => {
+  //     if (res.data.code == '200') {
+  //       this.initWxConfig(res.data.data)
+  //     }
+  //   })
+  // },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.$api.GetWxConfig({ url: location.href }).then(res => {
+        if (res.data.code == '200') {
+          vm.initWxConfig(res.data.data)
+        }
+      })
     })
   }
 }
