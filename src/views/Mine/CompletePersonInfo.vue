@@ -279,7 +279,7 @@ export default {
     }
   },
   mounted() {
-    this.$api.GetWxConfig({ url: 'http://www.cxnb.com/' }).then(res => {
+    this.$api.GetWxConfig({ url: location.href }).then(res => {
       if (res.data.code == '200') {
         this.initWxConfig(res.data.data)
       }
