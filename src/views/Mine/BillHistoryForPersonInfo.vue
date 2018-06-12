@@ -9,22 +9,16 @@
         <div v-if="list.length === 0" style="text-align:center;"> {{noDataMsg}} </div>
       </van-col>
     </van-row>
-    <van-dialog v-model="showDialog" show-cancel-button>
-      <van-field v-model="form.tradeNo" label="订单号" />
-      <van-field :value="formatTime(form.createOrderTime)" label="密码" />
-    </van-dialog>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
 export default {
   data() {
     return {
       list: [],
       loading: false,
       finished: false,
-      showDialog: false,
       form: {},
       noDataMsg: ''
     }
@@ -34,9 +28,6 @@ export default {
     onLoad() {},
     handleClick(item) {
       this.$router.push({ name: 'CompletePersonInfo', query: item })
-    },
-    formatTime(timeStamp) {
-      return moment(timeStamp).format('YYYY-MM-DD HH:mm:ss')
     },
     getHistory() {
       const vm = this
