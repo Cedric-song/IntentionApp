@@ -6,7 +6,7 @@
         <van-list :finished="finished" @load="onLoad">
           <van-cell v-for="item in list" :key="item.createTime" :title="item.createTime + ''" :value="`${item.score}分-${item.typeName}`" :to="{'name': 'ReportList','query': { userTestId: item.id }}" />
         </van-list>
-        <div v-if="list.length === 0" style="text-align:center;"> 暂无数据 </div>
+        <div v-if="list.length === 0" style="text-align:center;"> {{noDataMsg}} </div>
 
       </van-col>
     </van-row>
@@ -19,7 +19,8 @@ export default {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      noDataMsg: ''
     }
   },
 
@@ -37,6 +38,9 @@ export default {
           vm.list = res.data.data
         } else {
           vm.$toast.fail(`${res.data.message}`)
+        }
+        if (vm.list.length === 0) {
+          vm.noDataMsg = '暂无数据'
         }
         vm.$store.commit(vm.$types.ShowLoading, false)
       })

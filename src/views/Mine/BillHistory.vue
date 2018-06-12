@@ -6,7 +6,7 @@
         <van-list :finished="finished" @load="onLoad">
           <van-cell v-for="item in list" :key="item.tradeNo" :value="formatTime(item.createOrderTime) + ''" label="电话号码" :title="`${item.phoneNo}`" @click="handleClick(item)" />
         </van-list>
-        <div v-if="list.length === 0" style="text-align:center;"> 暂无数据 </div>
+        <div v-if="list.length === 0" style="text-align:center;"> {{noDataMsg}} </div>
       </van-col>
     </van-row>
     <van-dialog v-model="showDialog" confirmButtonText="关闭">
@@ -29,7 +29,8 @@ export default {
       loading: false,
       finished: false,
       showDialog: false,
-      form: {}
+      form: {},
+      noDataMsg: ''
     }
   },
 
@@ -56,7 +57,9 @@ export default {
         } else {
           vm.$toast.fail(`${res.data.message}`)
         }
-
+        if (vm.list.length === 0) {
+          vm.noDataMsg = '暂无数据'
+        }
         vm.$store.commit(vm.$types.ShowLoading, false)
       })
     }
