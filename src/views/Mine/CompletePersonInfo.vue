@@ -278,8 +278,11 @@ export default {
       })
     }
   },
-  mounted() {
-    this.$api.GetWxConfig({ url: location.href }).then(res => {
+  created() {
+    let signLink = /(Android)/i.test(navigator.userAgent)
+      ? location.href.split('#')[0]
+      : window.entryUrl
+    this.$api.GetWxConfig({ url: signLink }).then(res => {
       if (res.data.code == '200') {
         this.initWxConfig(res.data.data)
       }

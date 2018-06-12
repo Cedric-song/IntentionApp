@@ -64,6 +64,9 @@ Vue.component(VeHistogram.name, VeHistogram)
 Vue.component(VeBar.name, VeBar)
 Vue.component(VeLine.name, VeLine)
 
+if (typeof window.entryUrl === 'undefined' || window.entryUrl === '') {
+  window.entryUrl = location.href.split('#')[0]
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
