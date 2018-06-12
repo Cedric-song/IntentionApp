@@ -19,7 +19,7 @@
       </van-col>
       <van-col :span="24">
         <van-cell-group>
-          <van-cell title="身份证照片上传" icon="" is-link :to="{name: 'CompletePersonInfo'}" />
+          <van-cell title="身份证照片补录上传" icon="" is-link :to="{name: 'BillHistoryForPersonInfo'}" />
         </van-cell-group>
       </van-col>
     </van-row>

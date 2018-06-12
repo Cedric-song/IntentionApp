@@ -21,6 +21,7 @@ import ReportItem from '@/views/Report/Item'
 import OpenAccount from '@/views/OpenAccount/Index'
 import InputInfo from '@/views/OpenAccount/InputInfo'
 import InputPersonInfo from '@/views/OpenAccount/InputPersonInfo'
+import BillHistoryForPersonInfo from '@/views/Mine/BillHistoryForPersonInfo'
 import CompletePersonInfo from '@/views/Mine/CompletePersonInfo'
 import PayAccount from '@/views/OpenAccount/Pay'
 import PaySuccess from '@/views/OpenAccount/Success'
@@ -67,6 +68,11 @@ const router = new Router({
       path: '/mine/bill-history',
       name: 'History',
       component: BillHistory
+    },
+    {
+      path: '/mine/bill-history-person-info',
+      name: 'BillHistoryForPersonInfo',
+      component: BillHistoryForPersonInfo
     },
     {
       path: '/mine/test-history',
