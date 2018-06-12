@@ -278,8 +278,7 @@ export default {
       })
     }
   },
-  created() {
-    alert(location.href)
+  mounted() {
     this.$api.GetWxConfig({ url: location.href }).then(res => {
       if (res.data.code == '200') {
         this.initWxConfig(res.data.data)
