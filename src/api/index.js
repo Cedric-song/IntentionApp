@@ -104,5 +104,18 @@ export default {
   },
   GetReportById(params) {
     return Vue.axios.post('/v1/getReportById.do', qs.stringify(params))
+  },
+  GetReportUniversity(params) {
+    return Vue.axios.post('/v1/getReportUniversityList.do', qs.stringify(params))
+  },
+
+  GetReportList(params) {
+    return Vue.axios.post('/v1/getReportList.do', qs.stringify(params))
+  },
+  GetTestList(params) {
+    return Vue.axios.post('/v1/getTestList.do', qs.stringify(params))
+  },
+  CompletePersonInfo(params) {
+    return Vue.axios.post('/v1/additionalEnterInfo.do', qs.stringify(params))
   }
 }

@@ -9,7 +9,7 @@
       </van-col>
       <van-col :span="16">
         <van-cell-group>
-          <van-cell :title="item.name" v-for="item in secondData" :key="item.id" :class="{'first-cell-active': secondActive === item.id}" @click.native="handleClick(item.name)" />
+          <van-cell :title="item.name" v-for="item in secondData" :key="item.id" :class="{'first-cell-active': secondActive === item.id}" @click.native="handleClick(item.name, item.code)" />
         </van-cell-group>
       </van-col>
     </van-row>
@@ -27,10 +27,13 @@ export default {
     }
   },
   methods: {
-    handleClick(name) {
+    handleClick(name, code) {
       this.$router.push({
         name: 'Apply',
-        query: Object.assign(this.$route.query, { major: name })
+        query: Object.assign(this.$route.query, {
+          major: name,
+          majorCode: code
+        })
       })
     },
     handleClickFirstCell(item) {

@@ -4,7 +4,7 @@
     <van-row :gutter="20" style="margin-top:20px;">
       <van-col :span="24">
         <van-list :finished="finished" @load="onLoad">
-          <van-cell v-for="item in list" :key="item.time" :title="item.time + ''" :value="item.name" />
+          <van-cell v-for="item in list" :key="item.testTime" :title="item.testTime + ''" :value="`${item.universityName}-${item.universityCode}`" :to="{'name':'Answer','query': { id: item.id } }" />
         </van-list>
         <div v-if="list.length === 0" style="text-align:center;"> 暂无数据 </div>
       </van-col>
@@ -16,33 +16,28 @@
 export default {
   data() {
     return {
-      list: [
-        // {
-        //   time: '2018-06-06 20:00:00',
-        //   name: '北京大学'
-        // },
-        // {
-        //   time: '2018-06-06 19:00:00',
-        //   name: '清华大学'
-        // }
-      ],
+      list: [],
       loading: false,
       finished: false
     }
   },
 
   methods: {
-    onLoad() {
-      // setTimeout(() => {
-      //   for (let i = 0; i < 10; i++) {
-      //     this.list.push(this.list.length + 1)
-      //   }
-      //   this.loading = false
-      //   if (this.list.length >= 40) {
-      //     this.finished = true
-      //   }
-      // }, 500)
-    }
+    onLoad() {}
+  },
+  created() {
+    const vm = this
+    vm.$store.commit(vm.$types.ShowLoading, true)
+    this.$api
+      .GetTestList({ wx_id: this.$store.state.userinfo.openid })
+      .then(res => {
+        if (res.data.code == '200') {
+          vm.list = res.data.data
+        } else {
+          vm.$toast.fail(`${res.data.message}`)
+        }
+        vm.$store.commit(vm.$types.ShowLoading, false)
+      })
   }
 }
 </script>

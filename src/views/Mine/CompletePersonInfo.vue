@@ -1,6 +1,6 @@
 <template>
   <div class="upload-info">
-    <van-nav-bar title="身份证照片上传" left-text="后退" left-arrow @click-left="$router.back()" />
+    <van-nav-bar title="身份证照片补录" left-text="后退" left-arrow @click-left="$router.back()" />
 
     <van-row>
       <van-col span="24">
@@ -264,18 +264,18 @@ export default {
       }
 
       params.wxId = this.$store.state.userinfo.openid
-      params.orderId = this.$route.query.orderId || ''
-      params.cardDetailId = this.$route.query.cardDetailId || ''
+      params.orderId = this.$route.query.id || ''
+      params.cardDetailId = this.$route.query.detailId || ''
       params.cardId = this.$route.query.cardId || ''
 
-      // this.$api.SaveEnterInfo(params).then(res => {
-      //   if (res.data.code == 200) {
-      //     vm.$toast.success('补录成功')
-      //     vm.$router.push({ name: 'Mine' })
-      //   } else {
-      //     vm.$toast.fail(res.data.message)
-      //   }
-      // })
+      this.$api.CompletePersonInfo(params).then(res => {
+        if (res.data.code == 200) {
+          vm.$toast.success('补录成功')
+          vm.$router.back()
+        } else {
+          vm.$toast.fail(res.data.message)
+        }
+      })
     }
   },
   created() {

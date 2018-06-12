@@ -132,14 +132,23 @@ export default {
     },
     confirmAction() {
       const vm = this
-      const param = {}
+      const param = {
+        wx_id: this.$store.state.userinfo.openid,
+        major: this.$route.query.majorCode || '',
+        category: this.form.category,
+        localId: this.form.localId,
+        provinceId: this.form.provinceId,
+        level: this.form.level,
+        score: this.form.score
+      }
+
       this.$store.commit(this.$types.ShowLoading, true)
 
       this.$api.TestReport(param).then(res => {
         if (res.data.code == '200') {
           vm.$router.push({
             name: 'ReportList',
-            query: { userTestId: res.data.data.userTestId }
+            query: { userTestId: res.data.data.reportListId }
           })
         } else {
           vm.$toast.fail(res.data.message)
