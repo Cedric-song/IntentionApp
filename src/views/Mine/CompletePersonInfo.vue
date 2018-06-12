@@ -287,10 +287,12 @@ export default {
   // },
   beforeRouteEnter(to, from, next) {
     next(vm => {
+      vm.$store.commit(vm.$types.ShowLoading, true)
       vm.$api.GetWxConfig({ url: location.href }).then(res => {
         if (res.data.code == '200') {
           vm.initWxConfig(res.data.data)
         }
+        vm.$store.commit(vm.$types.ShowLoading, false)
       })
     })
   }
