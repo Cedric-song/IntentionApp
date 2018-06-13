@@ -5,12 +5,15 @@ import loading from './loading'
 import major from './major'
 import cacheUniversity from './cacheUniversityList'
 import userinfo from './userinfo'
+import forJun from './forJun'
+
 const modules = {
   filter,
   loading,
   major,
   cacheUniversity,
-  userinfo
+  userinfo,
+  forJun
 }
 
 // requireModule.keys().forEach(fileName => {

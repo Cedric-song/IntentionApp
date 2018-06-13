@@ -11,3 +11,5 @@ export const InitFilter = 'INIT_FILTER'
 
 
 export const SetUserinfo = 'SET_USERINFO'
+
+export const SaveAnswer = 'SAVE_ANSWER'
