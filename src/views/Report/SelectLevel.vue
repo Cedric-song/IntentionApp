@@ -53,7 +53,11 @@ export default {
     }
   },
   created() {
-    this.checked = this.$route.query.level.split(',')
+    if (!this.$route.query.level || this.$route.query.level.length === 0) {
+      this.checked = []
+    } else {
+      this.checked = this.$route.query.level.split(',')
+    }
   }
 }
 </script>
