@@ -122,6 +122,10 @@ export default {
     },
     handleLocalClick() {},
     handleConfirm() {
+      if (Number(this.form.score) > 1000 || Number(this.form.score) < 0) {
+        this.$toast.fail('分数一栏请输入真实有效分数。')
+        return false
+      }
       this.$dialog
         .confirm({
           title: '确认使用智能填报',

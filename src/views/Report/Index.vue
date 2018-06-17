@@ -35,17 +35,18 @@
 
     <wap-subtitle subtitle="冲击学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in list" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode: $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '0'})}" />
+      <van-cell v-for="item in data.firstLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.rate * 100 + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode: $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '0',universityName: item.name})}" />
     </van-list>
 
     <wap-subtitle subtitle="稳妥学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in list1" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '1'})}" />
+      <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '1',universityName: item.name})}" />
+      <van-cell v-if="data.secondLevel && data.secondLevel.length === 0">无推荐院校</van-cell>
     </van-list>
 
     <wap-subtitle subtitle="保底学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in list2" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '2'})}" />
+      <van-cell v-for="item in data.thirdLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.rate * 100 + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '2',universityName: item.name})}" />
     </van-list>
 
     <van-row :gutter="20">
@@ -68,6 +69,7 @@ export default {
         '3.在正式填报时，请以教育考试院公布的最新招生计划为准；',
         '4.由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。'
       ],
+      data: {},
       list: [
         {
           name: '北京大学',
@@ -116,10 +118,17 @@ export default {
     getList() {
       const params = {
         wx_id: this.$store.state.userinfo.openid,
-        userTestId: this.$route.query.userTestId,
+        id: this.$route.query.userTestId,
         categoryCode: this.$route.params.categoryCode
       }
-      this.$api.GetReportUniversity(params).then(res => {})
+      const vm = this
+      this.$api.GetReportUniversity(params).then(res => {
+        if (res.data.code == '200') {
+          vm.data = res.data.data
+        } else {
+          vm.$toast.fail(res.data.message)
+        }
+      })
     }
   },
 
