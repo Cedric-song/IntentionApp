@@ -1,28 +1,28 @@
 <template>
   <div class="answer">
     <van-popup v-model="overlay" :close-on-click-overlay="false" class="lay-base">
-      <div class="lay-cnt">
+      <div class="lay-cnt" v-if="data.firstLevel && data.secondLevel && data.thirdLevel">
         <div class="img"></div>
         <div class="cnt">你共有
-          <span class="fs20">{{ list.length + list1.length + list2.length }}</span> 所大学</div>
+          <span class="fs20">{{ data.firstLevel.length + data.secondLevel.length + data.thirdLevel.length }}</span> 所大学</div>
         <div class="cnt-2 fs20">可以填报</div>
         <div class="lay-box-hold">
           <div class="lay-box lay-box1">
             <div class="lay-box-top">冲一冲</div>
             <div class="lay-box-btm">
-              <span class="fs20">{{list.length}}</span> 所</div>
+              <span class="fs20">{{data.firstLevel.length}}</span> 所</div>
           </div>
 
           <div class="lay-box lay-box2">
             <div class="lay-box-top">守一守</div>
             <div class="lay-box-btm">
-              <span class="fs20">{{list1.length}}</span>所</div>
+              <span class="fs20">{{data.secondLevel.length}}</span>所</div>
           </div>
 
           <div class="lay-box lay-box3">
             <div class="lay-box-top">保一保</div>
             <div class="lay-box-btm">
-              <span class="fs20">{{list2.length}}</span>所</div>
+              <span class="fs20">{{data.thirdLevel.length}}</span>所</div>
           </div>
         </div>
         <div class="lay-btn">
@@ -35,18 +35,21 @@
 
     <wap-subtitle subtitle="冲击学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in data.firstLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode: $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '0',universityName: item.name})}" />
+      <van-cell v-for="item in data.firstLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link @click="handleGoto({testConfigType: '0',universityName: item.name})" />
+      <van-cell v-if="data.firstLevel && data.firstLevel.length === 0">无推荐院校</van-cell>
+
     </van-list>
 
     <wap-subtitle subtitle="稳妥学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '1',universityName: item.name})}" />
+      <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link @click="handleGoto({testConfigType: '1',universityName: item.name})" />
       <van-cell v-if="data.secondLevel && data.secondLevel.length === 0">无推荐院校</van-cell>
     </van-list>
 
     <wap-subtitle subtitle="保底学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in data.thirdLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '2',universityName: item.name})}" />
+      <van-cell v-for="item in data.thirdLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link @click="handleGoto({testConfigType: '2',universityName: item.name})" />
+      <van-cell v-if="data.thirdLevel && data.thirdLevel.length === 0">无推荐院校</van-cell>
     </van-list>
 
     <van-row :gutter="20">
@@ -69,52 +72,18 @@ export default {
         '3.在正式填报时，请以教育考试院公布的最新招生计划为准；',
         '4.由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。'
       ],
-      data: {},
-      list: [
-        {
-          name: '北京大学',
-          percent: '60',
-          id: '11'
-        },
-        {
-          name: '清华大学',
-          percent: '55',
-          id: '12'
-        }
-      ],
-      list1: [
-        {
-          name: '北京理工大学',
-          percent: '90',
-          id: '21'
-        },
-        {
-          name: '北京化工大学',
-          percent: '85',
-          id: '22'
-        }
-      ],
-      list2: [
-        {
-          name: '北京农学院',
-          percent: '91',
-          id: '31'
-        },
-        {
-          name: '北京技术学院',
-          percent: '90',
-          id: '32'
-        },
-        {
-          name: '北京职业学院',
-          percent: '87',
-          id: '33'
-        }
-      ]
+      data: {}
     }
   },
 
   methods: {
+    handleGoto(params) {
+      this.$router.push({
+        name: 'ReportItem',
+        params: { categoryCode: this.$route.params.categoryCode },
+        query: Object.assign(this.$route.query, params)
+      })
+    },
     getList() {
       const params = {
         wx_id: this.$store.state.userinfo.openid,
