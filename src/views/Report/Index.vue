@@ -40,7 +40,7 @@
 
     <wap-subtitle subtitle="稳妥学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.percent + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '1',universityName: item.name})}" />
+      <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.rate * 100 + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '1',universityName: item.name})}" />
       <van-cell v-if="data.secondLevel && data.secondLevel.length === 0">无推荐院校</van-cell>
     </van-list>
 
