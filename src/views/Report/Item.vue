@@ -8,6 +8,7 @@
       <van-col span="24" class="info-item">意向院校名称（代码）： {{`${data.universityInfo.name}(${data.universityInfo.code})`}}</van-col>
       <van-col span="24" class="info-item">考生姓名： {{data.universityInfo.userName}}</van-col>
       <van-col span="24" class="info-item" v-if="data.universityInfo.cardNo">考生考号：{{data.universityInfo.cardNo}}</van-col>
+      <van-col span="24" class="info-item">考生分数： {{data.universityInfo.score}}分</van-col>
       <van-col span="24" class="info-item">考生位次： {{data.universityInfo.userPosition}}</van-col>
       <van-col span="24" class="info-item item-tip">注：在2018年分数未公布前使用2017年分数作为位次参考
       </van-col>
