@@ -18,6 +18,9 @@ export default {
       dimension: ['year'],
       legendName: {
         scoreGap: '线差波动'
+      },
+      labelMap: {
+        scoreGap: '线差波动'
       }
     }
     return {

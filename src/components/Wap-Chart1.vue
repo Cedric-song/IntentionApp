@@ -19,8 +19,13 @@ export default {
       legendName: {
         lowScore: '最低分',
         highScore: '最高分'
+      },
+      labelMap: {
+        lowScore: '最低分',
+        highScore: '最高分'
       }
     }
+    this.legend = {}
     return {
       chartData: {
         columns: ['year', 'lowScore', 'highScore'],
@@ -40,7 +45,6 @@ export default {
   },
   created() {
     this.chartData.rows = this.chart
-
     this.grid = [
       {
         top: '50px',

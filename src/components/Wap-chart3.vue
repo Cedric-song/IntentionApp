@@ -18,6 +18,9 @@ export default {
       dimension: ['year'],
       legendName: {
         position: '位次波动'
+      },
+      labelMap: {
+        position: '位次波动'
       }
     }
     return {

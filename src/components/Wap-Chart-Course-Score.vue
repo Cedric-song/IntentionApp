@@ -64,13 +64,18 @@ module.exports = {
       legendName: {
         score: `${this.year}年线差`,
         userScore: `考生线差`
-      }
+      },
+      labelMap: {
+        score: `${this.year}年线差`,
+        userScore: `考生线差`
+      },
+      showLine: ['userScore']
     }
 
     this.chartExtend = {
       series(items) {
         items.forEach(item => {
-          if (item.name === 'userScore') {
+          if (item.name === '考生线差') {
             item.type = 'line'
             item.label = {
               show: false,
