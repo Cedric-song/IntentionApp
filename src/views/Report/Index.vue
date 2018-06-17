@@ -35,18 +35,18 @@
 
     <wap-subtitle subtitle="冲击学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in data.firstLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.rate * 100 + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode: $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '0',universityName: item.name})}" />
+      <van-cell v-for="item in data.firstLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode: $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '0',universityName: item.name})}" />
     </van-list>
 
     <wap-subtitle subtitle="稳妥学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.rate * 100 + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '1',universityName: item.name})}" />
+      <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '1',universityName: item.name})}" />
       <van-cell v-if="data.secondLevel && data.secondLevel.length === 0">无推荐院校</van-cell>
     </van-list>
 
     <wap-subtitle subtitle="保底学校" style="margin: 20px 0 0 0;"></wap-subtitle>
     <van-list>
-      <van-cell v-for="item in data.thirdLevel" :key="item.name" :title="item.name" :value="'录取概率：' + item.rate * 100 + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '2',universityName: item.name})}" />
+      <van-cell v-for="item in data.thirdLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link :to="{'name':'ReportItem','params': {categoryCode:  $route.params.categoryCode},'query': Object.assign($route.query,{testConfigType: '2',universityName: item.name})}" />
     </van-list>
 
     <van-row :gutter="20">
