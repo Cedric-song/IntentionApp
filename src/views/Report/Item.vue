@@ -22,7 +22,7 @@
 
     <wap-subtitle subtitle="录取概率" style="margin-top: 20px;"></wap-subtitle>
     <van-row :gutter="20" class="info">
-      <van-col span="24" class="info-item">录取概率： {{(data.universityInfo.rate * 100).toFixed(2)}}%</van-col>
+      <van-col span="24" class="info-item">录取概率： {{data.universityInfo.rate && data.universityInfo.rate.includes('-') ? '-' : (data.universityInfo.rate * 100).toFixed(2)}}%</van-col>
       <van-col span="24" class="info-item item-tip">概率说明：</van-col>
       <van-col span="24" class="info-item item-tip"> 本概率算法综合考生成绩、线差、位次、招生人数变化趋势（俗称“大小年”）及录取人数等多种影响因素建模计算得出，可作为考生报考参考，但不能仅以此填报志愿，在正式填报时，请以教育考试院公布的最新招生计划为准。
       </van-col>
