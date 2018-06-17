@@ -48,7 +48,9 @@ import {
   Table,
   TableColumn,
   Input,
-  InputNumber
+  InputNumber,
+  Select,
+  Option
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -56,6 +58,8 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Input)
 Vue.use(InputNumber)
+Vue.use(Select)
+Vue.use(Option)
 
 import VeHistogram from 'v-charts/lib/histogram'
 import VeBar from 'v-charts/lib/bar'

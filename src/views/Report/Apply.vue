@@ -1,6 +1,6 @@
 <template>
   <div class="apply">
-    <van-nav-bar title="智能填报" left-text="返回" right-text="" left-arrow @click-left="$router.push({name: 'Home'})" />
+    <van-nav-bar title="智能填报" left-text="首页" right-text="" left-arrow @click-left="$router.push({name: 'Home'})" />
     <van-row gutter="20">
       <van-col span="24" class="subtitle">
         <div class="subname">智能报考 一键生成</div>
@@ -18,6 +18,17 @@
       </van-col>
       <van-col span="24">
         <van-cell-group>
+          <van-field v-model="form.name" placeholder="请输入考生姓名" label="考生姓名" required/>
+        </van-cell-group>
+      </van-col>
+      <van-col span="24">
+        <van-cell-group>
+          <van-field v-model="form.id" placeholder="请输入考生考号" label="考号" required/>
+        </van-cell-group>
+      </van-col>
+
+      <van-col span="24">
+        <van-cell-group>
           <van-field v-model="form.score" placeholder="请输入考生分数" label="分数" type="number" required/>
         </van-cell-group>
       </van-col>
@@ -30,19 +41,13 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-cell title="院校所在省份" :value="form.provinceText" @click="showCityPicker = true" class="sg-form" />
+          <van-cell title="院校所在省份" :value="form.provinceText" class="sg-form" :to="{name: 'SelectProvince',query: form}" />
         </van-cell-group>
       </van-col>
 
       <van-col span="24">
         <van-cell-group>
-          <van-cell title="院校级别" :value="form.levelText" @click="showLevelPicker = true" class="sg-form" />
-
-        </van-cell-group>
-      </van-col>
-      <van-col span="24">
-        <van-cell-group class="sg-form">
-          <van-cell title="意向专业" :to="{name: 'SelectMajor',query: form}" :value="form.major" />
+          <van-cell title="院校级别" :value="form.levelText" class="sg-form" :to="{name: 'SelectLevel',query: form}" />
         </van-cell-group>
       </van-col>
 
@@ -57,13 +62,6 @@
     <van-row :gutter="20">
       <van-col span="24" class="tip-red">
         操作提示：若无特别需要可不填院校所在省市、院校级别、意向专业，以保证推荐结果全面
-      </van-col>
-      <van-col span="24" class="btm-picker">
-        <van-picker show-toolbar title="选择院校所在省份" :columns="$provinceList" @cancel="onCancel" @confirm="onConfirm" v-show="showCityPicker" />
-      </van-col>
-
-      <van-col span="24" class="btm-picker">
-        <van-picker show-toolbar title="选择院校所在省份" :columns="$levelList" @cancel="onLevelCancel" @confirm="onLevelConfirm" v-show="showLevelPicker" />
       </van-col>
     </van-row>
   </div>
@@ -81,21 +79,28 @@ export default {
         local: '吉林省',
         localId: '220000',
         category: '1',
-        major: '',
         levelText: '',
         level: '',
         provinceText: '',
         provinceId: '',
-        score: ''
+        score: '',
+        id: '',
+        name: ''
       },
       times: ''
     }
   },
   watch: {
-    'form.score': {
+    form: {
+      deep: true,
       handler(val) {
-        this.btnDisabled = val === ''
-      }
+        if (val.id === '' || val.score === '' || val.name === '') {
+          this.btnDisabled = true
+        } else {
+          this.btnDisabled = false
+        }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -123,7 +128,6 @@ export default {
           message: '每次测试将消耗一点积分'
         })
         .then(() => {
-          // this.$router.push({ name: 'ReportList' })
           this.confirmAction()
         })
         .catch(() => {
@@ -134,22 +138,27 @@ export default {
       const vm = this
       const param = {
         wx_id: this.$store.state.userinfo.openid,
-        major: this.$route.query.majorCode || '',
         category: this.form.category,
         localId: this.form.localId,
         provinceId: this.form.provinceId,
         level: this.form.level,
-        score: this.form.score
+        score: this.form.score,
+        name: this.form.name,
+        id: this.form.id
       }
 
       this.$store.commit(this.$types.ShowLoading, true)
 
       this.$api.TestReport(param).then(res => {
         if (res.data.code == '200') {
-          vm.$router.push({
-            name: 'ReportList',
-            query: { userTestId: res.data.data.reportListId }
-          })
+          if (res.data.data.hasAnswer === 0) {
+            vm.$toast.fail('测试无结果')
+          } else {
+            vm.$router.push({
+              name: 'ReportList',
+              query: { userTestId: res.data.data.reportListId }
+            })
+          }
         } else {
           vm.$toast.fail(res.data.message)
         }

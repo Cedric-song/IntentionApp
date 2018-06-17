@@ -3,6 +3,7 @@
     <van-col span="24" class="subtitle">
       <i class="icon"></i>
       <span>{{subtitle}}</span>
+      <slot></slot>
     </van-col>
   </van-row>
 </template>
@@ -21,6 +22,7 @@ export default {
 .subtitle {
   height: 20px;
   line-height: 20px;
+  position: relative;
 
   span {
     vertical-align: top;

@@ -1,58 +1,108 @@
 <template>
   <div class="answer">
-    <van-nav-bar title="测试结果" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
+    <van-nav-bar title="测试结果" left-text="返回" right-text="" left-arrow @click-left="$router.push({name: 'Test'})" />
 
     <wap-subtitle subtitle="高校信息" style="margin-top: 20px;"></wap-subtitle>
 
     <van-row :gutter="20" class="info">
-      <van-col span="24" class="info-item">意向院校名称（代码）： {{data.info.university}}</van-col>
-      <van-col span="24" class="info-item">考生姓名： {{data.info.name}}</van-col>
-      <van-col span="24" class="info-item">考生考号：{{data.info.cardNo}}</van-col>
-      <van-col span="24" class="info-item">考生分数： {{data.info.score}}</van-col>
-      <van-col span="24" class="info-item">录取概率： {{data.info.rate}}</van-col>
-      <van-col span="24" class="info-item">学校热度：
-        <span class="item-red" v-if="data.info.popular">{{data.info.popular.split(',')[0]}}</span> /
-        <span class="item-blue" v-if="data.info.popular">{{data.info.popular.split(',')[1]}}</span>
+      <van-col span="24" class="info-item">意向院校名称（代码）： {{`${data.universityInfo.name}(${data.universityInfo.code})`}}</van-col>
+      <van-col span="24" class="info-item">考生姓名： {{data.universityInfo.userName}}</van-col>
+      <van-col span="24" class="info-item" v-if="data.universityInfo.cardNo">考生考号：{{data.universityInfo.cardNo}}</van-col>
+      <van-col span="24" class="info-item">考生位次： {{data.universityInfo.userPosition}}</van-col>
+      <van-col span="24" class="info-item item-tip">注：在2018年分数未公布前使用2017年分数作为位次参考
       </van-col>
-      <van-col span="24" class="info-item item-tip">热度说明：热度指标由红色和蓝色两个数字构成，红色数字表示您在所有测试过该所大学的考生中的分数排名，数字越小代表名次越靠前，蓝色数字代表截止到现在一共有多少名考生测试过该所大学的录取概率，数字越大代表该校的关注考生越多、热度越高。</van-col>
-      <van-col span="24" class="info-item">院校级别： {{level}}</van-col>
-      <van-col span="24" class="info-item">所在省市： {{data.info.province}}</van-col>
-      <van-col span="24" class="info-item">招办电话： {{data.info.phone}}</van-col>
+
+      <van-col span="24" class="info-item">院校级别： {{data.universityInfo.level}}</van-col>
+      <van-col span="24" class="info-item">所在省市： {{data.universityInfo.province}}</van-col>
+      <van-col span="24" class="info-item">招办电话： {{data.universityInfo.phone}}</van-col>
       <van-col span="24" class="info-item">官网：
-        <span class="item-blue">{{data.info.website}}</span>
+        <span class="item-blue">{{data.universityInfo.website}}</span>
       </van-col>
     </van-row>
 
-    <wap-subtitle subtitle="历年录取人数（柱状）及录取位次（折线）图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-subtitle subtitle="录取概率" style="margin-top: 20px;"></wap-subtitle>
+    <van-row :gutter="20" class="info">
+      <van-col span="24" class="info-item">录取概率： {{data.universityInfo.rate}}</van-col>
+      <van-col span="24" class="info-item item-tip">概率说明：</van-col>
+      <van-col span="24" class="info-item item-tip"> 本概率算法综合考生成绩、线差、位次、招生人数变化趋势（俗称“大小年”）及录取人数等多种影响因素建模计算得出，可作为考生报考参考，但不能仅以此填报志愿，在正式填报时，请以教育考试院公布的最新招生计划为准。
+      </van-col>
+      <van-col span="24" class="info-item item-tip"> 当录取概率为“-”时，表示历史招生人数过少，不适宜计算概率，请参考历年录取数据报考
+      </van-col>
+    </van-row>
+
+    <wap-subtitle subtitle="院校历年录取数据" style="margin-top: 20px;"></wap-subtitle>
+    <van-row :gutter="20" class="info">
+      <van-col :span="24">
+        <van-col span="24" class="info-item item-tip">指标说明：</van-col>
+        <van-col span="24" class="info-item item-tip">最低线差=院校最低录取分数线-省控线。</van-col>
+        <van-col span="24" class="info-item item-tip" style="margin-bottom: 20px;">因每年的高考试题难度不一，考生整体成绩变化很大，单单只参照高考成绩报考会产生很大的误差，所以需要将历年的录取成绩与考生的成绩统一使用控制线“对齐”。报考时考生可综合对比历史线差、位次，结合个人志愿情况综合报考。
+        </van-col>
+        <el-table :data="data.table" border size="mini" class="table">
+          <el-table-column prop="year" label="年份" width="50" fixed></el-table-column>
+          <el-table-column prop="count" label="录取数" width="60"></el-table-column>
+          <el-table-column prop="highScore" label="最高分" width="60"></el-table-column>
+          <el-table-column prop="lowScore" label="最低分" width="60"></el-table-column>
+          <el-table-column prop="scoreGap" label="最低线差" min-width="60"></el-table-column>
+          <el-table-column prop="position" label="最低位次" min-width="60"></el-table-column>
+        </el-table>
+      </van-col>
+
+    </van-row>
+
+    <wap-subtitle subtitle="院校录取线波动图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-chart1 :chart="data.chart1" v-if="GotData"></wap-chart1>
+
+    <wap-subtitle subtitle="最低分线差波动图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-chart2 :chart="data.chart2" v-if="GotData"></wap-chart2>
+
+    <!-- 最低分位次波动图 -->
+    <wap-subtitle subtitle="最低分位次波动图" style="margin-top: 20px;"></wap-subtitle>
+    <wap-chart3 :chart="data.chart3" v-if="GotData"></wap-chart3>
+
+    <wap-subtitle subtitle="专业录取概率及历史数据" style="margin-top: 20px;">
+      <template>
+        <el-select v-model="selected" size="small" class="select-style">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </template>
+    </wap-subtitle>
+
+    <van-row :gutter="20" class="info">
+      <van-col span="24" class="info-item item-tip">指标说明：</van-col>
+      <van-col span="24" class="info-item item-tip"> 平均线差=该专业录取平均分-分数线
+      </van-col>
+      <van-col span="24" class="info-item item-tip"> 虽然每年的录取分数波动很大，但是平均线差波动相对很小。所以平均线差也是最有参考意义的一个技术指标。报考时应把握“分有所值，留有余地”的原则，结合目标院校专业的录取规则（分数优先、专业优先、分数优先+专业级差等），充分考虑“服从专业调剂”条件，根据个人意向综合考虑报考。
+      </van-col>
+      <van-col span="24" class="info-item item-tip" style="margin-bottom: 20px;"> 当录取概率为“-”时，表示历史招生人数过少，不适宜计算概率，请参考历年录取数据报考
+      </van-col>
+      <van-col :span="24">
+        <el-table :data="currentTable" border size="mini" class="table">
+          <el-table-column prop="major" label="专业名称" min-width="60" fixed></el-table-column>
+          <el-table-column prop="batch" label="批次" width="60"></el-table-column>
+          <el-table-column prop="probability" label="录取概率" width="60"></el-table-column>
+          <el-table-column prop="count" label="录取人数" width="60"></el-table-column>
+          <el-table-column prop="scoreGap" label="平均线差" min-width="60"></el-table-column>
+          <el-table-column prop="lowScore" label="最低分" min-width="60"></el-table-column>
+          <el-table-column prop="highScore" label="最低位" min-width="60"></el-table-column>
+        </el-table>
+      </van-col>
+
+    </van-row>
+
+    <wap-subtitle subtitle="近三年专业平均线差对比图" style="margin-top: 20px;"></wap-subtitle>
     <van-row>
+
       <van-col span="24" class="chart-tips">
-        该图中的立柱为每年的录取人数，可以分析录取趋势，如果在我省的录取人数增加意味着此专业逐步变热，但是并非录取概率加大，因为受到填报人数的影响，反之亦然。 录取位次折线表示该校最低录取分数线对应的考生排位的变化，通过折线图可以判断考入该校的难易程度，如果对应的排位越来越低，说明学校越来越难考取，反之亦然。
+        下面三个图表示录取概率靠前的专业在当年的平均线差与考生线差的对比。横轴表示线差值，纵轴表示各个专业，纵向的线条表示考生线差。考生线差比专业平均线差越大，说明该专业录取可能性越大，反之亦然。
+      </van-col>
+      <van-col span="24" class="chart-tips">
+        考生线差=考生分数-分数线（在2018年分数线未公布前使用2017年分数线作为参考）
       </van-col>
     </van-row>
-    <wap-history class="chart-position" :chart="data.chart1" v-if="data.chart1.length !== 0"></wap-history>
-
-    <wap-subtitle subtitle="历年录取线差图（柱状对比图）" style="margin-top: 20px;"></wap-subtitle>
-    <van-row>
-      <van-col span="24" class="chart-tips">
-        该图中前三年的立柱为当年的最低录取分数线与省控线的差值，最后的立柱为今年考生的分数与省控线的差值，如果前三年的差值越大，说明学校越不容易考取，反之亦然；如果今年的差值越大，说明考生考取的可能性越大，反之亦然。通过对比今年差值与往年差值的大小，可以分析考生考入该校的可能性。
-      </van-col>
-    </van-row>
-    <wap-chart-underscore class="chart-position" :year="new Date().getFullYear() - 3 " :chart="data.chart2" v-if="data.chart2.length !== 0"></wap-chart-underscore>
-
-    <wap-subtitle subtitle="该校各专业录取对比图" style="margin-top: 20px;"></wap-subtitle>
-    <van-row>
-      <van-col span="24" class="chart-tips">
-        一张十个专业的概率图：该图中的横柱从上到下依次表示被该校的十个专业录取的概率大小
-      </van-col>
-      <van-col span="24" class="chart-tips">
-        三张十个专业的线差图： 该图表示2015年上述十个专业录取的线差对比，线差越大的表示这个专业越不容易考取，反之亦然。 该图表示2016年上述十个专业录取的线差对比，线差越大的表示这个专业越不容易考取，反之亦然。 该图表示2017年上述十个专业录取的线差对比，线差越大的表示这个专业越不容易考取，反之亦然。
-      </van-col>
-    </van-row>
-    <wap-chart-course-percent class="chart-position" v-if="GotData" :chart="data.chart3"></wap-chart-course-percent>
-    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 3 " v-if="GotData" :chart="data.chart4"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 2 " v-if="GotData" :chart="data.chart5"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" :year="new Date().getFullYear() - 1" v-if="GotData" :chart="data.chart6"></wap-chart-course-score>
-
+    <wap-chart-course-score class="chart-position" year="2017" v-if="GotData" :chart="data.chart4"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="2016" v-if="GotData" :chart="data.chart5"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="2015" v-if="GotData" :chart="data.chart6"></wap-chart-course-score>
     <van-row :gutter="20">
       <van-col span="24" class="tip-red">免责声明：由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。
       </van-col>
@@ -65,34 +115,36 @@
 export default {
   data() {
     return {
-      levelMap: [
-        {
-          id: '1',
-          label: '211'
-        },
-        {
-          id: '2',
-          label: '985'
-        },
-        {
-          id: '3',
-          label: '211 + 985'
-        },
-        {
-          id: '4',
-          label: '其他'
-        }
-      ],
       level: '',
       data: {
-        info: {},
+        universityInfo: {},
         chart1: [],
         chart2: [],
         chart3: [],
         chart4: [],
         chart5: [],
-        chart6: []
+        chart6: [],
+        table: [],
+        table2017: [],
+        table2016: [],
+        table2015: []
       },
+      currentTable: [],
+      options: [
+        {
+          value: 'table2017',
+          label: '2017'
+        },
+        {
+          value: 'table2016',
+          label: '2016'
+        },
+        {
+          value: 'table2015',
+          label: '2015'
+        }
+      ],
+      selected: 'table2017',
       GotData: false
     }
   },
@@ -108,21 +160,25 @@ export default {
         if (res.data.code == '200') {
           vm.data = res.data.data
           vm.GotData = true
+          vm.currentTable = vm.data.table2017
         }
         vm.$store.commit(vm.$types.ShowLoading, false)
       })
     }
   },
+  watch: {
+    selected: {
+      handler(val) {
+        if (this.data[val] && this.data[val].length !== 0) {
+          this.currentTable = this.data[val]
+        }
+      },
+      immediate: true
+    }
+  },
   created() {
     this.fetchData()
-  },
-  watch: {
-    'data.info.level': {
-      handler(val) {
-        const item = this.$_.find(this.levelMap, { id: val })
-        this.level = item ? item.label : '-'
-      }
-    }
+    window.scrollTo(0, 0)
   }
 }
 </script>
@@ -171,5 +227,12 @@ export default {
   color: #cc0000;
   font-size: 12px;
   padding: 10px 5px;
+}
+
+.select-style {
+  position: absolute;
+  width: 100px;
+  right: 20px;
+  top: -5px;
 }
 </style>

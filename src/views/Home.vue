@@ -67,22 +67,22 @@ export default {
         '/static/imgs/home5.png'
       ],
       service: [
-        {
-          name: '成绩查询',
-          icon: '#icon-chengji',
-          to: 'Score'
-        },
+        // {
+        //   name: '成绩查询',
+        //   icon: '#icon-chengji',
+        //   to: 'Score'
+        // },
         {
           name: '录取概率测试',
           icon: '#icon-ceshi',
-          // to: 'Test'
-          to: 'Home'
+          to: 'Test'
+          // to: 'Home'
         },
         {
           name: '一键智能填报',
           icon: '#icon-tianbao',
-          // to: 'Apply'
-          to: 'Home'
+          to: 'Apply'
+          // to: 'Home'
         },
         {
           name: '院校查询',
@@ -98,8 +98,8 @@ export default {
         {
           name: '开卡',
           icon: '#icon-account',
-          // to: 'OpenAccount'
-          to: 'Home'
+          to: 'OpenAccount'
+          // to: 'Home'
         },
         {
           name: '激活',

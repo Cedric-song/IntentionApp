@@ -101,10 +101,14 @@ export default {
       this.$store.commit(this.$types.ShowLoading, true)
       this.$api.TestUniversity(param).then(res => {
         if (res.data.code == '200') {
-          vm.$router.push({
-            name: 'Answer',
-            query: { id: res.data.data.userTestId }
-          })
+          if (res.data.data.hasAnswer === 0) {
+            vm.$toast.fail('测试无结果')
+          } else {
+            vm.$router.push({
+              name: 'Answer',
+              query: { id: res.data.data.userTestId }
+            })
+          }
         } else {
           vm.$toast.fail(res.data.message)
         }

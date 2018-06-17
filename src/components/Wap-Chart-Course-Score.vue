@@ -36,9 +36,18 @@ module.exports = {
       { major: '生物', score: 50, userScore: 89 }
     ].reverse()
 
+    const rowData = []
+    this.chart.map(item => {
+      rowData.push({
+        major:
+          item.major.length > 10 ? item.major.slice(0, 10) + '...' : item.major,
+        score: item.score,
+        userScore: item.userScore
+      })
+    })
     this.chartData = {
       columns: ['major', 'score', 'userScore'],
-      rows: this.chart
+      rows: rowData
     }
 
     let maxArray = []

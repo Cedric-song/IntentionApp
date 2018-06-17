@@ -30,7 +30,8 @@ import UniversityList from '@/views/University/List'
 import UniversityItem from '@/views/University/Item'
 import MajorList from '@/views/Major/List'
 import MajorItem from '@/views/Major/Item'
-
+import SelectLevel from '@/views/Report/SelectLevel'
+import SelectProvince from '@/views/Report/SelectProvince'
 
 Vue.use(Router)
 
@@ -113,6 +114,16 @@ const router = new Router({
       path: '/apply/select-major',
       name: 'SelectMajor',
       component: SelectMajor
+    },
+    {
+      path: '/apply/select-level',
+      name: 'SelectLevel',
+      component: SelectLevel
+    },
+    {
+      path: '/apply/select-province',
+      name: 'SelectProvince',
+      component: SelectProvince
     },
     {
       path: '/report-list/:categoryCode',
