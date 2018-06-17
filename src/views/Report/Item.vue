@@ -84,7 +84,7 @@
           <el-table-column prop="count" label="录取人数" width="60"></el-table-column>
           <el-table-column prop="scoreGap" label="平均线差" min-width="60"></el-table-column>
           <el-table-column prop="lowScore" label="最低分" min-width="60"></el-table-column>
-          <el-table-column prop="highScore" label="最低位" min-width="60"></el-table-column>
+          <el-table-column prop="position" label="最低位" min-width="60"></el-table-column>
         </el-table>
       </van-col>
 
