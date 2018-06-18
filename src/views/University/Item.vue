@@ -10,7 +10,7 @@
       <van-col span="24" class="info-item">院校级别： {{form.eduLevel}}</van-col>
       <van-col span="24" class="info-item">所在省市： {{form.provinceName}}</van-col>
       <van-col span="24" class="info-item">详细地址： {{form.address}}</van-col>
-      <van-col span="24" class="info-item">所在省市： {{form.provinceName}}</van-col>
+      <!-- <van-col span="24" class="info-item">所在省市： {{form.provinceName}}</van-col> -->
       <van-col span="24" class="info-item">分类： {{form.category}}</van-col>
       <van-col span="24" class="info-item">类别： {{form.nature}}</van-col>
       <van-col span="24" class="info-item">招办电话： {{form.callPhone}}</van-col>
