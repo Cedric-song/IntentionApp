@@ -5,6 +5,7 @@ import loading from './loading'
 import major from './major'
 import cacheUniversity from './cacheUniversityList'
 import userinfo from './userinfo'
+
 const modules = {
   filter,
   loading,

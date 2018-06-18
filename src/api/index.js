@@ -120,5 +120,9 @@ export default {
   },
   BindingPhone(params) {
     return Vue.axios.post('/v1/bindingPhone.do', qs.stringify(params))
+  },
+  TestBinding(params) {
+    return Vue.axios.post('/v1/testBinding.do', qs.stringify(params))
+
   }
 }

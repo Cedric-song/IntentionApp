@@ -1,5 +1,9 @@
 import Vue from 'vue'
+import axios from '../api'
+import store from '../store'
+import * as types from '@/store/types'
 import Router from 'vue-router'
+
 import Home from '@/views/Home'
 import Score from '@/views/GetScore'
 import Test from '@/views/Test/Test'
@@ -10,7 +14,7 @@ import Mine from '@/views/Mine/Mine'
 import BillHistory from '@/views/Mine/BillHistory'
 import ReportHistory from '@/views/Mine/ReportHistory'
 import TestHistory from '@/views/Mine/TestHistory'
-import Verify from '@/views/Verify'
+// import Verify from '@/views/Verify'
 import Qrcode from '@/views/Qrcode'
 import Expert from '@/views/Expert'
 import Apply from '@/views/Report/Apply'
@@ -58,7 +62,32 @@ const router = new Router({
     {
       path: '/test',
       name: 'Test',
-      component: Test
+      component: Test,
+      beforeEnter: (to, from, next) => {
+        if (store.state.userinfo.bindingPhone) {
+          next()
+        }
+
+        axios.TestBinding({
+          wx_id: store.state.userinfo.openid
+        }).then(res => {
+          if (res.data.code == '200') {
+            store.commit(types.BindingPhone, true)
+            next()
+          } else {
+            next({
+              name: 'Home'
+            })
+          }
+        }).catch(err => {
+          console.log(err)
+          next()
+
+          // next({
+          //   name: 'Home'
+          // })
+        })
+      }
     },
     {
       path: '/test/select-university',
@@ -92,11 +121,6 @@ const router = new Router({
       component: ReportHistory
     },
     {
-      path: '/verify',
-      name: 'Verify',
-      component: Verify
-    },
-    {
       path: '/answer',
       name: 'Answer',
       component: Answer
@@ -114,7 +138,32 @@ const router = new Router({
     {
       path: '/apply',
       name: 'Apply',
-      component: Apply
+      component: Apply,
+      beforeEnter: (to, from, next) => {
+        if (store.state.userinfo.bindingPhone) {
+          next()
+        }
+
+        axios.TestBinding({
+          wx_id: store.state.userinfo.openid
+        }).then(res => {
+          if (res.data.code == '200') {
+            store.commit(types.BindingPhone, true)
+            next()
+          } else {
+            next({
+              name: 'Home'
+            })
+          }
+        }).catch(err => {
+          console.log(err)
+          next()
+
+          // next({
+          //   name: 'Home'
+          // })
+        })
+      }
     },
     {
       path: '/apply/select-major',

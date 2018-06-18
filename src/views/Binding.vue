@@ -6,6 +6,11 @@
         <van-cell-group>
           <van-field v-model="form.number" placeholder="请输入11位手机号" label="手机号码" required maxlength="11" :error="numberError" :error-message="numberErrorMsg" />
         </van-cell-group>
+
+      </van-col>
+    </van-row>
+    <van-row class="btn-confirm">
+      <van-col span="24">
         <van-button class="btn" type="primary" bottom-action @click="handlePost">确定</van-button>
       </van-col>
     </van-row>
@@ -18,7 +23,9 @@ const _numberErrorMsg = '请输入正确的手机号码'
 export default {
   data() {
     return {
-      form: {},
+      form: {
+        number: ''
+      },
       numberError: false,
       numberErrorMsg: ''
     }
@@ -48,6 +55,10 @@ export default {
         return false
       }
 
+      const param = {
+        wx_id: this.$store.state.userinfo.openid,
+        phoneNo: this.form.number
+      }
       const vm = this
       this.$api.BindingPhone(param).then(res => {
         if (res.data.code == '200') {
@@ -63,5 +74,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn-confirm {
+  margin-top: 50px;
+}
 </style>
 
