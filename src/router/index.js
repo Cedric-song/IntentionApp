@@ -32,6 +32,7 @@ import MajorList from '@/views/Major/List'
 import MajorItem from '@/views/Major/Item'
 import SelectLevel from '@/views/Report/SelectLevel'
 import SelectProvince from '@/views/Report/SelectProvince'
+import Binding from '@/views/Binding'
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ const router = new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/binding',
+      name: 'Binding',
+      component: Binding
     },
     {
       path: '/score',

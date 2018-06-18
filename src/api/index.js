@@ -117,5 +117,8 @@ export default {
   },
   CompletePersonInfo(params) {
     return Vue.axios.post('/v1/additionalEnterInfo.do', qs.stringify(params))
+  },
+  BindingPhone(params) {
+    return Vue.axios.post('/v1/bindingPhone.do', qs.stringify(params))
   }
 }

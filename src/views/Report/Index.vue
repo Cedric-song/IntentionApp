@@ -33,20 +33,32 @@
     </van-popup>
     <van-nav-bar title="志愿宝智能报告书" left-text="返回" right-text="" left-arrow @click-left="$router.back()" />
 
-    <wap-subtitle subtitle="冲击学校" style="margin: 20px 0 0 0;"></wap-subtitle>
+    <wap-subtitle subtitle="冲击学校" style="margin: 20px 0 0 0;">
+      <template v-if="showChange0">
+        <span class="change-item" @click="handleChange('0','firstLevel')">换一批</span>
+      </template>
+    </wap-subtitle>
     <van-list>
       <van-cell v-for="item in data.firstLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link @click="handleGoto({testConfigType: '0',universityName: item.name})" />
       <van-cell v-if="data.firstLevel && data.firstLevel.length === 0">无推荐院校</van-cell>
 
     </van-list>
 
-    <wap-subtitle subtitle="稳妥学校" style="margin: 20px 0 0 0;"></wap-subtitle>
+    <wap-subtitle subtitle="稳妥学校" style="margin: 20px 0 0 0;">
+      <template v-if="showChange1">
+        <span class="change-item" @click="handleChange('1','secondLevel')">换一批</span>
+      </template>
+    </wap-subtitle>
     <van-list>
       <van-cell v-for="item in data.secondLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link @click="handleGoto({testConfigType: '1',universityName: item.name})" />
       <van-cell v-if="data.secondLevel && data.secondLevel.length === 0">无推荐院校</van-cell>
     </van-list>
 
-    <wap-subtitle subtitle="保底学校" style="margin: 20px 0 0 0;"></wap-subtitle>
+    <wap-subtitle subtitle="保底学校" style="margin: 20px 0 0 0;">
+      <template v-if="showChange2">
+        <span class="change-item" @click="handleChange('2','thirdLevel')">换一批</span>
+      </template>
+    </wap-subtitle>
     <van-list>
       <van-cell v-for="item in data.thirdLevel" :key="item.name" :title="item.name" :value="'录取概率：' + (item.rate * 100).toFixed(2) + '%'" is-link @click="handleGoto({testConfigType: '2',universityName: item.name})" />
       <van-cell v-if="data.thirdLevel && data.thirdLevel.length === 0">无推荐院校</van-cell>
@@ -72,11 +84,45 @@ export default {
         '3.在正式填报时，请以教育考试院公布的最新招生计划为准；',
         '4.由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。'
       ],
-      data: {}
+      data: {},
+      pn2: 2,
+      pn1: 2,
+      pn0: 2,
+      showChange0: true,
+      showChange1: true,
+      showChange2: true
     }
   },
 
   methods: {
+    handleChange(testConfigType, typeName) {
+      const params = {
+        wx_id: this.$store.state.userinfo.openid,
+        id: this.$route.query.userTestId,
+        categoryCode: this.$route.params.categoryCode,
+        pn: this[`pn${testConfigType}`],
+        rn: 5,
+        testConfigType: testConfigType
+      }
+
+      const vm = this
+      this.$store.commit(this.$types.ShowLoading, true)
+      this.$api.GetReportUniversity(params).then(res => {
+        if (res.data.code == '200') {
+          vm.data[typeName] = res.data.data[typeName]
+          if (vm.data[typeName].length === 0) {
+            vm[`pn${testConfigType}`] = 1
+            vm.handleChange(testConfigType, typeName)
+          } else {
+            vm[`pn${testConfigType}`] += 1
+            this.$store.commit(this.$types.ShowLoading, false)
+          }
+        } else {
+          vm.$toast.fail(res.data.message)
+          this.$store.commit(this.$types.ShowLoading, false)
+        }
+      })
+    },
     handleGoto(params) {
       this.$router.push({
         name: 'ReportItem',
@@ -85,6 +131,7 @@ export default {
       })
     },
     getList() {
+      this.$store.commit(this.$types.ShowLoading, true)
       const params = {
         wx_id: this.$store.state.userinfo.openid,
         id: this.$route.query.userTestId,
@@ -94,9 +141,14 @@ export default {
       this.$api.GetReportUniversity(params).then(res => {
         if (res.data.code == '200') {
           vm.data = res.data.data
+
+          vm.showChange0 = vm.data.firstLevel.length !== 0
+          vm.showChange1 = vm.data.secondLevel.length !== 0
+          vm.showChange2 = vm.data.thirdLevel.length !== 0
         } else {
           vm.$toast.fail(res.data.message)
         }
+        vm.$store.commit(vm.$types.ShowLoading, false)
       })
     }
   },
@@ -115,7 +167,6 @@ export default {
   created() {
     this.$store.commit(this.$types.ShowLoading, true)
     const vm = this
-
     this.$api
       .GetTestTime({ wxId: this.$store.state.userinfo.openid })
       .then(res => {
@@ -124,10 +175,8 @@ export default {
         } else {
           vm.$toast.fail(res.data.message)
         }
-        vm.$store.commit(vm.$types.ShowLoading, false)
+        vm.getList()
       })
-
-    this.getList()
   }
 }
 </script>
@@ -236,5 +285,10 @@ export default {
       line-height: 80px;
     }
   }
+}
+
+.change-item {
+  position: absolute;
+  right: 20px;
 }
 </style>
