@@ -176,11 +176,11 @@ export default {
                       vm.$wx.downloadImage({
                         serverId: res.serverId,
                         success: function(res) {
-                          alert(`res.localId: ${res.localId}`)
+                          // alert(`res.localId: ${res.localId}`)
                           vm.$wx.getLocalImgData({
                             localId: res.localId,
                             success: function(res) {
-                              alert(`res.localData: ${res.localData}`)
+                              // alert(`res.localData: ${res.localData}`)
                               let localData = res.localData
                               vm.sumitImageFile(localData, name)
                             }
@@ -327,11 +327,12 @@ export default {
     let signLink = /(Android)/i.test(navigator.userAgent)
       ? location.href.split('#')[0]
       : window.entryUrl
+    const vm = this
     this.$api.GetWxConfig({ url: signLink }).then(res => {
       if (res.data.code == '200') {
-        this.initWxConfig(res.data.data)
+        vm.initWxConfig(res.data.data)
       } else {
-        this.$toast.fail(res.data.message)
+        vm.$toast.fail(res.data.message)
       }
     })
   }
