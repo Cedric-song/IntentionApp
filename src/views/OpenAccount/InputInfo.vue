@@ -110,6 +110,11 @@ export default {
   methods: {
     dataURItoBlob(base64Data) {
       var byteString
+      var base64Data = base64Data
+      if (base64Data.indexOf('data:image/jgp;base64,') === -1) {
+        base64Data = 'data:image/jgp;base64,' + base64Data
+      }
+
       if (base64Data.split(',')[0].indexOf('base64') >= 0) {
         byteString = atob(base64Data.split(',')[1])
       } else {
@@ -126,7 +131,7 @@ export default {
       return new Blob([ia], { type: mimeString })
     },
     sumitImageFile(imageBase64, name) {
-      alert(imageBase64.slice(0, 50))
+      // alert(imageBase64.slice(0, 50))
       const vm = this
       var blob = this.dataURItoBlob(imageBase64)
       var canvas = document.createElement('canvas')
