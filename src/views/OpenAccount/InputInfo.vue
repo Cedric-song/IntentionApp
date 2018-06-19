@@ -325,7 +325,7 @@ export default {
   },
   created() {
     let signLink = /android/i.test(navigator.userAgent)
-      ? location.href.split('#')[0]
+      ? location.href
       : window.entryUrl
     const vm = this
     this.$api.GetWxConfig({ url: signLink }).then(res => {
