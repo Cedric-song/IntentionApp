@@ -99,6 +99,11 @@ export default {
     },
     dataURItoBlob(base64Data) {
       var byteString
+      var base64Data = base64Data
+      if (base64Data.indexOf('data:image/jgp;base64,') === -1) {
+        base64Data = 'data:image/jgp;base64,' + base64Data
+      }
+
       if (base64Data.split(',')[0].indexOf('base64') >= 0) {
         byteString = atob(base64Data.split(',')[1])
       } else {
