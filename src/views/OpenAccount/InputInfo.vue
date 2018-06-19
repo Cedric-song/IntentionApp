@@ -328,7 +328,7 @@ export default {
       ? location.href
       : window.entryUrl
     const vm = this
-    this.$api.GetWxConfig({ url: signLink }).then(res => {
+    this.$api.GetWxConfig({ url: location.href }).then(res => {
       if (res.data.code == '200') {
         vm.initWxConfig(res.data.data)
       } else {
