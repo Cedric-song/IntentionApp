@@ -89,11 +89,11 @@ export default {
           icon: '#icon-university',
           to: 'UniversityList'
         },
-        {
-          name: '专业查询',
-          icon: '#icon-major',
-          to: 'MajorList'
-        },
+        // {
+        //   name: '专业查询',
+        //   icon: '#icon-major',
+        //   to: 'MajorList'
+        // },
 
         {
           name: '开卡',
