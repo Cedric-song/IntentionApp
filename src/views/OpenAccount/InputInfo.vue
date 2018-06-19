@@ -176,11 +176,11 @@ export default {
                       vm.$wx.downloadImage({
                         serverId: res.serverId,
                         success: function(res) {
-                          // alert(`res.localId: ${res.localId}`)
+                          alert(`res.localId: ${res.localId}`)
                           vm.$wx.getLocalImgData({
                             localId: res.localId,
                             success: function(res) {
-                              // alert(`res.localData: ${res.localData}`)
+                              alert(`res.localData: ${res.localData}`)
                               let localData = res.localData
                               vm.sumitImageFile(localData, name)
                             }
@@ -328,7 +328,7 @@ export default {
       ? location.href
       : window.entryUrl
     const vm = this
-    this.$api.GetWxConfig({ url: location.href }).then(res => {
+    this.$api.GetWxConfig({ url: signLink }).then(res => {
       if (res.data.code == '200') {
         vm.initWxConfig(res.data.data)
       } else {
