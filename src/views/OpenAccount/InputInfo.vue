@@ -138,7 +138,7 @@ export default {
       vm.$toast.success('开始上传')
 
       this.$api.uploadImg(fd).then(res => {
-        this.$toast.success('上传成功')
+        vm.$toast.success('上传成功')
 
         vm.form[name] = res.data.data
         vm.imgs[name] = res.data.data
