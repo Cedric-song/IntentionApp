@@ -87,7 +87,11 @@
         <el-table :data="currentTable" border size="mini" class="table">
           <el-table-column prop="major" label="专业名称" min-width="60" fixed></el-table-column>
           <el-table-column prop="batch" label="批次" width="60"></el-table-column>
-          <el-table-column prop="probability" label="录取概率" width="60"></el-table-column>
+          <el-table-column prop="probability" label="录取概率" width="60">
+            <template slot-scope="scope">
+              {{scope.row.probability !== '-' ? (scope.row.probability * 100).toFixed(0)+'%' : '-' }}
+            </template>
+          </el-table-column>
           <el-table-column prop="count" label="录取人数" width="60"></el-table-column>
           <el-table-column prop="scoreGap" label="平均线差" min-width="60"></el-table-column>
           <el-table-column prop="lowScore" label="最低分" min-width="60"></el-table-column>
