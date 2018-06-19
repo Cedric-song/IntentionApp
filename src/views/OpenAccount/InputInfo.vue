@@ -176,11 +176,9 @@ export default {
                       vm.$wx.downloadImage({
                         serverId: res.serverId,
                         success: function(res) {
-                          alert(`res.localId: ${res.localId}`)
                           vm.$wx.getLocalImgData({
                             localId: res.localId,
                             success: function(res) {
-                              alert(`res.localData: ${res.localData}`)
                               let localData = res.localData
                               vm.sumitImageFile(localData, name)
                             }
