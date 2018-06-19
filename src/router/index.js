@@ -72,8 +72,14 @@ const router = new Router({
           wx_id: store.state.userinfo.openid
         }).then(res => {
           if (res.data.code == '200') {
-            store.commit(types.BindingPhone, true)
-            next()
+            if (res.data.data.isBind == 1) {
+              store.commit(types.BindingPhone, true)
+              next()
+            } else {
+              next({
+                name: 'Binding'
+              })
+            }
           } else {
             next({
               name: 'Home'
@@ -81,11 +87,9 @@ const router = new Router({
           }
         }).catch(err => {
           console.log(err)
-          next()
-
-          // next({
-          //   name: 'Home'
-          // })
+          next({
+            name: 'Home'
+          })
         })
       }
     },
@@ -148,8 +152,14 @@ const router = new Router({
           wx_id: store.state.userinfo.openid
         }).then(res => {
           if (res.data.code == '200') {
-            store.commit(types.BindingPhone, true)
-            next()
+            if (res.data.data.isBind == 1) {
+              store.commit(types.BindingPhone, true)
+              next()
+            } else {
+              next({
+                name: 'Binding'
+              })
+            }
           } else {
             next({
               name: 'Home'
@@ -157,11 +167,9 @@ const router = new Router({
           }
         }).catch(err => {
           console.log(err)
-          next()
-
-          // next({
-          //   name: 'Home'
-          // })
+          next({
+            name: 'Home'
+          })
         })
       }
     },

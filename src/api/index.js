@@ -119,10 +119,13 @@ export default {
     return Vue.axios.post('/v1/additionalEnterInfo.do', qs.stringify(params))
   },
   BindingPhone(params) {
-    return Vue.axios.post('/v1/bindingPhone.do', qs.stringify(params))
+    return Vue.axios.get('/v1/bindingPhone.do', {
+      params: params
+    })
   },
   TestBinding(params) {
-    return Vue.axios.post('/v1/testBinding.do', qs.stringify(params))
-
+    return Vue.axios.get('/v1/testBinding.do', {
+      params: params
+    })
   }
 }
