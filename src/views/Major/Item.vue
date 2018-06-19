@@ -43,7 +43,6 @@ export default {
         .GetMajorItem({ code: vm.$route.params.code })
         .then(res => {
           if (res.data.code == 200) {
-            // vm.item = res.data.data
             vm.initData(res.data.data.professionRemark.split('<br>'))
           } else {
             vm.$dialog
