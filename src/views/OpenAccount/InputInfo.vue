@@ -126,6 +126,7 @@ export default {
       return new Blob([ia], { type: mimeString })
     },
     sumitImageFile(imageBase64, name) {
+      alert(imageBase64.slice(0, 20))
       const vm = this
       var blob = this.dataURItoBlob(imageBase64)
       var canvas = document.createElement('canvas')
