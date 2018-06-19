@@ -324,9 +324,9 @@ export default {
     }
   },
   created() {
-    let signLink = /iphone/i.test(navigator.userAgent)
-      ? window.entryUrl
-      : location.href
+    let signLink = /android/i.test(navigator.userAgent)
+      ? location.href.split('#')[0]
+      : window.entryUrl
     const vm = this
     this.$api.GetWxConfig({ url: signLink }).then(res => {
       if (res.data.code == '200') {
