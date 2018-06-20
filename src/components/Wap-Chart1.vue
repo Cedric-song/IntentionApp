@@ -51,6 +51,13 @@ export default {
         right: '30px'
       }
     ]
+  },
+  watch: {
+    chart: {
+      handler(val) {
+        this.chartData.rows = val
+      }
+    }
   }
 }
 </script>

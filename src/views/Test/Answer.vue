@@ -37,14 +37,22 @@
       </van-col>
     </van-row>
 
-    <wap-subtitle subtitle="院校历年录取数据" style="margin-top: 20px;"></wap-subtitle>
+    <wap-subtitle subtitle="院校历年录取数据" style="margin-top: 20px;">
+      <template>
+        <el-select v-model="levelSelected" size="small" class="select-style">
+          <el-option v-for="item in levelOptions" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </template>
+    </wap-subtitle>
+
     <van-row :gutter="20" class="info">
       <van-col :span="24">
         <van-col span="24" class="info-item item-tip">指标说明：</van-col>
         <van-col span="24" class="info-item item-tip">最低线差=院校最低录取分数线-省控线。</van-col>
         <van-col span="24" class="info-item item-tip" style="margin-bottom: 20px;">因每年的高考试题难度不一，考生整体成绩变化很大，单单只参照高考成绩报考会产生很大的误差，所以需要将历年的录取成绩与考生的成绩统一使用控制线“对齐”。报考时考生可综合对比历史线差、位次，结合个人志愿情况综合报考。
         </van-col>
-        <el-table :data="data.table" border size="mini" class="table">
+        <el-table :data="table" border size="mini" class="table">
           <el-table-column prop="year" label="年份" width="50" fixed></el-table-column>
           <el-table-column prop="count" label="录取数" width="60"></el-table-column>
           <el-table-column prop="highScore" label="最高分" width="60"></el-table-column>
@@ -56,15 +64,21 @@
 
     </van-row>
 
-    <wap-subtitle subtitle="院校录取线波动图" style="margin-top: 20px;"></wap-subtitle>
-    <wap-chart1 :chart="data.chart1" v-if="GotData"></wap-chart1>
+    <template v-if="GotData && chart1.length > 1">
+      <wap-subtitle subtitle="院校录取线波动图" style="margin-top: 20px;"></wap-subtitle>
+      <wap-chart1 :chart="chart1"></wap-chart1>
+    </template>
 
-    <wap-subtitle subtitle="最低分线差波动图" style="margin-top: 20px;"></wap-subtitle>
-    <wap-chart2 :chart="data.chart2" v-if="GotData"></wap-chart2>
+    <template v-if="GotData && chart2.length > 1">
+      <wap-subtitle subtitle="最低分线差波动图" style="margin-top: 20px;"></wap-subtitle>
+      <wap-chart2 :chart="chart2"></wap-chart2>
+    </template>
 
     <!-- 最低分位次波动图 -->
-    <wap-subtitle subtitle="最低分位次波动图" style="margin-top: 20px;"></wap-subtitle>
-    <wap-chart3 :chart="data.chart3" v-if="GotData"></wap-chart3>
+    <template v-if="GotData && chart3.length > 1">
+      <wap-subtitle subtitle="最低分位次波动图" style="margin-top: 20px;"></wap-subtitle>
+      <wap-chart3 :chart="chart3"></wap-chart3>
+    </template>
 
     <wap-subtitle subtitle="专业录取概率及历史数据" style="margin-top: 20px;">
       <template>
@@ -138,7 +152,11 @@ export default {
         table: [],
         table2017: [],
         table2016: [],
-        table2015: []
+        table2015: [],
+        tableFirst: [],
+        tableSecond: [],
+        tableThrid: [],
+        tableForth: []
       },
       currentTable: [],
       options: [
@@ -155,11 +173,98 @@ export default {
           label: '2015'
         }
       ],
+      levelOptions: [
+        {
+          value: 'tableFirst',
+          label: '本科一批次'
+        },
+        {
+          value: 'tableSecond',
+          label: '本科二批次'
+        },
+        {
+          value: 'tableThrid',
+          label: '本科三批次'
+        },
+        {
+          value: 'tableForth',
+          label: '专科批次'
+        }
+      ],
       selected: 'table2017',
-      GotData: false
+      levelSelected: '',
+      GotData: false,
+      chart1: [],
+      chart2: [],
+      chart3: [],
+      table: []
     }
   },
   methods: {
+    initChartData(data) {
+      this.chart1 = []
+      this.chart2 = []
+      this.chart3 = []
+      const vm = this
+
+      data.map(item => {
+        if (item.highScore !== '-' && item.lowScore !== '-') {
+          vm.chart1.push({
+            year: item.year,
+            highScore: item.highScore,
+            lowScore: item.lowScore
+          })
+        }
+
+        if (item.scoreGap !== '-') {
+          vm.chart2.push({
+            year: item.year,
+            scoreGap: item.scoreGap
+          })
+        }
+
+        if (item.position !== '-') {
+          vm.chart3.push({
+            year: item.year,
+            position: item.position
+          })
+        }
+      })
+    },
+    initTableData() {
+      const vm = this
+      const table1 = []
+      this.data.tableFirst.map((item, index) => {
+        if (Object.keys(item).length !== 0) {
+          table1.push(item)
+        }
+      })
+      this.data.tableFirst = table1
+
+      const table2 = []
+      this.data.tableSecond.map((item, index) => {
+        if (Object.keys(item).length !== 0) {
+          table2.push(item)
+        }
+      })
+      this.data.tableSecond = table2
+
+      const table3 = []
+      this.data.tableThrid.map((item, index) => {
+        if (Object.keys(item).length !== 0) {
+          table3.push(item)
+        }
+      })
+      this.data.tableThrid = table3
+
+      const table4 = []
+      this.data.tableForth.map((item, index) => {
+        if (Object.keys(item).length !== 0) {
+          table4.push(item)
+        }
+      })
+      this.data.tableForth = table4
+    },
     fetchData() {
       const vm = this
       const param = {
@@ -169,9 +274,21 @@ export default {
       this.$store.commit(this.$types.ShowLoading, true)
       this.$api.GetTestAnswerById(param).then(res => {
         if (res.data.code == '200') {
-          vm.data = res.data.data
+          vm.data = Object.assign({}, res.data.data)
+          vm.initTableData()
           vm.GotData = true
           vm.currentTable = vm.data.table2017
+
+          const levelOptions = []
+          vm.levelOptions.map((item, index) => {
+            if (vm.data[item.value] && vm.data[item.value].length !== 0) {
+              levelOptions.push(item)
+            }
+          })
+
+          vm.levelOptions = levelOptions
+
+          vm.levelSelected = vm.levelOptions[0] ? vm.levelOptions[0].value : ''
         } else {
           vm.$dialog
             .alert({
@@ -190,6 +307,15 @@ export default {
       handler(val) {
         if (this.data[val] && this.data[val].length !== 0) {
           this.currentTable = this.data[val]
+        }
+      },
+      immediate: true
+    },
+    levelSelected: {
+      handler(val) {
+        if (val !== '' && this.data[val] && this.data[val].length !== 0) {
+          this.initChartData(this.data[val])
+          this.table = this.data[val]
         }
       },
       immediate: true
@@ -250,7 +376,7 @@ export default {
 
 .select-style {
   position: absolute;
-  width: 100px;
+  width: 120px;
   right: 20px;
   top: -5px;
 }
