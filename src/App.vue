@@ -38,6 +38,7 @@ export default {
 <style lang="postcss" scoped>
 #app {
   padding: 10px;
+  background: #ffffff;
 }
 </style>
 
