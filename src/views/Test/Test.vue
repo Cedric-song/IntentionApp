@@ -12,8 +12,8 @@
       <van-col span="24">
         <van-cell-group>
           <van-radio-group v-model="form.category" class="radio">
-            <van-radio name="1" style="padding:0 10px;">文科</van-radio>
-            <van-radio name="2" style="padding:0 10px;">理科</van-radio>
+            <van-radio name="1" style="padding:0 10px;width:50%;">文科</van-radio>
+            <van-radio name="2" style="padding:0 10px;width:50%;">理科</van-radio>
           </van-radio-group>
         </van-cell-group>
       </van-col>
