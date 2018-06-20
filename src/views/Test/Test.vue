@@ -36,7 +36,7 @@
 
       <van-col span="24">
         <van-cell-group>
-          <van-field v-model="form.score" placeholder="请输入考生分数" label="分数" type="number" maxlength="3" required/>
+          <van-field v-model="form.score" placeholder="请输入考生分数" label="分数" type="tel" maxlength="3" required/>
         </van-cell-group>
       </van-col>
 
@@ -78,8 +78,9 @@ export default {
   },
   methods: {
     handleConfirm() {
-      if (Number(this.form.score) > 1000 || Number(this.form.score) < 0) {
-        this.$toast.fail('分数一栏请输入真实有效分数。')
+      const _score = Number(this.form.score)
+      if (_score > 1000 || _score < 0 || this.form.score.includes('.')) {
+        this.$toast.fail('分数一栏请输入真实有效整数分数。')
         return false
       }
       this.$dialog
