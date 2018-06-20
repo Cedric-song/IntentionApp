@@ -39,6 +39,7 @@ export default {
 #app {
   padding: 10px;
   background: #ffffff;
+  min-height: calc(100vh - 20px);
 }
 </style>
 
