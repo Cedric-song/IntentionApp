@@ -178,8 +178,8 @@ export default {
       params.provinceName = '吉林省'
       params.provinceCode = '220000'
 
-      params.orderId = this.$route.query.orderId || '1'
-      params.cardDetailId = this.$route.query.cardDetailId || '1'
+      params.orderId = this.$route.query.orderId
+      params.cardDetailId = this.$route.query.cardDetailId
       // this.$router.push({ name: 'PayAccount' })
 
       this.$api.SaveShipInfo(params).then(res => {
