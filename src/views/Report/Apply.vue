@@ -123,7 +123,12 @@ export default {
     handleLocalClick() {},
     handleConfirm() {
       const _score = Number(this.form.score)
-      if (_score > 1000 || _score < 0 || this.form.score.includes('.')) {
+      if (
+        isNaN(_score) ||
+        _score > 1000 ||
+        _score < 0 ||
+        this.form.score.includes('.')
+      ) {
         this.$toast.fail('分数一栏请输入真实有效整数分数。')
         return false
       }
