@@ -79,55 +79,56 @@
       <wap-subtitle subtitle="最低分位次波动图" style="margin-top: 20px;"></wap-subtitle>
       <wap-chart3 :chart="chart3"></wap-chart3>
     </template>
+    <template v-if="currentTable.length !== 0">
+      <wap-subtitle subtitle="专业录取概率及历史数据" style="margin-top: 20px;">
+        <template>
+          <el-select v-model="selected" size="small" class="select-style">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </template>
+      </wap-subtitle>
+      <van-row :gutter="20" class="info">
+        <van-col span="24" class="info-item item-tip">指标说明：</van-col>
+        <van-col span="24" class="info-item item-tip"> 平均线差=该专业录取平均分-分数线
+        </van-col>
+        <van-col span="24" class="info-item item-tip"> 虽然每年的录取分数波动很大，但是平均线差波动相对很小。所以平均线差也是最有参考意义的一个技术指标。报考时应把握“分有所值，留有余地”的原则，结合目标院校专业的录取规则（分数优先、专业优先、分数优先+专业级差等），充分考虑“服从专业调剂”条件，根据个人意向综合考虑报考。
+        </van-col>
+        <van-col span="24" class="info-item item-tip" style="margin-bottom: 20px;"> 当录取概率为“-”时，表示历史招生人数过少，不适宜计算概率，请参考历年录取数据报考
+        </van-col>
+        <van-col :span="24">
+          <el-table :data="currentTable" border size="mini" class="table">
+            <el-table-column prop="major" label="专业名称" min-width="60" fixed></el-table-column>
+            <el-table-column prop="batch" label="批次" width="60"></el-table-column>
+            <el-table-column prop="probability" label="录取概率" width="60">
+              <template slot-scope="scope">
+                {{scope.row.probability !== '-' ? (scope.row.probability * 100).toFixed(0)+'%' : '-' }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="count" label="录取人数" width="60"></el-table-column>
+            <el-table-column prop="scoreGap" label="平均线差" min-width="60"></el-table-column>
+            <el-table-column prop="lowScore" label="最低分" min-width="60"></el-table-column>
+            <el-table-column prop="position" label="最低位" min-width="60"></el-table-column>
+          </el-table>
+        </van-col>
 
-    <wap-subtitle subtitle="专业录取概率及历史数据" style="margin-top: 20px;">
-      <template>
-        <el-select v-model="selected" size="small" class="select-style">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </template>
-    </wap-subtitle>
+      </van-row>
+    </template>
 
-    <van-row :gutter="20" class="info">
-      <van-col span="24" class="info-item item-tip">指标说明：</van-col>
-      <van-col span="24" class="info-item item-tip"> 平均线差=该专业录取平均分-分数线
-      </van-col>
-      <van-col span="24" class="info-item item-tip"> 虽然每年的录取分数波动很大，但是平均线差波动相对很小。所以平均线差也是最有参考意义的一个技术指标。报考时应把握“分有所值，留有余地”的原则，结合目标院校专业的录取规则（分数优先、专业优先、分数优先+专业级差等），充分考虑“服从专业调剂”条件，根据个人意向综合考虑报考。
-      </van-col>
-      <van-col span="24" class="info-item item-tip" style="margin-bottom: 20px;"> 当录取概率为“-”时，表示历史招生人数过少，不适宜计算概率，请参考历年录取数据报考
-      </van-col>
-      <van-col :span="24">
-        <el-table :data="currentTable" border size="mini" class="table">
-          <el-table-column prop="major" label="专业名称" min-width="60" fixed></el-table-column>
-          <el-table-column prop="batch" label="批次" width="60"></el-table-column>
-          <el-table-column prop="probability" label="录取概率" width="60">
-            <template slot-scope="scope">
-              {{scope.row.probability !== '-' ? (scope.row.probability * 100).toFixed(0)+'%' : '-' }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="count" label="录取人数" width="60"></el-table-column>
-          <el-table-column prop="scoreGap" label="平均线差" min-width="60"></el-table-column>
-          <el-table-column prop="lowScore" label="最低分" min-width="60"></el-table-column>
-          <el-table-column prop="position" label="最低位" min-width="60"></el-table-column>
-        </el-table>
-      </van-col>
-
-    </van-row>
-
-    <wap-subtitle subtitle="近三年专业平均线差对比图" style="margin-top: 20px;"></wap-subtitle>
-    <van-row>
-
-      <van-col span="24" class="chart-tips">
-        下面三个图表示录取概率靠前的专业在当年的平均线差与考生线差的对比。横轴表示线差值，纵轴表示各个专业，纵向的线条表示考生线差。考生线差比专业平均线差越大，说明该专业录取可能性越大，反之亦然。
-      </van-col>
-      <van-col span="24" class="chart-tips">
-        考生线差=考生分数-分数线（在2018年分数线未公布前使用2017年分数线作为参考）
-      </van-col>
-    </van-row>
-    <wap-chart-course-score class="chart-position" year="2017" v-if="GotData" :chart="data.chart4"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" year="2016" v-if="GotData" :chart="data.chart5"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" year="2015" v-if="GotData" :chart="data.chart6"></wap-chart-course-score>
+    <template v-if="data.chart4.length !== 0 || data.chart5.length !== 0 || data.chart6.length !== 0">
+      <wap-subtitle subtitle="近三年专业平均线差对比图" style="margin-top: 20px;"></wap-subtitle>
+      <van-row>
+        <van-col span="24" class="chart-tips">
+          下面三个图表示录取概率靠前的专业在当年的平均线差与考生线差的对比。横轴表示线差值，纵轴表示各个专业，纵向的线条表示考生线差。考生线差比专业平均线差越大，说明该专业录取可能性越大，反之亦然。
+        </van-col>
+        <van-col span="24" class="chart-tips">
+          考生线差=考生分数-分数线（在2018年分数线未公布前使用2017年分数线作为参考）
+        </van-col>
+      </van-row>
+    </template>
+    <wap-chart-course-score class="chart-position" year="2017" v-if="GotData && data.chart4.length !== 0" :chart="data.chart4"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="2016" v-if="GotData && data.chart5.length !== 0" :chart="data.chart5"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="2015" v-if="GotData && data.chart6.length !== 0" :chart="data.chart6"></wap-chart-course-score>
     <van-row :gutter="20">
       <van-col span="24" class="tip-red">免责声明：由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。
       </van-col>
