@@ -32,6 +32,11 @@ export default {
       params: params
     })
   },
+  GetTestUniversityList(params) {
+    return Vue.axios.get('/v1/getTestUniversity.do', {
+      params: params
+    })
+  },
   GetUniversityById(params) {
     return Vue.axios.get('/v1/getUniversityById.do', {
       params: params

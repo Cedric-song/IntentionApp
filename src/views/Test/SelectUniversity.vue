@@ -39,7 +39,8 @@ export default {
         vm.table = {
           pn: 1,
           rn: 20,
-          search: ''
+          search: '',
+          typeCode: vm.$route.query.category == '1' ? '10034' : '10035'
         }
         vm.getList()
       })
@@ -51,7 +52,8 @@ export default {
       table: {
         pn: 1,
         rn: 20,
-        search: ''
+        search: '',
+        typeCode: this.$route.query.category == '1' ? '10034' : '10035' // 10034文科 10035理科
       },
       currentSearch: '',
       total: 0,
@@ -83,7 +85,7 @@ export default {
       vm.$store.commit(vm.$types.ShowLoading, true)
       vm.currentSearch = vm.table.search
       vm.$api
-        .GetUniversityList(vm.table)
+        .GetTestUniversityList(vm.table)
         .then(res => {
           if (res.data.code == 200) {
             vm.total = res.data.data.total
