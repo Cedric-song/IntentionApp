@@ -283,7 +283,16 @@ export default {
           vm.data = Object.assign({}, res.data.data)
           vm.initTableData()
           vm.GotData = true
-          vm.currentTable = vm.data.table2017
+
+          const options = []
+          vm.options.map((item, index) => {
+            if (vm.data[item.value] && vm.data[item.value].length !== 0) {
+              options.push(item)
+            }
+          })
+          vm.options = options
+          vm.currentTable =
+            vm.options.length !== 0 ? vm.data[vm.options[0].value] : []
 
           const levelOptions = []
           vm.levelOptions.map((item, index) => {
