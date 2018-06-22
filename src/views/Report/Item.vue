@@ -80,7 +80,7 @@
       <wap-chart3 :chart="chart3"></wap-chart3>
     </template>
 
-    <template v-if="currentTable.length !== 0">
+    <template v-if="currentTable.length !== 0 || currentTable_2.length !== 0">
       <wap-subtitle subtitle="专业录取概率及历史数据" style="margin-top: 20px;">
         <template>
           <el-select v-model="selected" size="small" class="select-style">
@@ -98,8 +98,29 @@
         </van-col>
         <van-col span="24" class="info-item item-tip" style="margin-bottom: 20px;"> 当录取概率为“-”时，表示历史招生人数过少，不适宜计算概率，请参考历年录取数据报考
         </van-col>
-        <van-col :span="24">
+
+        <van-col span="24" class="info-item" style="margin-bottom: 10px;" v-if="currentTable.length !== 0">本科一批次：
+        </van-col>
+        <van-col :span="24" v-if="currentTable.length !== 0">
           <el-table :data="currentTable" border size="mini" class="table">
+            <el-table-column prop="major" label="专业名称" min-width="60" fixed></el-table-column>
+            <el-table-column prop="batch" label="批次" width="60"></el-table-column>
+            <el-table-column prop="probability" label="录取概率" width="60">
+              <template slot-scope="scope">
+                {{scope.row.probability !== '-' ? (scope.row.probability * 100).toFixed(0)+'%' : '-' }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="count" label="录取人数" width="60"></el-table-column>
+            <el-table-column prop="scoreGap" label="平均线差" min-width="60"></el-table-column>
+            <el-table-column prop="lowScore" label="最低分" min-width="60"></el-table-column>
+            <el-table-column prop="position" label="最低位" min-width="60"></el-table-column>
+          </el-table>
+        </van-col>
+
+        <van-col span="24" class="info-item" style="margin-bottom: 10px;" v-if="currentTable_2.length !== 0">本科二批次：
+        </van-col>
+        <van-col :span="24" style="margin: 20px 0 0 0" v-if="currentTable_2.length !== 0">
+          <el-table :data="currentTable_2" border size="mini" class="table">
             <el-table-column prop="major" label="专业名称" min-width="60" fixed></el-table-column>
             <el-table-column prop="batch" label="批次" width="60"></el-table-column>
             <el-table-column prop="probability" label="录取概率" width="60">
@@ -116,7 +137,7 @@
       </van-row>
     </template>
 
-    <template v-if="data.chart4.length !== 0 || data.chart5.length !== 0 || data.chart6.length !== 0">
+    <template v-if="data.chart4.length !== 0 || data.chart5.length !== 0 || data.chart6.length !== 0 || data.chart4_2.length !== 0 || data.chart5_2.length !== 0 || data.chart6_2.length !== 0 ">
       <wap-subtitle subtitle="近三年专业平均线差对比图" style="margin-top: 20px;"></wap-subtitle>
       <van-row>
         <van-col span="24" class="chart-tips">
@@ -128,9 +149,12 @@
       </van-row>
     </template>
 
-    <wap-chart-course-score class="chart-position" year="2017" v-if="GotData && data.chart4.length !== 0" :chart="data.chart4"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" year="2016" v-if="GotData && data.chart5.length !== 0" :chart="data.chart5"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" year="2015" v-if="GotData && data.chart6.length !== 0" :chart="data.chart6"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="本科一批次2017" v-if="GotData && data.chart4.length !== 0" :chart="data.chart4"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="本科一批次2016" v-if="GotData && data.chart5.length !== 0" :chart="data.chart5"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="本科一批次2015" v-if="GotData && data.chart6.length !== 0" :chart="data.chart6"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="本科二批次2017" v-if="GotData && data.chart4_2.length !== 0" :chart="data.chart4_2"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="本科二批次2016" v-if="GotData && data.chart5_2.length !== 0" :chart="data.chart5_2"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="本科二批次2015" v-if="GotData && data.chart6_2.length !== 0" :chart="data.chart6_2"></wap-chart-course-score>
     <van-row :gutter="20">
       <van-col span="24" class="tip-red">免责声明：由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。
       </van-col>
@@ -152,16 +176,23 @@ export default {
         chart4: [],
         chart5: [],
         chart6: [],
+        chart4_2: [],
+        chart5_2: [],
+        chart6_2: [],
         table: [],
         table2017: [],
         table2016: [],
         table2015: [],
+        table2017_2: [],
+        table2016_2: [],
+        table2015_2: [],
         tableFirst: [],
         tableSecond: [],
         tableThrid: [],
         tableForth: []
       },
       currentTable: [],
+      currentTable_2: [],
       options: [
         {
           value: 'table2017',
@@ -280,7 +311,7 @@ export default {
       this.$store.commit(this.$types.ShowLoading, true)
       this.$api.GetReportById(param).then(res => {
         if (res.data.code == '200') {
-          vm.data = Object.assign({}, res.data.data)
+          vm.data = Object.assign(vm.data, res.data.data)
           vm.initTableData()
           vm.GotData = true
 
@@ -322,6 +353,7 @@ export default {
       handler(val) {
         if (this.data[val] && this.data[val].length !== 0) {
           this.currentTable = this.data[val]
+          this.currentTable_2 = this.data[`${val}_2`]
         }
       },
       immediate: true
