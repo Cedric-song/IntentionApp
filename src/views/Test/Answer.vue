@@ -10,8 +10,8 @@
       <van-col span="24" class="info-item" v-if="data.universityInfo.cardNo">考生考号：{{data.universityInfo.cardNo}}</van-col>
       <van-col span="24" class="info-item">考生分数： {{data.universityInfo.score}}分</van-col>
       <van-col span="24" class="info-item">考生位次： {{data.universityInfo.userPosition}}</van-col>
-      <van-col span="24" class="info-item item-tip">注：在2018年分数未公布前使用2017年分数作为位次参考
-      </van-col>
+      <!-- <van-col span="24" class="info-item item-tip">注：在2018年分数未公布前使用2017年分数作为位次参考
+      </van-col> -->
 
       <van-col span="24" class="info-item">院校级别： {{data.universityInfo.level}}</van-col>
       <van-col span="24" class="info-item">所在省市： {{data.universityInfo.province}}</van-col>
@@ -33,7 +33,7 @@
       <van-col span="24" class="info-item item-tip">概率说明：</van-col>
       <van-col span="24" class="info-item item-tip"> 本概率算法综合考生成绩、线差、位次、招生人数变化趋势（俗称“大小年”）及录取人数等多种影响因素建模计算得出，可作为考生报考参考，但不能仅以此填报志愿，在正式填报时，请以教育考试院公布的最新招生计划为准。
       </van-col>
-      <van-col span="24" class="info-item item-tip"> 当录取概率为“-”时，表示历史招生人数过少，不适宜计算概率，请参考历年录取数据报考
+      <van-col span="24" class="info-item item-tip"> 当录取概率为“-”时，表示历史招生人数过少或考生输入分数在该校所属批次线以下，不适宜计算概率，请参考历年录取数据报考
       </van-col>
     </van-row>
 

@@ -3,7 +3,7 @@
     <van-nav-bar title="完成开卡" left-text="后退" right-text="完成" left-arrow @click-left="$router.back()" @click-right="$router.push({name: 'Home'})" />
     <van-row>
       <van-col span="24" class="info">
-        您已成功开通志愿宝服务，现在您可以使用概率测试30次，智能填报5次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！
+        您已成功开通志愿宝服务，现在您可以使用概率测试60次，智能填报5次，使用过程中有任何问题都可以在线咨询报考专家，祝您金榜题名、顺利录取！
       </van-col>
       <van-col span="24" class="tips">
         温馨提示：请您在收到“金榜题名卡”后尽快在志愿宝首页点击
