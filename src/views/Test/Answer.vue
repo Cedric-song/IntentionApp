@@ -151,9 +151,9 @@
     <wap-chart-course-score class="chart-position" year="本科一批次2017" v-if="GotData && data.chart4.length !== 0" :chart="data.chart4"></wap-chart-course-score>
     <wap-chart-course-score class="chart-position" year="本科一批次2016" v-if="GotData && data.chart5.length !== 0" :chart="data.chart5"></wap-chart-course-score>
     <wap-chart-course-score class="chart-position" year="本科一批次2015" v-if="GotData && data.chart6.length !== 0" :chart="data.chart6"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" year="本科二批次2017" v-if="GotData && data.chart4_2.length !== 0" :chart="data.chart4_2"></wap-chart-course-score>
+    <!-- <wap-chart-course-score class="chart-position" year="本科二批次2017" v-if="GotData && data.chart4_2.length !== 0" :chart="data.chart4_2"></wap-chart-course-score>
     <wap-chart-course-score class="chart-position" year="本科二批次2016" v-if="GotData && data.chart5_2.length !== 0" :chart="data.chart5_2"></wap-chart-course-score>
-    <wap-chart-course-score class="chart-position" year="本科二批次2015" v-if="GotData && data.chart6_2.length !== 0" :chart="data.chart6_2"></wap-chart-course-score>
+    <wap-chart-course-score class="chart-position" year="本科二批次2015" v-if="GotData && data.chart6_2.length !== 0" :chart="data.chart6_2"></wap-chart-course-score> -->
     <van-row :gutter="20">
       <van-col span="24" class="tip-red">免责声明：由于高考填报志愿是一个动态变化的过程，本系统提供的各种查询数据及预测数据仅作为填报志愿参考，请综合各种信息进行报考，勿仅以此填报志愿。
       </van-col>
@@ -314,11 +314,20 @@ export default {
           vm.options.map((item, index) => {
             if (vm.data[item.value] && vm.data[item.value].length !== 0) {
               options.push(item)
+            } else if (
+              vm.data[item.value + '_2'] &&
+              vm.data[item.value + '_2'].length !== 0
+            ) {
+              options.push(item)
             }
           })
           vm.options = options
+
           vm.currentTable =
             vm.options.length !== 0 ? vm.data[vm.options[0].value] : []
+
+          vm.currentTable_2 =
+            vm.options.length !== 0 ? vm.data[vm.options[0].value + '_2'] : []
 
           const levelOptions = []
           vm.levelOptions.map((item, index) => {
@@ -346,10 +355,8 @@ export default {
   watch: {
     selected: {
       handler(val) {
-        if (this.data[val] && this.data[val].length !== 0) {
-          this.currentTable = this.data[val]
-          this.currentTable_2 = this.data[`${val}_2`]
-        }
+        this.currentTable = this.data[val]
+        this.currentTable_2 = this.data[`${val}_2`]
       },
       immediate: true
     },

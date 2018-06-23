@@ -319,11 +319,19 @@ export default {
           vm.options.map((item, index) => {
             if (vm.data[item.value] && vm.data[item.value].length !== 0) {
               options.push(item)
+            } else if (
+              vm.data[item.value + '_2'] &&
+              vm.data[item.value + '_2'].length !== 0
+            ) {
+              options.push(item)
             }
           })
           vm.options = options
           vm.currentTable =
             vm.options.length !== 0 ? vm.data[vm.options[0].value] : []
+
+          vm.currentTable_2 =
+            vm.options.length !== 0 ? vm.data[vm.options[0].value + '_2'] : []
 
           const levelOptions = []
           vm.levelOptions.map((item, index) => {
@@ -351,10 +359,8 @@ export default {
   watch: {
     selected: {
       handler(val) {
-        if (this.data[val] && this.data[val].length !== 0) {
-          this.currentTable = this.data[val]
-          this.currentTable_2 = this.data[`${val}_2`]
-        }
+        this.currentTable = this.data[val]
+        this.currentTable_2 = this.data[`${val}_2`]
       },
       immediate: true
     },
