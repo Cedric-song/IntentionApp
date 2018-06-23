@@ -25,10 +25,10 @@
     <van-row :gutter="20" class="info" v-if="GotData">
 
       <van-col span="24" class="info-item" v-if="data.universityInfo.rate.all">录取概率： {{data.universityInfo.rate.all.toString().includes('-') ? '-' : (data.universityInfo.all.rate * 100).toFixed(2) + '%'}}</van-col>
-      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.first">本一批录取概率：{{data.universityInfo.rate.first.toString().includes('-') ? '-' : (data.universityInfo.rate.first * 100).toFixed(2)+ '%' }}</van-col>
-      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.second">本二批录取概率：{{data.universityInfo.rate.second.toString().includes('-') ? '-' : (data.universityInfo.rate.second * 100).toFixed(2)+ '%' }}</van-col>
-      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.third">本三批录取概率：{{data.universityInfo.rate.third.toString().includes('-') ? '-' : (data.universityInfo.rate.third * 100).toFixed(2)+ '%' }}</van-col>
-      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.forth">专科批录取概率：{{data.universityInfo.rate.forth.toString().includes('-') ? '-' : (data.universityInfo.rate.forth * 100).toFixed(2)+ '%' }}</van-col>
+      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.first == 0 || data.universityInfo.rate.first ">本一批录取概率：{{data.universityInfo.rate.first.toString().includes('-') ? '-' : (data.universityInfo.rate.first * 100).toFixed(2)+ '%' }}</van-col>
+      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.second == 0 ||data.universityInfo.rate.second">本二批录取概率：{{data.universityInfo.rate.second.toString().includes('-') ? '-' : (data.universityInfo.rate.second * 100).toFixed(2)+ '%' }}</van-col>
+      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.third == 0 ||data.universityInfo.rate.third">本三批录取概率：{{data.universityInfo.rate.third.toString().includes('-') ? '-' : (data.universityInfo.rate.third * 100).toFixed(2)+ '%' }}</van-col>
+      <van-col span="24" class="info-item" v-if="data.universityInfo.rate.forth == 0 ||data.universityInfo.rate.forth">专科批录取概率：{{data.universityInfo.rate.forth.toString().includes('-') ? '-' : (data.universityInfo.rate.forth * 100).toFixed(2)+ '%' }}</van-col>
 
       <van-col span="24" class="info-item item-tip">概率说明：</van-col>
       <van-col span="24" class="info-item item-tip"> 本概率算法综合考生成绩、线差、位次、招生人数变化趋势（俗称“大小年”）及录取人数等多种影响因素建模计算得出，可作为考生报考参考，但不能仅以此填报志愿，在正式填报时，请以教育考试院公布的最新招生计划为准。
